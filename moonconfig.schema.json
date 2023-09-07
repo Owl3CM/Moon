@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "sizes": {
+      "$ref": "#/definitions/sizeConfig"
+    },
+    "font-size": {
+      "$ref": "#/definitions/fontSizeConfig"
+    },
+    "border-radius": {
+      "$ref": "#/definitions/borderRadiusConfig"
+    },
+    "font-weight": {
+      "$ref": "#/definitions/fontWeightConfig"
+    },
+    "line-heights": {
+      "$ref": "#/definitions/lineHeightConfig"
+    },
+    "themes": {
+      "$ref": "#/definitions/themeConfig"
+    },
+    "font-familie": {
+      "$ref": "#/definitions/fontFamilyConfig"
+    },
+    "box-shadow": {
+      "$ref": "#/definitions/boxShadowConfig"
+    },
+    "border-width": {
+      "$ref": "#/definitions/borderWidthConfig"
+    },
+    "z-index": {
+      "$ref": "#/definitions/zIndexConfig"
+    },
+    "outputPath": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "sizeConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(0|xs|sm|md|lg|xl|2x|3x|4x|5x|6x)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "fontSizeConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(xs|s|m|l|x|2x|3x|4x|5x|6x)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "borderRadiusConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(none|sm|md|lg|xl|2x|full)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "fontWeightConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(normal|bold)$"
+      },
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "lineHeightConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(normal|dense|loose)$"
+      },
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "themeConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[-a-zA-Z0-9_]+$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "fontFamilyConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(sans|serif|mono)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "boxShadowConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(none|sm|md|lg|xl|2x|focus|error)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "borderWidthConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(none|thin|thick)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "zIndexConfig": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^(0|10|20|30|40|50)$"
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

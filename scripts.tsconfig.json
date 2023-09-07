@@ -16,7 +16,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "outDir": "./src/lib/scriptsJS"
+    "outDir": "./dist/"
   },
   "include": ["src/lib/scriptsTS"]
 }

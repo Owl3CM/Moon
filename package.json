@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -11,18 +11,20 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && rollup -c --exports auto",
+    "build": "rollup -c --exports auto  ",
     "prod-old": "git add . && yarn build && yarn publish",
     "prod": "node ./scripts/publish.js",
     "start": "vite",
     "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "yarn build-scriptsTs && node ./src/lib/scriptsJS/moon.js",
-    "soon": "node ./src/lib/scriptsJS/moon.js",
-    "postinstall": "chmod +x ./dist/moon.js"
+    "soon": "node ./src/lib/scriptsJS/moon.js"
   },
   "bin": {
     "moon": "./dist/moon.js"
+  },
+  "moon": {
+    "schema": "./schemas/moonconfig.schema.json"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
