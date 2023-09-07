@@ -20,7 +20,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src", "dist/scriptsJS"],
+  "include": ["src", "dist/scriptsJS", "dist/askQuestion.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
 
