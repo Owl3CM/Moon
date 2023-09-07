@@ -20,7 +20,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["src", "src/test/OLD_create.ts"],
+  "include": ["src/lib"],
   "exclude": ["src/vite", "src/test"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
