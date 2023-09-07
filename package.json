@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -21,7 +21,7 @@
     "moon": "yarn build-scriptsTs && node ./dist/moon.js"
   },
   "bin": {
-    "moon": "./dist/moon.js"
+    "moon": "node ./dist/moon.js"
   },
   "moon": {
     "schema": "./schemas/moonconfig.schema.json"

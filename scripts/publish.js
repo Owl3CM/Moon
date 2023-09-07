@@ -15,7 +15,7 @@ async function run() {
   try {
     await exec("clear");
     // await exec(removeDist);
-    await exec(copyConfig);
+    // await exec(copyConfig);
     await exec(buildDist);
     await exec(buildJs);
     await exec(addComent);
