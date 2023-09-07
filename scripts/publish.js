@@ -1,7 +1,6 @@
-const pak = require("../package.json");
-const fs = require("fs");
-const { promisify } = require("util");
-const exec = promisify(require("child_process").exec);
+import pak from "../package";
+import fs from "fs";
+import { exec } from "child_process";
 
 async function run() {
   const versions = pak.version.split(".");

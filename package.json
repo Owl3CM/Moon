@@ -1,7 +1,7 @@
 {
-  "name": "client",
-  "version": "0.0.1",
-  "description": "client",
+  "name": "moon-style",
+  "version": "0.0.5",
+  "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
   "type": "module",
