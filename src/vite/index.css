@@ -1,0 +1,23 @@
+/*
+ @import url('./styles/root.css');
+ @import url('./styles/containers.css');
+ @import url('./styles/elements.css');
+ @import url('./styles/index.css');
+ */
+ @import url('./styles/root.css');
+@import url('../styles/moon.css');
+
+@font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
+@font-face {font-family: "'GE Dinkum Medium'";src: url("../fonts/bold.ttf");}
+:root{
+    --font-light:"'GE Dinkum Medium'";
+    --font-bold:"'BoutrosMBCDinkum Medium'";
+    background-color: var(--main);
+    /* background-color: #333 !important; */
+
+}
+
+a{
+    text-decoration: none;
+    color: var(--owl);
+}

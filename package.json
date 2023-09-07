@@ -1,0 +1,72 @@
+{
+  "name": "client",
+  "version": "0.0.1",
+  "description": "client",
+  "main": "dist/index.js",
+  "source": "src/index.tsx",
+  "type": "module",
+  "private": false,
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && rollup -c --exports auto",
+    "prod-old": "git add . && yarn build && yarn publish",
+    "prod": "node ./scripts/publish.js",
+    "start": "vite",
+    "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
+    "delete-scriptsJS": "rm -rf ./scriptsJS",
+    "moon": "yarn build-scriptsTs && node ./scriptsJS/moon.js",
+    "format": "npx prettier --write \"src/**/*.{ts,tsx}\" "
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/preset-react": "^7.18.6",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^3.1.0",
+    "babel-loader": "^8.2.5",
+    "fs": "^0.0.1-security",
+    "morabaa-provider": "^0.0.18",
+    "morabaa-utils": "^0.0.11",
+    "postcss": "^8.4.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.10.0",
+    "react-scripts": "^5.0.1",
+    "rollup": "^2.79.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "sass": "^1.66.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4",
+    "vite": "^4.2.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "keywords": [],
+  "tags": [],
+  "dependencies": {}
+}
