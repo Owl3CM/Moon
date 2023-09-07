@@ -13,9 +13,9 @@ async function run() {
   const gitPush = "git push";
   try {
     await exec("clear");
-    await exec(removeDist);
-    await exec(buildDist);
-    await exec(copyConfig);
+    // await exec(removeDist);
+    // await exec(buildDist);
+    // await exec(copyConfig);
     await exec(addComent);
     await exec(gitStage);
     await exec(publish);
