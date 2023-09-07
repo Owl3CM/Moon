@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -22,7 +22,7 @@
     "postinstall": "chmod +x ./dist/moon.js"
   },
   "bin": {
-    "moon": "./dist/moon.js"
+    "moon": "./dist/moon"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
