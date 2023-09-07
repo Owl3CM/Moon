@@ -26,7 +26,7 @@ export const Controller = {
             "5x": "32px",
             "6x": "40px",
         },
-        "font-size": {
+        fontSizes: {
             xs: "0.75rem",
             s: "0.875rem",
             m: "1rem",
@@ -47,14 +47,19 @@ export const Controller = {
             "2x": "32px",
             full: "999px",
         },
-        "font-weight": {
+        fontWeights: {
             normal: 400,
             bold: 700,
         },
-        "line-heights": {
+        lineHeights: {
             normal: 1.5,
             dense: 1.25,
             loose: 2,
+        },
+        borderWidths: {
+            none: 0,
+            thin: 1,
+            thick: 2,
         },
         themes: {
             root: {
@@ -118,7 +123,7 @@ export const Controller = {
                 tester: "#00f",
             },
         },
-        "font-familie": {
+        fontFamilies: {
             sans: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
             serif: 'Georgia, Cambria, "Times New Roman", Times, serif',
             mono: 'Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
