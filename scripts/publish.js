@@ -9,7 +9,7 @@ async function run() {
   const buildDist = "yarn build";
   const buildJs = "yarn build-scriptsTs";
   // insert this line to dist/moon.js #!/usr/bin/env node
-  const addNodeEnvLine = `sed -i '1i #!/usr/bin/env node' dist/moon.js`;
+  // const addNodeEnvLine = `sed -i '1i #!/usr/bin/env node' dist/moon.js`;
   const addComent = "git add .";
   const publish = `yarn publish --new-version ${version} --access public`;
   const gitStage = `git commit -m "v ${version}"`;
@@ -20,7 +20,7 @@ async function run() {
     // await exec(copyConfig);
     await exec(buildDist);
     await exec(buildJs);
-    await exec(addNodeEnvLine);
+    // await exec(addNodeEnvLine);
     await exec(gitStage);
     await exec(publish);
     await exec(addComent);
