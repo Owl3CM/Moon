@@ -1,4 +1,4 @@
-import pak from "../package";
+import pak from "../package.json" assert { type: "json" };
 import fs from "fs";
 import { exec } from "child_process";
 

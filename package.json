@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -20,6 +20,14 @@
     "moon": "yarn build-scriptsTs && node ./src/lib/scriptsJS/moon.js",
     "soon": "node ./src/lib/scriptsJS/moon.js",
     "format": "npx prettier --write \"src/**/*.{ts,tsx}\" "
+  },
+  "bin": {
+    "moon": "node ./src/lib/scriptsJS/moon.js",
+    "moon-2": "node ./src/lib/scriptsJS/moon.js",
+    "moon-3": "node ./dist/scriptsJS/moon.js",
+    "moon-4": "node ./scriptsJS/moon.js",
+    "moon-5": "node ./moon.js",
+    "moon-6": "node ./node_modules/moon-style/dist/scriptsJS/moon.js "
   },
   "peerDependencies": {
     "react": ">=18.0.0",
