@@ -5,7 +5,7 @@ async function run() {
   const versions = pak.version.split(".");
   const version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
   const removeDist = "rm -rf dist ";
-  const copyConfig = "cp ./moonconfig.json ./dist/moonconfig.json";
+  const copyConfig = "cp ./moonconfig.json ./dist/moonconfig.json && cp ./moonconfig.schema.json ./dist/moonconfig.schema.json";
   const buildDist = "yarn build";
   const buildJs = "yarn build-scriptsTs";
   const addComent = "git add .";
