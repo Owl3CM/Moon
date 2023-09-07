@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { readFile } from "./owlFs.js";
 import { Controller } from "./controller.js";
 

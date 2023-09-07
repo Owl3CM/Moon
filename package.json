@@ -24,9 +24,6 @@
   "bin": {
     "moon": "./dist/moon.js"
   },
-  "moon": {
-    "schema": "./schemas/moonconfig.schema.json"
-  },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
