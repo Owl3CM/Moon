@@ -1,5 +1,4 @@
 {
-  "$schema": "./moonconfig.schema.json",
   "sizes": {
     "0": "0",
     "xs": "2px",
@@ -136,5 +135,5 @@
     "40": "4",
     "50": "5"
   },
-  "outputPath": "./src/styles"
+  "outputPath": "./styles"
 }
