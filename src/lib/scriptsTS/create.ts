@@ -196,7 +196,7 @@ const colorsKeys = {
   bg: "background-color",
   text: "color",
   fill: "fill",
-  bc: "border-color",
+  border: "border-color",
 };
 
 const spaces = ["", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ", "          ", "           ", "            "];

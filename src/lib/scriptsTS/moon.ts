@@ -6,9 +6,11 @@ await Controller.init(JSON.parse(await readFile("./moonconfig.json")));
 await Controller.createStyles();
 
 // !args.includes("-ds") &&
-deleteFolder("./scriptsJS");
+// deleteFolder("./scriptsJS");
 closeRl();
-
+export const tester = () => {
+  console.log("tester");
+};
 // interface Question {
 //   question: string;
 //   answer: boolean;

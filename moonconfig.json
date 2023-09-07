@@ -94,7 +94,7 @@
       "whale": "#bebec1",
       "main": "#fbfbfb",
       "highlight": "#FFFFFF22",
-      "LOL": "#f0f"
+      "tester": "#f0f"
     },
     "dark": {
       "prim": "#2d303e",
@@ -109,7 +109,7 @@
       "whale": "#767982",
       "main": "#1f1d2b",
       "highlight": "#d303e222",
-      "LOL": "#00f"
+      "tester": "#00f"
     }
   },
   "fontFamilies": {

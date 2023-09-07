@@ -1,13 +1,11 @@
 src
 scripts
-.vercel
-.storybook
-storybook-static
+scriptsTS
 .editorconfig
 .prettierrc
 .eslintignore
 .eslintrc
 tsconfig.json
+scripts.tsconfig.json
 rollup.*
-build-storybook.log
 vite.config.js
