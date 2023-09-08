@@ -1,2 +1,2 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const e={theme:"",changeTheme:t=>{e.theme&&document.documentElement.classList.remove(e.theme),document.documentElement.classList.add(t),e.theme=t}};exports.changeTheme=t=>e.changeTheme(t),exports.currentTheme=()=>e.theme;
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e={theme:"",changeTheme:function(t){e.theme&&document.documentElement.classList.remove(e.theme),document.documentElement.classList.add(t),e.theme=t}};exports.changeTheme=function(t){return e.changeTheme(t)},exports.currentTheme=function(){return e.theme};
 //# sourceMappingURL=index.js.map

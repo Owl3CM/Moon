@@ -1,4 +1,3 @@
-@import url('./styles/index.css');
 @import url('../../styles/moon.css');
 
 @font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
@@ -6,7 +5,7 @@
 :root{
     --font-light:"'GE Dinkum Medium'";
     --font-bold:"'BoutrosMBCDinkum Medium'";
-    background-color: var(--main);
+    background-color: var(--prim);
     /* background-color: #333 !important; */
 
 }

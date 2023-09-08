@@ -8,7 +8,7 @@ export const Controller = {
     });
   },
 
-  init: async (config) => {
+  init: async (config: any) => {
     Controller.config = { ...Controller.config, ...config };
   },
   config: {

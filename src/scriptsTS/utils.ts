@@ -1,6 +1,6 @@
 // Themes
 export const getThemes = (themes: { [key: string]: { [key: string]: string } }) => {
-  const themeCalls = {};
+  const themeCalls = {} as any;
 
   themes.root = {
     transparent: "transparent",
@@ -47,7 +47,7 @@ const colorsKeys = {
 
 // Props
 export const getPropsNames = (propName: string) => {
-  return PropsByName[propName] ?? [{ name: (n) => `${n.replace("-", "")}`, css: (v) => `${propName}:${v}` }];
+  return PropsByName[propName] ?? [{ name: (n: any) => `${n.replace("-", "")}`, css: (v: any) => `${propName}:${v}` }];
 };
 
 export const getDefaultName = (cssName: string) => {
@@ -74,64 +74,64 @@ export const getDefaultName = (cssName: string) => {
 
 const PropsByName = {
   padding: [
-    { name: (n) => `${n.replace("-", "")}`, css: (v) => `padding:${v}` },
-    { name: (n) => `${n}r`, css: (v) => `padding-right:${v}` },
-    { name: (n) => `${n}l`, css: (v) => `padding-left:${v}` },
-    { name: (n) => `${n}t`, css: (v) => `padding-top:${v}` },
-    { name: (n) => `${n}b`, css: (v) => `padding-bottom:${v}` },
-    { name: (n) => `${n}x`, css: (v) => `padding-inline:${v}` },
-    { name: (n) => `${n}y`, css: (v) => `padding-block:${v}` },
+    { name: (n: any) => `${n.replace("-", "")}`, css: (v: any) => `padding:${v}` },
+    { name: (n: any) => `${n}r`, css: (v: any) => `padding-right:${v}` },
+    { name: (n: any) => `${n}l`, css: (v: any) => `padding-left:${v}` },
+    { name: (n: any) => `${n}t`, css: (v: any) => `padding-top:${v}` },
+    { name: (n: any) => `${n}b`, css: (v: any) => `padding-bottom:${v}` },
+    { name: (n: any) => `${n}x`, css: (v: any) => `padding-inline:${v}` },
+    { name: (n: any) => `${n}y`, css: (v: any) => `padding-block:${v}` },
   ],
   margin: [
-    { name: (n) => `${n.replace("-", "")}`, css: (v) => `margin:${v}` },
-    { name: (n) => `${n}r`, css: (v) => `margin-right:${v}` },
-    { name: (n) => `${n}l`, css: (v) => `margin-left:${v}` },
-    { name: (n) => `${n}t`, css: (v) => `margin-top:${v}` },
-    { name: (n) => `${n}b`, css: (v) => `margin-bottom:${v}` },
-    { name: (n) => `${n}x`, css: (v) => `margin-inline:${v}` },
-    { name: (n) => `${n}y`, css: (v) => `margin-block:${v}` },
+    { name: (n: any) => `${n.replace("-", "")}`, css: (v: any) => `margin:${v}` },
+    { name: (n: any) => `${n}r`, css: (v: any) => `margin-right:${v}` },
+    { name: (n: any) => `${n}l`, css: (v: any) => `margin-left:${v}` },
+    { name: (n: any) => `${n}t`, css: (v: any) => `margin-top:${v}` },
+    { name: (n: any) => `${n}b`, css: (v: any) => `margin-bottom:${v}` },
+    { name: (n: any) => `${n}x`, css: (v: any) => `margin-inline:${v}` },
+    { name: (n: any) => `${n}y`, css: (v: any) => `margin-block:${v}` },
   ],
   width: [
-    { name: (n) => n, css: (v) => `width:${v}` },
-    { name: (n) => `min-${n}`, css: (v) => `min-width:${v}` },
-    { name: (n) => `max-${n}`, css: (v) => `max-width:${v}` },
+    { name: (n: any) => n, css: (v: any) => `width:${v}` },
+    { name: (n: any) => `min-${n}`, css: (v: any) => `min-width:${v}` },
+    { name: (n: any) => `max-${n}`, css: (v: any) => `max-width:${v}` },
   ],
   height: [
-    { name: (n) => n, css: (v) => `height:${v}` },
-    { name: (n) => `min-${n}`, css: (v) => `min-height:${v}` },
-    { name: (n) => `max-${n}`, css: (v) => `max-height:${v}` },
+    { name: (n: any) => n, css: (v: any) => `height:${v}` },
+    { name: (n: any) => `min-${n}`, css: (v: any) => `min-height:${v}` },
+    { name: (n: any) => `max-${n}`, css: (v: any) => `max-height:${v}` },
   ],
-  size: [{ name: (n) => n, css: (v) => `height:${v};width:${v}` }],
+  size: [{ name: (n: any) => n, css: (v: any) => `height:${v};width:${v}` }],
   border: [
-    { name: (n) => n.replace("-", ""), css: (v) => `border:${v}` },
-    { name: (n) => `${n}-t`, css: (v) => `border-top:${v}` },
-    { name: (n) => `${n}-r`, css: (v) => `border-right:${v}` },
-    { name: (n) => `${n}-b`, css: (v) => `border-bottom:${v}` },
-    { name: (n) => `${n}-l`, css: (v) => `border-left:${v}` },
-    { name: (n) => `${n}-x`, css: (v) => `border-inline:${v}` },
-    { name: (n) => `${n}-y`, css: (v) => `border-block:${v}` },
+    { name: (n: any) => n.replace("-", ""), css: (v: any) => `border:${v}` },
+    { name: (n: any) => `${n}-t`, css: (v: any) => `border-top:${v}` },
+    { name: (n: any) => `${n}-r`, css: (v: any) => `border-right:${v}` },
+    { name: (n: any) => `${n}-b`, css: (v: any) => `border-bottom:${v}` },
+    { name: (n: any) => `${n}-l`, css: (v: any) => `border-left:${v}` },
+    { name: (n: any) => `${n}-x`, css: (v: any) => `border-inline:${v}` },
+    { name: (n: any) => `${n}-y`, css: (v: any) => `border-block:${v}` },
   ],
   "border-width": [
-    { name: (n) => n.replace("-", ""), css: (v) => `border-width:${v}` },
-    { name: (n) => `${n}-t`, css: (v) => `border-top-width:${v}` },
-    { name: (n) => `${n}-r`, css: (v) => `border-right-width:${v}` },
-    { name: (n) => `${n}-b`, css: (v) => `border-bottom-width:${v}` },
-    { name: (n) => `${n}-l`, css: (v) => `border-left-width:${v}` },
-    { name: (n) => `${n}-x`, css: (v) => `border-inline-width:${v}` },
-    { name: (n) => `${n}-y`, css: (v) => `border-block-width:${v}` },
+    { name: (n: any) => n.replace("-", ""), css: (v: any) => `border-width:${v}` },
+    { name: (n: any) => `${n}-t`, css: (v: any) => `border-top-width:${v}` },
+    { name: (n: any) => `${n}-r`, css: (v: any) => `border-right-width:${v}` },
+    { name: (n: any) => `${n}-b`, css: (v: any) => `border-bottom-width:${v}` },
+    { name: (n: any) => `${n}-l`, css: (v: any) => `border-left-width:${v}` },
+    { name: (n: any) => `${n}-x`, css: (v: any) => `border-inline-width:${v}` },
+    { name: (n: any) => `${n}-y`, css: (v: any) => `border-block-width:${v}` },
   ],
   "border-radius": [
-    { name: (n) => n.replace("-", ""), css: (v) => `border-radius:${v}` },
-    { name: (n) => `${n}-t`, css: (v) => `border-top-left-radius:${v};border-top-right-radius:${v}` },
-    { name: (n) => `${n}-r`, css: (v) => `border-top-right-radius:${v};border-bottom-right-radius:${v}` },
-    { name: (n) => `${n}-b`, css: (v) => `border-bottom-right-radius:${v};border-bottom-left-radius:${v}` },
-    { name: (n) => `${n}-l`, css: (v) => `border-top-left-radius:${v};border-bottom-left-radius:${v}` },
-    { name: (n) => `${n}-tl`, css: (v) => `border-top-left-radius:${v}` },
-    { name: (n) => `${n}-tr`, css: (v) => `border-top-right-radius:${v}` },
-    { name: (n) => `${n}-br`, css: (v) => `border-bottom-right-radius:${v}` },
-    { name: (n) => `${n}-bl`, css: (v) => `border-bottom-left-radius:${v}` },
+    { name: (n: any) => n.replace("-", ""), css: (v: any) => `border-radius:${v}` },
+    { name: (n: any) => `${n}-t`, css: (v: any) => `border-top-left-radius:${v};border-top-right-radius:${v}` },
+    { name: (n: any) => `${n}-r`, css: (v: any) => `border-top-right-radius:${v};border-bottom-right-radius:${v}` },
+    { name: (n: any) => `${n}-b`, css: (v: any) => `border-bottom-right-radius:${v};border-bottom-left-radius:${v}` },
+    { name: (n: any) => `${n}-l`, css: (v: any) => `border-top-left-radius:${v};border-bottom-left-radius:${v}` },
+    { name: (n: any) => `${n}-tl`, css: (v: any) => `border-top-left-radius:${v}` },
+    { name: (n: any) => `${n}-tr`, css: (v: any) => `border-top-right-radius:${v}` },
+    { name: (n: any) => `${n}-br`, css: (v: any) => `border-bottom-right-radius:${v}` },
+    { name: (n: any) => `${n}-bl`, css: (v: any) => `border-bottom-left-radius:${v}` },
   ],
-};
+} as any;
 
 export const getStaticCss = () => `\n
 .select-none {user-select:none;} .select-text {user-select:text;} .select-all {user-select:all;} .select-auto {user-select:auto;}

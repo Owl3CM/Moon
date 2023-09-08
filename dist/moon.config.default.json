@@ -1,5 +1,37 @@
 {
-  "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
+  "$schema": "./moon.config.schema.json",
+  "themes": {
+    "root": {
+      "red": "#dd3643",
+      "cyan": "#63cfc9",
+      "nice": "#83d6e1",
+      "cute": "#a3e4cb"
+    },
+    "light": {
+      "prim": "#FFFFFF",
+      "prince": "#f6f6f6",
+      "lord": "#909090",
+      "owl": "#1f1d2b",
+      "goat": "#c4c4c7"
+    },
+    "dark": {
+      "prim": "#2d303e",
+      "prince": "#393c4a",
+      "lord": "#9099bc",
+      "owl": "#ffffff",
+      "goat": "#9e9fa6"
+    },
+    "great": {
+      "prim": "#313638",
+      "prince": "#f09d51",
+      "lord": "#f06543",
+      "owl": "#f06543",
+      "goat": "#e0dfd5"
+    }
+  },
+  "useStaticNumbers": false,
+  "outputPath": "./styles",
+
   "styles": [
     {
       "props": { "padding": "p", "margin": "m", "gap": "gap", "inset": "inset", "top": "top", "left": "left", "right": "right", "bottom": "bottom" },
@@ -52,8 +84,8 @@
       }
     },
     {
-      "props": { "border-radius": "radius" },
-      "variableName": "radius",
+      "props": { "border-radius": "round" },
+      "variableName": "round",
       "values": {
         "none": "0px",
         "sm": "4px",
@@ -94,13 +126,13 @@
       "props": { "box-shadow": "shadow" },
       "variableName": "shadow",
       "values": {
-        "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-        "md": "0 2px 4px 0 rgba(0, 0, 0, 0.05)",
-        "lg": "0 4px 8px 0 rgba(0, 0, 0, 0.05)",
-        "xl": "0 8px 16px 0 rgba(0, 0, 0, 0.05)",
-        "2x": "0 16px 24px 0 rgba(0, 0, 0, 0.05)",
-        "focus": "0px 0px 6px rgba(32, 211, 238,0.5)",
-        "error": "0px 0px 6px rgba(231, 53, 60,0.5)",
+        "sm": "0 0 2px rgba(0, 0, 0, 0.1)",
+        "md": "0 0 4px rgba(0, 0, 0, 0.1)",
+        "lg": "0 0 8px rgba(0, 0, 0, 0.2)",
+        "xl": "0 0 16px rgba(0, 0, 0, 0.2)",
+        "2x": "0 0 24px rgba(0, 0, 0, 0.2)",
+        "focus": "0px 0px rgba(32, 211, 238,0.1)",
+        "error": "0px 0px rgba(231, 53, 60,0.1)",
         "none": "none"
       }
     },
@@ -111,6 +143,16 @@
         "none": "0px",
         "thin": "1px",
         "thick": "20px"
+      }
+    },
+    {
+      "props": { "border-style": "border" },
+      "variableName": "border",
+      "values": {
+        "none": "none",
+        "solid": "solid",
+        "dashed": "dashed",
+        "dotted": "dotted"
       }
     },
     {
@@ -130,71 +172,5 @@
         "100": "10"
       }
     }
-  ],
-
-  "themes": {
-    "root": {
-      "dragon": "#b5e8b8",
-      "flamingo": "#f29bb9",
-      "fox": "#d69e58",
-      "red": "#dd3643",
-      "purple": "#a855f7",
-      "wolf": "#b2a47b",
-      "red-1": "#f29bb9",
-      "jellyfish": "#8a41e4",
-      "lion": "#b59675",
-      "fire": "#e9b11f",
-      "lavender": "#e4b1e4",
-      "tiger": "#8d3c09",
-      "cyan": "#63cfc9",
-      "blue": "#40acdc",
-      "cyan-1": "#84d7e2",
-      "green": "#56e181",
-      "cyan-2": "#a0e8cc",
-      "green-1": "#a5eb78",
-      "penguin": "#1fd1ec",
-      "orange": "#ffa44e",
-      "light-gray": "#9ca3af",
-      "gray": "#4b5563",
-      "frog": "#bada55",
-      "nice": "#83d6e1",
-      "nice-2": "#a3e4cb",
-
-      "scroller-size": "8px",
-      "scroller-thumb": "#2d303eaa",
-      "scroller-bg": "#c4c4c755"
-    },
-    "light": {
-      "prim": "#FFFFFF",
-      "throne": "#f6f6f6",
-      "lord": "#FBFBFB",
-      "prince": "#f6f6f6",
-      "king": "#f6f6f6",
-      "owl": "#1f1d2b",
-      "shark": "#c4c4c7",
-      "dolphin": "#c3c3c6",
-      "goat": "#c4c4c7",
-      "whale": "#bebec1",
-      "main": "#fbfbfb",
-      "highlight": "#FFFFFF22",
-      "tester": "#f0f"
-    },
-    "dark": {
-      "prim": "#2d303e",
-      "throne": "#404453",
-      "lord": "#292a39",
-      "prince": "#393c4a",
-      "king": "#3b3e4c",
-      "owl": "#ffffff",
-      "shark": "#c4c4c7",
-      "dolphin": "#6c6e78",
-      "goat": "#9e9fa6",
-      "whale": "#767982",
-      "main": "#1f1d2b",
-      "highlight": "#d303e222",
-      "tester": "#00f"
-    }
-  },
-  "useStaticNumbers": false,
-  "outputPath": "./styles"
+  ]
 }

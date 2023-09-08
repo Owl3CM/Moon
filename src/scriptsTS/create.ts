@@ -17,7 +17,7 @@ export const getMoonCss = async () => {
   return cssContent;
 };
 
-const setup = ({ props, values, variableName }) => {
+const setup = ({ props, values, variableName }: any) => {
   if (!props || !Object.keys(props).length) {
     Object.entries(values).forEach(([valueKey, valueValue]) => {
       const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
@@ -32,7 +32,7 @@ const setup = ({ props, values, variableName }) => {
     Object.entries(props).forEach(([prop, shortN]) => {
       const extraProps = getPropsNames(prop);
       const _shortN = shortN ?? getDefaultName(prop);
-      extraProps.forEach(({ name, css }) => {
+      extraProps.forEach(({ name, css }: any) => {
         const _name = name(_shortN);
         const dash = _name && valueKey ? "-" : "";
         const className = `.${_name}${dash}${valueKey}`;
