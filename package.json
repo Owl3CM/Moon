@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",

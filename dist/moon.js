@@ -12,6 +12,6 @@ readFile("./moon.config.json")
     createMoon();
 })
     .catch(async (err) => {
-    await copyFileSync("./moon.config.default.json", "./moon.config.json");
+    await copyFileSync("node_modules/moon-style/dist/moon.config.default.json", "./moon.config.json");
     createMoon();
 });
