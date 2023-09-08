@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
+  "$schema": "./moon.config.schema.json",
   "styles": [
     {
       "props": { "padding": "p", "margin": "m", "gap": "gap", "inset": "inset", "top": "top", "left": "left", "right": "right", "bottom": "bottom" },
@@ -101,6 +101,7 @@
         "2x": "0 16px 24px 0 rgba(0, 0, 0, 0.05)",
         "focus": "0px 0px 6px rgba(32, 211, 238,0.5)",
         "error": "0px 0px 6px rgba(231, 53, 60,0.5)",
+        "LOL": "0px 0px 6px rgba(231, 53, 60,1)",
         "none": "none"
       }
     },
