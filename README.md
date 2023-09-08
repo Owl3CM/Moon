@@ -166,7 +166,7 @@ export default App;
 ```
 
 ### The result should be like this
-![1.gif](https://github.com/MorabaaSoftwareSolutions/Moon/blob/master/public/gifs/sample.gif?raw=true)
+![1.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample.gif?raw=true)
 
 
 # API
