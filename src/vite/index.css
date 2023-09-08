@@ -1,11 +1,5 @@
-/*
- @import url('./styles/root.css');
- @import url('./styles/containers.css');
- @import url('./styles/elements.css');
- @import url('./styles/index.css');
- */
- @import url('./styles/root.css');
-@import url('../styles/moon.css');
+@import url('./styles/index.css');
+@import url('../../styles/moon.css');
 
 @font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
 @font-face {font-family: "'GE Dinkum Medium'";src: url("../fonts/bold.ttf");}

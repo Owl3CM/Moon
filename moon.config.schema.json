@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Theme",
+  "type": "object",
+  "properties": {
+    "styles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "props": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "variableName": {
+            "type": "string"
+          },
+          "values": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["props", "variableName", "values"]
+      }
+    },
+    "themes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "useStaticNumbers": {
+      "type": "boolean"
+    },
+    "outputPath": {
+      "type": "string"
+    }
+  },
+  "required": ["styles", "themes", "useStaticNumbers", "outputPath"]
+}
