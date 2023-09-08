@@ -14,8 +14,13 @@ export const getMoonCss = async () => {
     return cssContent;
 };
 const setup = ({ props, values, variableName }) => {
-    if (!props || !values)
+    if (!props || !Object.keys(props).length) {
+        Object.entries(values).forEach(([valueKey, valueValue]) => {
+            const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
+            variables.push(`${_variableName}:${valueValue};`);
+        });
         return;
+    }
     Object.entries(values).forEach(([valueKey, valueValue]) => {
         const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
         variables.push(`${_variableName}:${valueValue};`);
