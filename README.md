@@ -34,7 +34,7 @@ This will generate a `moon.css` file in your project's output directory, applyin
 To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
 ```javascript
-import './path/to/moon.css'; // Replace with the actual path to moon.css
+import './path/to/moon.css'; // Replace with the actual path to moon.css the default path is ./styles/moon.css
 ```
 
 Make sure to replace `./path/to/moon.css` with the correct path to your `moon.css` file.
@@ -53,9 +53,14 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
   "styles": [
     {
-      "props": { "padding": "p", "margin": "m" },
-      "variableName": "spacing",
-      "values": { "0": "0", "sm": "4px", "md": "8px" }
+      "props": {
+        //  the css property name : the generated class name 
+         "padding": "p",// you can change this to whatever you want 
+         "margin": "m" 
+      },
+      "variableName": "spacing",// this is the name of the css variable that will store the values of the css property
+      "values": {"sm": "4px", "md": "8px", "custom": "23.5px" } // the values of the css variable 
+
     },
     // Add more styles here
   ],
@@ -86,7 +91,67 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 }
 ```
 
+### This config will generate the following css
+###  The generated root variables
+```css
+:root {
+  --red: #dd3643;
+  --cyan: #63cfc9;
+  --nice: #83d6e1;
+  --cute: #a3e4cb;
+
+  --sm: 4px;
+  --md: 8px;
+  --custom: 23.5px;
+}
+```
+### The generated themes
+```css
+.light {
+  --prim: #FFFFFF;
+  --prince: #f6f6f6;
+  --owl: #1f1d2b;
+  --goat: #c4c4c7;
+}
+.dark {
+  --prim: #2d303e;
+  --prince: #393c4a;
+  --owl: #ffffff;
+  --goat: #9e9fa6;
+}
+```
+### The generated classes 
+```css
+.p-sm { padding:var(--sm) ;} 
+.p-custom {padding:var(--custom)} 
+.p-md { padding:var(--md) ;} 
+.m-sm { margin:var(--sm) ;} 
+/* ...and so on */
+
+.pr-sm { padding-right:var(--spacing-sm) ;}
+.mr-cusomt { margin-right:var(--spacing-cusomt) ;}
+.pl-md { padding-left:var(--spacing-md) ;} 
+.ml-cusomt { margin-left:var(--spacing-cusomt) ;}  
+/* ...and so on */
+```
 ### Usage
+
+### You can use the generated classes in your html like this
+```html
+<div className="p-md m-custom bg-prim color-red"></div>
+```
+
+
+### Or you can use the variables in your css like this
+```css
+.my-class{
+  background-color: var(--prim);
+  color: var(--red);
+  padding: var(--md);
+  margin: var(--custom);
+}
+```
+# Example
 To use a predefined style, add the `moon` class to an HTML element and specify the style name as a class name. For example, to apply the `p-md` style to a `div` element, use the following code:
 
 ```js
