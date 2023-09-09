@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -21,9 +21,6 @@
     "moon": "yarn build-scriptsTs && node ./dist/moon.js",
     "test": "yarn build && yarn moon",
     "postinstall": "chmod +x ./dist/moon.js"
-  },
-  "bin": {
-    "moon": "./dist/moon.js"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
