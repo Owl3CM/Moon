@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -19,8 +19,7 @@
     "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "yarn build-scriptsTs && node ./dist/moon.js",
-    "test": "yarn build && yarn moon",
-    "postinstall": "chmod +x ./dist/moon.js"
+    "test": "yarn build && yarn moon"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
