@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.53",
+  "version": "0.0.55",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -67,10 +67,10 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/MorabaaSoftwareSolutions/MorabaaProvider.git"
+    "url": "https://github.com/Owl3CM/Moon.git"
   },
-  "homepage": "https://github.com/MorabaaSoftwareSolutions/MorabaaProvider",
+  "homepage": "https://github.com/Owl3CM/Moon",
   "bugs": {
-    "url": "https://github.com/MorabaaSoftwareSolutions/MorabaaProvider/issues"
+    "url": "https://github.com/Owl3CM/Moon/issues"
   }
 }
