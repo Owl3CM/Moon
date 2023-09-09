@@ -1,4 +1,4 @@
-import { Theme, Color } from "../../moon/Types";
+import { Theme, Color } from "./Types";
 export declare const Moon: {
     currentTheme: string;
     changeTheme: (theme: Theme) => void;

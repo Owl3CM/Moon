@@ -1,4 +1,4 @@
-import { Theme, Color } from "../../moon/Types";
+import { Theme, Color } from "./Types";
 
 let dynimcColors: { [key: string]: Color } = {};
 
