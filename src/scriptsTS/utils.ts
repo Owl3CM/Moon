@@ -198,4 +198,11 @@ export const getStaticCss = () => `\n
 .pointer-none{pointer-events:none;}
 .pointer-auto{pointer-events:auto;}
 .pointer-all{pointer-events:all;}
+.display-none{display:none;}
+.display-block{display:block;}
+.display-inline{display:inline;}
+.display-inline-block{display:inline-block;}
+.display-flex{display:flex;}
+.display-grid{display:grid;}
+.display-table{display:table;}
 `;

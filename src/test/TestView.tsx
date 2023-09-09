@@ -1,9 +1,8 @@
 import React from "react";
-import { removeColors, setThemeVariables } from "..";
 import { Moon } from "../lib";
 
 type Props = {};
-Moon.changeTheme("dark");
+Moon.setTheme("dark");
 
 let dynimcVaribles: any = JSON.parse(localStorage.getItem("dynimcVaribles")) || {
   prim: "#2d303e",
@@ -13,42 +12,22 @@ let dynimcVaribles: any = JSON.parse(localStorage.getItem("dynimcVaribles")) || 
   goat: "#9e9fa6",
 };
 
-setThemeVariables({ values: dynimcVaribles });
+Moon.setColors(dynimcVaribles);
 
 const TestView = (props: Props) => {
-  const [theme, setTheme] = React.useState(Moon.currentTheme());
+  const [theme, setTheme] = React.useState(Moon.currentTheme);
   return (
-    <div className="inset-0 bg-prim col">
-      <input type="color" onChange={(e) => setThemeVariables({ values: { prim: e.target.value } })} />
-
+    <div className="inset-0 fixed bg-prim col">
       <div className="row gap-2x bg-lord p-2x">
         {Object.entries(dynimcVaribles).map(([key, value]) => {
-          return (
-            <div className="col">
-              <p>{key}</p>
-              <input
-                type="color"
-                className="round-full size-sm overflow-hidden p-0"
-                style={{
-                  background: `var(--${key})`,
-                  color: `var(--${key})`,
-                }}
-                defaultValue={value}
-                onChange={(e) => {
-                  dynimcVaribles[key] = e.target.value;
-                  localStorage.setItem("dynimcVaribles", JSON.stringify(dynimcVaribles));
-                  setThemeVariables({ values: dynimcVaribles });
-                }}
-              />
-            </div>
-          );
+          return <ColorPicker key={key} name={key} value={value} />;
         })}
       </div>
 
       <div>
         <p
           onClick={() => {
-            removeColors();
+            Moon.removeColors();
           }}>
           remove dynmic
         </p>
@@ -69,7 +48,7 @@ const TestView = (props: Props) => {
           <div className="row gap-lg bg-prim round-xl p-xl">
             <p
               onClick={() => {
-                Moon.changeTheme("dark");
+                Moon.setTheme("dark");
                 setTheme("dark");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -77,7 +56,7 @@ const TestView = (props: Props) => {
             </p>
             <p
               onClick={() => {
-                Moon.changeTheme("light");
+                Moon.setTheme("light");
                 setTheme("light");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -85,7 +64,7 @@ const TestView = (props: Props) => {
             </p>
             <p
               onClick={() => {
-                Moon.changeTheme("great");
+                Moon.setTheme("great");
                 setTheme("great");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -94,17 +73,17 @@ const TestView = (props: Props) => {
           </div>
           <p
             onClick={() => {
-              const _currentTheme = Moon.currentTheme();
+              const _currentTheme = Moon.currentTheme;
               if (_currentTheme === "dark") {
-                Moon.changeTheme("light");
+                Moon.setTheme("light");
                 setTheme("light");
               }
               if (_currentTheme === "light") {
-                Moon.changeTheme("great");
+                Moon.setTheme("great");
                 setTheme("great");
               }
               if (_currentTheme === "great") {
-                Moon.changeTheme("dark");
+                Moon.setTheme("dark");
                 setTheme("dark");
               }
             }}
@@ -119,11 +98,29 @@ const TestView = (props: Props) => {
 
 export default TestView;
 
-const ColorPicker = ({ name = "", onChange }) => {
+const ColorPicker = ({ name = "", value }) => {
+  const ref = React.useRef(null);
   return (
-    <div className="col">
-      <p>{name}</p>
-      <input type="color" onChange={(e) => setThemeVariables({ values: { prim: e.target.value } })} />
+    <div className="col-center font-mono">
+      <p className="text-center text-sm m-auto">{name}</p>
+      <input
+        ref={ref}
+        type="color"
+        className="display-none"
+        defaultValue={value as any}
+        onChange={(e) => {
+          dynimcVaribles[name] = e.target.value;
+          localStorage.setItem("dynimcVaribles", JSON.stringify(dynimcVaribles));
+          Moon.setColor(name as any, e.target.value);
+        }}
+      />
+      <p
+        onClick={() => {
+          (ref as any).current.click();
+        }}
+        className="size-xs round-md border-t-thin border-solid pointer m-auto"
+        style={{ backgroundColor: value }}
+      />
     </div>
   );
 };

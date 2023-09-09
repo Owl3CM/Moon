@@ -14,7 +14,7 @@ npm install moon-style
 
 ## Getting Started
 ### Configuration
-Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon/moon.config.json`.
+Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
 
 The default configuration includes predefined styles for properties like `padding`, `margin`, `font-size`, and more. You can customize this configuration to suit your project's needs.
 
@@ -34,7 +34,11 @@ This will generate a `moon.css` file in your project's output directory, applyin
 To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
 ```javascript
-import './path/to/moon.css'; // Replace with the actual path to moon.css the default path is ./moon/moon.css
+import './path/to/moon.css'; // Replace with the actual path to moon.css
+```
+### If you are using the default configuration you will find the generated css in the `./src` directory of your project
+```javascript
+import './src/moon-style';
 ```
 
 Make sure to replace `./path/to/moon.css` with the correct path to your `moon.css` file.
@@ -43,7 +47,7 @@ Make sure to replace `./path/to/moon.css` with the correct path to your `moon.cs
 Moon style comes with predefined themes that you can use or modify in your `moon.config.json` file. Themes include color palettes and other design elements to quickly change the look and feel of your project.
 
 ### Output Path
-By default, the generated `moon.css` file is placed in the `./moon` directory of your project. You can customize the output path in your `moon.config.json` file by modifying the `outputPath` property.
+By default, the generated `moon.css` file is placed in the `./src` directory of your project. You can customize the output path in your `moon.config.json` file by modifying the `outputPath` property.
 
 ### Example Configuration
 Here's an example of a `moon.config.json` file with predefined styles and themes:
@@ -99,10 +103,6 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --cyan: #63cfc9;
   --nice: #83d6e1;
   --cute: #a3e4cb;
-
-  --sm: 4px;
-  --md: 8px;
-  --custom: 23.5px;
 }
 ```
 ### The generated themes
@@ -119,26 +119,71 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --owl: #ffffff;
   --goat: #9e9fa6;
 }
+
+.bg-prim {
+  background-color: var(--prim);
+}
+.text-prim {
+  color: var(--prim);
+}
+.fill-prim {
+  fill: var(--prim);
+}
+.border-prim {
+  border-color: var(--prim);
+}
+.bg-prince {
+  background-color: var(--prince);
+}
+/* ...and so on */
 ```
 ### The generated classes 
 ```css
-.p-sm { padding:var(--sm) ;} 
-.p-custom {padding:var(--custom)} 
-.p-md { padding:var(--md) ;} 
-.m-sm { margin:var(--sm) ;} 
+:root {
+  --sm: 4px;
+  --md: 8px;
+  --custom: 23.5px;
+}
+
+.p-sm {
+   padding:var(--sm) ;
+} 
+.m-sm {
+  margin:var(--sm)
+} 
+.pr-md { 
+  padding-right:var(--md) ;
+} 
+.mx-sm { 
+  margin-inline:var(--sm) ;
+} 
+.mr-cusomt {
+  margin-right:var(--spacing-cusomt) ;
+}
+.py-cusomt {
+  padding-block:var(--spacing-cusomt) ;
+}
 /* ...and so on */
 
-.pr-sm { padding-right:var(--spacing-sm) ;}
-.mr-cusomt { margin-right:var(--spacing-cusomt) ;}
-.pl-md { padding-left:var(--spacing-md) ;} 
-.ml-cusomt { margin-left:var(--spacing-cusomt) ;}  
+.pr-sm {
+  padding-right:var(--spacing-sm) ;
+}
+.mr-cusomt {
+  margin-right:var(--spacing-cusomt) ;
+}
+.pl-md {
+  padding-left:var(--spacing-md) ;
+}
+.ml-cusomt {
+  margin-left:var(--spacing-cusomt) ;
+}
 /* ...and so on */
 ```
 ### Usage
 
 ### You can use the generated classes in your html like this
 ```html
-<div className="p-md m-custom bg-prim color-red"></div>
+<div className="p-md m-custom bg-prim text-red"></div>
 ```
 
 
@@ -156,6 +201,7 @@ To use a predefined style, add the `moon` class to an HTML element and specify t
 
 ```js
 import React from "react";
+import "./src/moon/moon.css";
 import { changeTheme, currentTheme } from "moon-style";
 
 function App() {
@@ -235,37 +281,50 @@ export default App;
 
 
 # API
-## `changeTheme(themeName: string)`
-Changes the current theme to the specified theme.
 
-### Parameters
-| Name | Type | Description |
-| --- | --- | --- |
-| `themeName` | `string` | The name of the theme to change to. |
+## Results
 
-### Returns
-`void`
+### `Moon`
 
-### Example
-```js
-import { changeTheme } from "moon-style";
+The `Moon` object is a utility provided by Moon style to manage themes and colors. You can use the following methods and properties:
 
-changeTheme("dark");
-```
+- **`Moon.currentTheme`:** Returns the current active theme.
 
-## `currentTheme()`
-Returns the name of the current theme.
+  ```javascript
+  import { Moon } from "moon-style";
+  const theme = Moon.currentTheme; // Returns the current theme (e.g., "light", "dark", "great")
+  ```
+- **`Moon.setTheme(theme: string)`:** Sets the specified theme as the current theme.
 
-### Returns
-`string`
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.setTheme("dark"); // Sets the "dark" theme
+  ```
+- **`Moon.setColors(colors: { [key: string]: string })`:** Sets the specified colors as CSS variables.
 
-### Example
-```js
-import { currentTheme } from "moon-style";
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.setColors({ red: "#dd3643", cyan: "#63cfc9" ,prim : "#FFFFFF"}); // Sets the "red" and "cyan" colors
+  ```
+- **`Moon.setColor(key: string, value: string)`:** Sets the specified color as a CSS variable.
 
-const theme = currentTheme(); // In our sample it will return one of these values: "light", "dark", "great"
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.setColor("red", "#dd3643"); // Sets the "red" color
+  ```
+- **`Moon.removeColors()`:** Removes all custom colors.
 
-```
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.removeColors(); // Removes all custom colors
+  Moon.removeColors(["cyan","prim"]); // Removes the custom colors "cyan" and "prim" 
+  ```
+- **`Moon.removeColor(key: string)`:** Removes the specified custom color.
+
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.removeColor("red"); // Removes the custom "red" color
+  ```
 
 ## Documentation
 coming soon... 😅

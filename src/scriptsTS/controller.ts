@@ -1,22 +1,13 @@
 import { getMoonCss } from "./create.js";
-import { createFolder } from "./owlFs.js";
+import { createFile, createFolder } from "./owlFs.js";
 
 export const Controller = {
   createStyles: async () => {
-    Controller.config.outputPath = Controller.config.outputPath ?? "./src/moon";
-    if (Controller.config.outputPath === "./src/moon")
-      await createFolder("./src/moon", {
-        moon: { name: "moon.css", content: await getMoonCss() },
-        types: { name: "Types.ts", content: await getMoonTypes() },
-      });
-    else {
-      await createFolder(Controller.config.outputPath, {
-        moon: { name: "moon.css", content: await getMoonCss() },
-      });
-      await createFolder("./src/moon", {
-        types: { name: "Types.ts", content: await getMoonTypes() },
-      });
-    }
+    Controller.config.outputPath = Controller.config.outputPath ?? "./src";
+    await createFolder(Controller.config.outputPath, {
+      moon: { name: "moon.css", content: await getMoonCss() },
+    });
+    await createFile({ dir: "./", name: "Moon.Types.d.ts", content: await getMoonTypes() });
   },
 
   init: async (config: any) => {

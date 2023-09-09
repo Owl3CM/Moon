@@ -2,9 +2,6 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import TestView from "./TestView";
 import { Link } from "react-router-dom";
-import { changeTheme } from "..";
-
-changeTheme("dark");
 
 const _TestRoutes = [{ path: "/", Component: TestView, title: "home" }];
 const TestRoutes = () => {

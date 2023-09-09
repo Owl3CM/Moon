@@ -30,7 +30,7 @@
     }
   },
   "useStaticNumbers": false,
-  "outputPath": "./src/moon",
+  "outputPath": "./src",
 
   "styles": [
     {

@@ -1,4 +1,4 @@
-@import url('../../styles/moon.css');
+@import url('../moon.css');
 
 @font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
 @font-face {font-family: "'GE Dinkum Medium'";src: url("../fonts/bold.ttf");}

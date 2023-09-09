@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -12,7 +12,7 @@
   "scripts": {
     "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
     "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
-    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema",
+    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema && node ./scripts/insertCode.js",
     "prod": "yarn build && node ./scripts/publish.js && git push",
     "start": "vite",
     "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
