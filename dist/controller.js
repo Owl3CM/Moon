@@ -61,6 +61,6 @@ const getMoonTypes = async () => {
         .join(" | ");
     return `
   export type Theme = ${themesTypes};
-  export type Colors = ${colorsNames};
+  export type Color = ${colorsNames};
   `;
 };
