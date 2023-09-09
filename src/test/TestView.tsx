@@ -1,12 +1,57 @@
 import React from "react";
-import { changeTheme, currentTheme } from "..";
+import { changeTheme, currentTheme, removeColors, setThemeVariables } from "..";
 
 type Props = {};
 changeTheme("dark");
+
+let dynimcVaribles: any = JSON.parse(localStorage.getItem("dynimcVaribles")) || {
+  prim: "#2d303e",
+  prince: "#393c4a",
+  lord: "#9099bc",
+  owl: "#ffffff",
+  goat: "#9e9fa6",
+};
+
+setThemeVariables({ values: dynimcVaribles });
+
 const TestView = (props: Props) => {
   const [theme, setTheme] = React.useState(currentTheme());
   return (
     <div className="inset-0 bg-prim col">
+      <input type="color" onChange={(e) => setThemeVariables({ values: { prim: e.target.value } })} />
+
+      <div className="row gap-2x bg-lord p-2x">
+        {Object.entries(dynimcVaribles).map(([key, value]) => {
+          return (
+            <div className="col">
+              <p>{key}</p>
+              <input
+                type="color"
+                className="round-full size-sm overflow-hidden p-0"
+                style={{
+                  background: `var(--${key})`,
+                  color: `var(--${key})`,
+                }}
+                defaultValue={value}
+                onChange={(e) => {
+                  dynimcVaribles[key] = e.target.value;
+                  localStorage.setItem("dynimcVaribles", JSON.stringify(dynimcVaribles));
+                  setThemeVariables({ values: dynimcVaribles });
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <div>
+        <p
+          onClick={() => {
+            removeColors();
+          }}>
+          remove dynmic
+        </p>
+      </div>
       <div className="bg-prince round-xl p-md shadow-lg size-6x m-auto ">
         <div className="m-auto col items-center p-xl font-mono">
           <p className="text-owl bg-prim round-lg p-xl text-xl text-center">
@@ -72,3 +117,12 @@ const TestView = (props: Props) => {
 };
 
 export default TestView;
+
+const ColorPicker = ({ name = "", onChange }) => {
+  return (
+    <div className="col">
+      <p>{name}</p>
+      <input type="color" onChange={(e) => setThemeVariables({ values: { prim: e.target.value } })} />
+    </div>
+  );
+};

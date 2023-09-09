@@ -1,29 +1,29 @@
 import { Controller } from "./controller.js";
 import { getDefaultName, getPropsNames, getStaticCss, getThemes } from "./utils.js";
 let cssContent = "";
-const variables = [];
 let useStaticNumbers = false;
 export const getMoonCss = async () => {
+    Controller.StylesVariables = [];
     const { themes, styles } = Controller.config;
     useStaticNumbers = Controller.config.useStaticNumbers ?? false;
     cssContent = "";
     cssContent += getThemes(themes);
     cssContent += getStaticCss();
     styles.forEach(setup);
-    cssContent += `\n:root{\n${variables.join("\n")}\n}\n`;
+    cssContent += `\n:root{\n${Controller.StylesVariables.join("\n")}\n}\n`;
     return cssContent;
 };
 const setup = ({ props, values, variableName }) => {
     if (!props || !Object.keys(props).length) {
         Object.entries(values).forEach(([valueKey, valueValue]) => {
             const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
-            variables.push(`${_variableName}:${valueValue};`);
+            Controller.StylesVariables.push(`${_variableName}:${valueValue};`);
         });
         return;
     }
     Object.entries(values).forEach(([valueKey, valueValue]) => {
         const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
-        variables.push(`${_variableName}:${valueValue};`);
+        Controller.StylesVariables.push(`${_variableName}:${valueValue};`);
         const valueName = useStaticNumbers ? valueValue : `var(${_variableName})`;
         Object.entries(props).forEach(([prop, shortN]) => {
             const extraProps = getPropsNames(prop);

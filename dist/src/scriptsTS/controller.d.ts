@@ -1,6 +1,8 @@
 export declare const Controller: {
     createStyles: () => Promise<void>;
     init: (config: any) => Promise<void>;
+    StylesVariables: string[];
+    ColorsVariables: string[];
     config: {
         themes: {
             root: {};

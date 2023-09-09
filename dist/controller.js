@@ -2,13 +2,26 @@ import { getMoonCss } from "./create.js";
 import { createFolder } from "./owlFs.js";
 export const Controller = {
     createStyles: async () => {
-        await createFolder(Controller.config.outputPath ?? "./src/styles", {
-            moon: { name: "moon.css", content: await getMoonCss() },
-        });
+        Controller.config.outputPath = Controller.config.outputPath ?? "./src/moon";
+        if (Controller.config.outputPath === "./src/moon")
+            await createFolder("./src/moon", {
+                moon: { name: "moon.css", content: await getMoonCss() },
+                types: { name: "Types.ts", content: await getMoonTypes() },
+            });
+        else {
+            await createFolder(Controller.config.outputPath, {
+                moon: { name: "moon.css", content: await getMoonCss() },
+            });
+            await createFolder("./src/moon", {
+                types: { name: "Types.ts", content: await getMoonTypes() },
+            });
+        }
     },
     init: async (config) => {
         Controller.config = { ...Controller.config, ...config };
     },
+    StylesVariables: [],
+    ColorsVariables: [],
     config: {
         themes: {
             root: {},
@@ -37,4 +50,17 @@ export const Controller = {
         outputPath: "./src/styles",
         useStaticNumbers: false,
     },
+};
+const getMoonTypes = async () => {
+    // const stylesNames = Controller.StylesVariables.map((variable) => variable.split(":")[0].slice(2)).join(" | ");
+    const colorsNames = Controller.ColorsVariables.map((v) => `"${v}"`).join(" | ");
+    const { themes } = Controller.config;
+    const themesTypes = Object.keys(themes)
+        .filter((theme) => theme !== "root")
+        .map((theme) => `"${theme}"`)
+        .join(" | ");
+    return `
+  export type Theme = ${themesTypes};
+  export type Colors = ${colorsNames};
+  `;
 };

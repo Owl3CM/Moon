@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.tsx",
@@ -13,13 +13,13 @@
   "scripts": {
     "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
     "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema",
     "prod": "yarn build && node ./scripts/publish.js && git push",
     "start": "vite",
     "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "yarn build-scriptsTs && node ./dist/moon.js",
+    "test": "yarn build && yarn moon",
     "postinstall": "chmod +x ./dist/moon.js"
   },
   "bin": {

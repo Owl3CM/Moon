@@ -1,3 +1,5 @@
+import { Controller } from "./controller.js";
+
 // Themes
 export const getThemes = (themes: { [key: string]: { [key: string]: string } }) => {
   const themeCalls = {} as any;
@@ -17,6 +19,7 @@ export const getThemes = (themes: { [key: string]: { [key: string]: string } }) 
       const themeName = themeKey === "root" ? ":root" : `.${themeKey}`;
       return `${themeName} {--${Object.entries(themeValue)
         .map(([key, value]) => {
+          Controller.ColorsVariables.push(`${key}`);
           themeCalls[key] = `${value}`;
           return `${key}:${value}`;
         })

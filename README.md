@@ -14,7 +14,7 @@ npm install moon-style
 
 ## Getting Started
 ### Configuration
-Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./styles/moon.config.json`.
+Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon/moon.config.json`.
 
 The default configuration includes predefined styles for properties like `padding`, `margin`, `font-size`, and more. You can customize this configuration to suit your project's needs.
 
@@ -34,7 +34,7 @@ This will generate a `moon.css` file in your project's output directory, applyin
 To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
 ```javascript
-import './path/to/moon.css'; // Replace with the actual path to moon.css the default path is ./styles/moon.css
+import './path/to/moon.css'; // Replace with the actual path to moon.css the default path is ./moon/moon.css
 ```
 
 Make sure to replace `./path/to/moon.css` with the correct path to your `moon.css` file.
@@ -43,7 +43,7 @@ Make sure to replace `./path/to/moon.css` with the correct path to your `moon.cs
 Moon style comes with predefined themes that you can use or modify in your `moon.config.json` file. Themes include color palettes and other design elements to quickly change the look and feel of your project.
 
 ### Output Path
-By default, the generated `moon.css` file is placed in the `./styles` directory of your project. You can customize the output path in your `moon.config.json` file by modifying the `outputPath` property.
+By default, the generated `moon.css` file is placed in the `./moon` directory of your project. You can customize the output path in your `moon.config.json` file by modifying the `outputPath` property.
 
 ### Example Configuration
 Here's an example of a `moon.config.json` file with predefined styles and themes:
@@ -87,7 +87,7 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
     // Define more themes here
   },
   "useStaticNumbers": false,
-  "outputPath": "./styles"
+  "outputPath": "./moon"
 }
 ```
 
