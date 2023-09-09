@@ -1,12 +1,9 @@
-src/test
-src/vite
+src
 scripts
-scriptsTS
+.vercel
 .editorconfig
 .prettierrc
 .eslintignore
 .eslintrc
 tsconfig.json
-scripts.tsconfig.json
 rollup.*
-vite.config.js
