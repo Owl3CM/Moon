@@ -28,7 +28,7 @@ To generate the CSS based on your configuration, run the following command:
 yarn moon
 ```
 
-This will generate a `moon.css` file in your project's output directory, applying the styles defined in your `moon.config.json` file.
+This will take about 0.15s to generate a `moon.css` file in your project's output directory, applying the styles defined in your `moon.config.json` file.
 
 ### Importing CSS
 To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
@@ -59,37 +59,51 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
     {
       "props": {
         //  the css property name : the generated class name 
-         "padding": "p",// you can change this to whatever you want 
+         "padding": "p",
          "margin": "m" 
       },
-      "variableName": "spacing",// this is the name of the css variable that will store the values of the css property
-      "values": {"sm": "4px", "md": "8px", "custom": "23.5px" } // the values of the css variable 
-
+      "variableName": "spacing",// the variable name that will be used in the generated css
+      "values": { 
+        // the values of the css variable 
+        "sm": "4px",
+        "md": "8px",
+        "custom": "23.5px"
+        // you can add more values here
+      } 
     },
     // Add more styles here
   ],
   "themes": {
     "root" :{
       // Define the static colors thats will be applied with all themes
-      "red": "#dd3643",
-      "cyan": "#63cfc9",
-      "nice": "#83d6e1",
-      "cute": "#a3e4cb",
+        "red": "#dd3643",
+        "cyan": "#63cfc9",
+        "nice": "#83d6e1",
+        "cute": "#a3e4cb"
     },
-    "light":{
-      "prim": "#FFFFFF",
-      "prince": "#f6f6f6",
-      "owl": "#1f1d2b",
-      "goat": "#c4c4c7",
+    "light": {
+        "prim": "#FFFFFF",
+        "prince": "#f0f0f0",
+        "lord": "#909090",
+        "owl": "#1f1d2b",
+        "goat": "#c4c4c7"
     },
     "dark": {
-      "prim": "#2d303e",
-      "prince": "#393c4a",
-      "owl": "#ffffff",
-      "goat": "#9e9fa6",
+        "prim": "#2d303e",
+        "prince": "#393c4a",
+        "lord": "#9099bc",
+        "owl": "#ffffff",
+        "goat": "#3c4f8d"
+    },
+    "LOL": {
+        "prim": "#211a1e",
+        "prince": "#c3423f",
+        "lord": "#9bc53d",
+        "owl": "#fde74c",
+        "goat": "#393c4a"
     }
+},
     // Define more themes here
-  },
   "useStaticNumbers": false,
   "outputPath": "./moon"
 }
@@ -119,22 +133,18 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --owl: #ffffff;
   --goat: #9e9fa6;
 }
+.LOL {
+  --prim: #211a1e;
+  --prince: #c3423f;
+  --owl: #fde74c;
+  --goat: #393c4a;
+}
 
-.bg-prim {
-  background-color: var(--prim);
-}
-.text-prim {
-  color: var(--prim);
-}
-.fill-prim {
-  fill: var(--prim);
-}
-.border-prim {
-  border-color: var(--prim);
-}
-.bg-prince {
-  background-color: var(--prince);
-}
+.bg-prim { background-color: var(--prim) }
+.text-prim { color: var(--prim) }
+.fill-prim { fill: var(--prim) }
+.border-prim { border-color: var(--prim) }
+.bg-prince { background-color: var(--prince) }
 /* ...and so on */
 ```
 ### The generated classes 
@@ -145,38 +155,17 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --custom: 23.5px;
 }
 
-.p-sm {
-   padding:var(--sm) ;
-} 
-.m-sm {
-  margin:var(--sm)
-} 
-.pr-md { 
-  padding-right:var(--md) ;
-} 
-.mx-sm { 
-  margin-inline:var(--sm) ;
-} 
-.mr-cusomt {
-  margin-right:var(--spacing-cusomt) ;
-}
-.py-cusomt {
-  padding-block:var(--spacing-cusomt) ;
-}
+.p-sm { padding:var(--sm)  } 
+.m-sm { margin:var(--sm)  } 
+.pr-md { padding-right:var(--md)  } 
+.mx-sm { margin-inline:var(--sm)  } 
+.mr-custom { margin-right:var(--spacing-custom)  }
+.py-custom { padding-block:var(--spacing-custom)  }
 /* ...and so on */
-
-.pr-sm {
-  padding-right:var(--spacing-sm) ;
-}
-.mr-cusomt {
-  margin-right:var(--spacing-cusomt) ;
-}
-.pl-md {
-  padding-left:var(--spacing-md) ;
-}
-.ml-cusomt {
-  margin-left:var(--spacing-cusomt) ;
-}
+.pr-sm { padding-right:var(--spacing-sm)  }
+.mr-custom { margin-right:var(--spacing-custom)  }
+.pl-md { padding-left:var(--spacing-md)  }
+.ml-custom { margin-left:var(--spacing-custom)  }
 /* ...and so on */
 ```
 ### Usage
@@ -197,87 +186,62 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 }
 ```
 # Example
-To use a predefined style, add the `moon` class to an HTML element and specify the style name as a class name. For example, to apply the `p-md` style to a `div` element, use the following code:
-
-```js
+### You can use the generated classes in your react app like this
+  
+```js 
 import React from "react";
-import "./src/moon/moon.css";
-import { changeTheme, currentTheme } from "moon-style";
+import { Moon } from "moon-style";
+import { Theme } from "../Moon.Types";
 
-function App() {
-  const [theme, setTheme] = React.useState(currentTheme());
-  return (
-    <div className="inset-0 bg-prim col">
-      <div className="bg-prince round-xl p-md shadow-lg size-6x m-auto ">
-        <div className="m-auto col items-center p-xl font-mono">
-          <p className="text-owl bg-prim round-lg p-xl text-xl text-center">
-            Current Theme is <span className="text-nice px-xl">{theme}</span>
-          </p>
-          <p className="text-owl bg-prim round-lg p-xl text-xl text-center">
-            You can change the
-            <span className="text-shark px-xl">theme</span>
-            by clicking the
-            <span className="text-owl px-xl">buttons</span>
-            below.
-          </p>
-          <p className="border-thin border-solid border-lord round-md p-md text-lord">border</p>
-          <div className="row gap-lg bg-prim round-xl p-xl">
-            <p
-              onClick={() => {
-                changeTheme("dark");
-                setTheme("dark");
-              }}
-              className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
-              dark
-            </p>
-            <p
-              onClick={() => {
-                changeTheme("light");
-                setTheme("light");
-              }}
-              className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
-              light
-            </p>
-            <p
-              onClick={() => {
-                changeTheme("great");
-                setTheme("great");
-              }}
-              className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
-              great
-            </p>
-          </div>
-          <p
-            onClick={() => {
-              const _currentTheme = currentTheme();
-              if (_currentTheme === "dark") {
-                changeTheme("light");
-                setTheme("light");
-              }
-              if (_currentTheme === "light") {
-                changeTheme("great");
-                setTheme("great");
-              }
-              if (_currentTheme === "great") {
-                changeTheme("dark");
-                setTheme("dark");
-              }
-            }}
-            className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
-            Toggle Theme
-          </p>
+Moon.setTheme("dark");
+
+const themes: Theme[] = ["dark", "light", "darker", "LOL", "bad"];
+
+const App = () => {
+    const [theme, setTheme] = React.useState(Moon.currentTheme);
+    return (
+        <div className="inset-0 fixed bg-prim col">
+            <div className="bg-prince round-xl p-md shadow-lg size-5x m-auto">
+                <div className="m-auto col items-center p-xl font-mono">
+                    <span className="text-owl">SVG</span>
+                    <svg className="size-md" viewBox="0 0 24 24" fill="none">
+                        <path
+                            className="fill-owl"
+                            d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        />
+                    </svg>
+                    <p className="border-thick border-solid border-owl round-md p-md text-owl">Border</p>
+                    <div className="row gap-lg bg-lord round-xl p-xl">
+                        {themes.map((item, index) => {
+                            return (
+                                <p
+                                    key={index}
+                                    onClick={() => {
+                                        Moon.setTheme(item);
+                                        setTheme(item);
+                                    }}
+                                    style={{
+                                        border: `5px solid ${item === theme ? "var(--owl)" : "var(--prince)"}`,
+                                    }}
+                                    className="pointer bg-prince text-owl py-lg px-xl round-lg text-x shadow-lg">
+                                    {item}
+                                </p>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
-}
+    );
+};
 
 export default App;
 
 ```
 
 ### The result should be like this
-![1.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample.gif?raw=true)
+<!-- ![example.gif](public/gifs/sample-one.gif) -->
+![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-one.gif?raw=true)
 
 
 # API
@@ -325,7 +289,327 @@ The `Moon` object is a utility provided by Moon style to manage themes and color
   import { Moon } from "moon-style";
   Moon.removeColor("red"); // Removes the custom "red" color
   ```
+## Examples of useing the API
+### In this Example we will use setColor and setColors to change the colors of the theme
+```js
+import React from "react";
+import { Moon } from "moon-style";
+import { Theme } from "../Moon.Types";
+
+let dynimcColors: any = {
+    prim: "#0b132b",
+    prince: "#1c2541",
+    lord: "#3a506b",
+    owl: "#5bc0be",
+    goat: "#ffffff",
+};
+
+Moon.setColors(dynimcColors);
+const themes: Theme[] = ["dark", "light"];
+
+const App = () => {
+    const [theme, setTheme] = React.useState(Moon.currentTheme || "dynamic");
+    return (
+        <div className="inset-0 fixed bg-prim col">
+            <div className="bg-prince round-xl p-lg shadow-lg size-5x m-auto ">
+                <div className="m-auto col items-center p-xl font-mono">
+                    <div className="row gap-2x bg-lord p-2x round-lg">
+                        {Object.entries(dynimcColors).map(([key, value]) => {
+                            return <ColorPicker key={key} name={key} value={value} />;
+                        })}
+                    </div>
+                    <span className="text-owl">SVG</span>
+                    <svg className="size-md" viewBox="0 0 24 24" fill="none">
+                        <path
+                            className="fill-owl"
+                            d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        />
+                    </svg>
+                    <p className="border-thick border-solid border-owl round-md px-md py-sm text-owl">Border</p>
+                    <div className="row gap-lg bg-lord round-lg px-xl">
+                        {themes.map((item, index) => {
+                            return (
+                                <p
+                                    key={index}
+                                    onClick={() => {
+                                        Moon.setTheme(item);
+                                        setTheme(item);
+                                    }}
+                                    style={{
+                                        border: `5px solid ${item === theme ? "var(--owl)" : "var(--prince)"}`,
+                                    }}
+                                    className="pointer bg-prince text-owl py-lg px-xl round-lg text-x shadow-lg">
+                                    {item}
+                                </p>
+                            );
+                        })}
+                        <p
+                            onClick={() => {
+                                Moon.setColors(dynimcColors);
+                                setTheme("dynamic");
+                            }}
+                            style={{
+                                border: `5px solid ${theme === "dynamic" ? "var(--owl)" : "var(--prince)"}`,
+                            }}
+                            className="pointer bg-prince text-owl py-lg px-xl round-lg text-x shadow-lg">
+                            dynamic
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default App;
+
+const ColorPicker = ({ name = "", value }) => {
+    const ref = React.useRef(null);
+    return (
+        <div className="col-center font-mono text-goat">
+            <p className="text-center text-sm m-auto">{name}</p>
+            <input
+                ref={ref}
+                type="color"
+                className="opacity-0 h-0"
+                defaultValue={value as any}
+                onChange={(e) => {
+                    dynimcColors[name] = e.target.value;
+                    Moon.setColor(name as any, e.target.value);
+                }}
+            />
+            <p
+                onClick={() => {
+                    (ref as any).current.click();
+                }}
+                className={`size-xs round-full border-thin border-solid pointer m-auto bg-${name}`}
+                style={{ backgroundColor: value }}
+            />
+        </div>
+    );
+};
+
+```
+<!-- ![example.gif](public/gifs/sample-two.gif) -->
+![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-two.gif?raw=true)
+
+
+# Static Classes 
+## This classes will always be generated in the css file
+```css
+.fixed {position:fixed;} 
+.absolute {position:absolute;} 
+.relative {position:relative;} 
+.sticky {position:-webkit-sticky;position:sticky;} 
+.static {position:static;} 
+.initial {position:initial;} 
+.inherit {position:inherit;} 
+.unset {position:unset;} 
+```
+- `fixed`: This class sets the CSS property position to fixed, which positions the element relative to the viewport.
+- `absolute`: This class sets the CSS property position to absolute, which positions the element relative to its closest positioned ancestor.
+- `relative`: This class sets the CSS property position to relative, which positions the element relative to its normal position.
+- `sticky`: This class sets the CSS property position to sticky, which positions the element based on the user's scroll position.
+- `static`: This class sets the CSS property position to static, which positions the element according to the normal flow of the document.
+- `initial`: This class sets the CSS property position to initial, which sets the position to its default value.
+- `inherit`: This class sets the CSS property position to inherit, which inherits the position from its parent element.
+- `unset`: This class sets the CSS property position to unset, which resets the position to its default value.
+
+```css
+ .flex-grow {flex-grow:1;}
+```
+This class sets the CSS property `flex-grow` to `1`, which allows the element to grow to fill the available space.
+
+```css
+.flex, .row, .col, .wrap, .center {display:flex;}
+```
+These classes set the CSS property `display` to flex, which allows you to use flexbox to control the layout of elements. For example, `flex` makes the element a flex container, while `row` makes the element a flex container with a row layout.
+
+```css
+.row, .row-center, .row-start, .row-end {flex-direction:row;}
+```
+```css
+.row-center, .center {align-items:center;}
+.row-start {align-items:flex-start;}
+.row-end {align-items:flex-end;}
+```
+- `row-center`, `center`: These classes vertically align the items in a flex container to the center.
+- `row-start`: These classes vertically align the items in a flex container to the start.
+- `row-end`: These classes vertically align the items in a flex container to the end.
+
+```css
+.col, .col-center, .col-start, .col-end {flex-direction:column;}
+```
+- `col-center`, `center`: These classes horizontally align the items in a flex container to the center.
+- `col-start`: These classes horizontally align the items in a flex container to the start.
+- `col-end`: These classes horizontally align the items in a flex container to the end.
+
+```css
+.wrap {flex-wrap:wrap;}
+```
+`wrap`: This class sets the CSS property `flex-wrap` to `wrap`, allowing flex containers to wrap their items to the next line if they exceed the container's width.
+
+```css
+.select-none {user-select:none;} 
+.select-text {user-select:text;} 
+.select-all {user-select:all;} 
+.select-auto {user-select:auto;}
+```
+- `select-none`: This class sets the CSS property user-select to none, which prevents text selection on elements with this class.
+- `select-auto`: This class sets the CSS property user-select to auto, allowing the default user-select behavior on elements with this class.
+- `select-text`: This class sets the CSS property user-select to text, allowing text selection on elements with this class.
+- `select-all`: This class sets the CSS property user-select to all, enabling the selection of all content within elements with this class.
+
+
+```css 
+.overflow-auto {overflow:auto;}
+.overflow-scroll {overflow:scroll;}
+.overflow-hidden {overflow:hidden;}
+.overflow-visible {overflow:visible;}
+```
+- `overflow-auto`: This class sets the CSS property overflow to auto, allowing the element to scroll when its content overflows.
+- `overflow-scroll`: This class sets the CSS property overflow to scroll, forcing the element to have a scroll bar when its content overflows.
+- `overflow-hidden`: This class sets the CSS property overflow to hidden, hiding any content that overflows the element's boundaries.
+- `overflow-visible`: This class sets the CSS property overflow to visible, making all content within the element visible, even if it overflows the container.
+```css
+.overflow-x-auto {overflow-x:auto;}
+.overflow-x-scroll {overflow-x:scroll;}
+.overflow-x-hidden {overflow-x:hidden;}
+.overflow-x-visible {overflow-x:visible;}
+ ```
+These classes control horizontal overflow behavior, similar to the previous set of classes, but specifically for the `overflow-x` property.
+
+```css
+.overflow-y-auto {overflow-y:auto;}
+.overflow-y-scroll {overflow-y:scroll;}
+.overflow-y-hidden {overflow-y:hidden;}
+.overflow-y-visible {overflow-y:visible;}
+```
+
+These classes control vertical overflow behavior, similar to the previous set of classes, but specifically for the `overflow-y` property.
+
+```css
+.hide-scroller::-webkit-scrollbar {display:none;}
+```
+`hide-scroller`: This class uses the `::-webkit-scrollbar` pseudo-element to hide the scroll bar in WebKit-based browsers (like Safari and Chrome) for elements with this class. It effectively removes the scroll bar's appearance.
+
+
+```css
+.h-screen {height:100vh;} 
+.w-screen {width:100vw;} 
+.w-fill {width:100%;}
+.h-fill {height:100%;}
+```
+These classes set the CSS properties height and `width` to specific values, allowing you to control the element's `height` and `width`. For example, `h-screen` sets the element's height to 100vh, while `w-screen` sets the element's width to 100vw.
+
+```css
+.min-w-max {min-width:max-content;}
+```
+`min-w-max`: This class sets the CSS property min-width to max-content, allowing the element to have a minimum width based on its content.
+
+```css
+.items-center {align-items:center;}
+.items-start {align-items:flex-start;}
+.items-end {align-items:flex-end;}
+```
+- `items-center`: This class aligns the items in a flex container vertically and horizontally to the center.
+- `items-start`: This class aligns the items in a flex container vertically to the start.
+- `items-end`: This class aligns the items in a flex container vertically to the end.
+
+```css
+.justify-center {justify-content:center;}
+.justify-start {justify-content:flex-start;}
+.justify-end {justify-content:flex-end;}
+.justify-between {justify-content:space-between;}
+.justify-around {justify-content:space-around;}
+.justify-evenly {justify-content:space-evenly;}
+```
+- `justify-center`: This class horizontally aligns the items in a flex container to the center.
+- `justify-start`: This class horizontally aligns the items in a flex container to the start.
+- `justify-end`: This class horizontally aligns the items in a flex container to the end.
+- `justify-between`: This class evenly distributes the items along the main axis with space between them.
+- `justify-around`: This class evenly distributes the items along the main axis with space around them.
+- `justify-evenly`: This class evenly distributes the items along the main axis with equal space between them.
+
+```css
+.self-start {align-self:flex-start;}
+.self-center {align-self:center;}  
+.self-end {align-self:flex-end;}
+.self-stretch {align-self:stretch;}
+```
+- `self-start`: This class aligns an individual flex item to the start within a flex container.
+- `self-center`: This class aligns an individual flex item to the center within a flex container.
+- `self-end`: This class aligns an individual flex item to the end within a flex container.
+- `self-stretch`: This class stretches an individual flex item to fill the container along the cross-axis.
+```css
+.col-span-full {grid-column:1 / -1;}    
+.col-span-1 {grid-column:span 1 / span 1;}
+.col-span-2 {grid-column:span 2 / span 2;}
+.col-span-3 {grid-column:span 3 / span 3;}
+.row-span-full {grid-row:1/-1;}
+.row-span-1 {grid-row:span 1 / span 1;}
+.row-span-2 {grid-row:span 2 / span 2;}
+.row-span-3 {grid-row:span 3 / span 3;}
+```
+These classes are used for creating grid layouts:
+- `col-span-full`: This class spans a grid column from the first to the last column.
+- `col-span-1`, `col-span-2`, `col-span-3`: These classes span grid columns by a specific number of columns.
+- `row-span-full`: This class spans a grid row from the first to the last row.
+- `row-span-1`, `row-span-2`, `row-span-3`: These classes span grid rows by a specific number of rows.
+
+
+```css
+.text-center {text-align:center;}
+.text-left {text-align:left;}
+.text-right {text-align:right;} 
+```
+- `text-center`: This class sets the text alignment to center.
+- `text-left`: This class sets the text alignment to left.
+- `text-right`: This class sets the text alignment to right.
+
+```css
+.pointer {cursor:pointer;}
+.cursor-default {cursor:default;}
+.cursor-cursor {cursor:w-resize;}
+.pointer-none {pointer-events:none;}
+.pointer-auto {pointer-events:auto;}
+.pointer-all {pointer-events:all;}
+```
+- `pointer`: This class changes the cursor to a pointer hand when hovering over an element, indicating it's clickable.
+- `cursor-default`: This class sets the default cursor.
+- `cursor-cursor`: This class sets the cursor to a horizontal resize cursor, typically used for resizing elements horizontally.
+- `pointer-none`: This class makes the element non-interactable by setting pointer events to none.
+- `pointer-auto`: This class restores the default pointer events behavior.
+- `pointer-all`: This class allows all pointer events on the element.
+
+
+```css
+.display-none {display:none;}
+.display-block {display:block;}
+.display-inline {display:inline;}
+.display-inline-block {display:inline-block;}
+.display-flex {display:flex;}
+.display-grid {display:grid;}
+.display-table {display:table;}
+```
+- `display-none`: This class sets the CSS property `display` to `none`, hiding the element.
+- `display-block`: This class sets the CSS property `
+
+```css
+.opacity-0 {opacity:0;} 
+.opacity-10 {opacity:0.1;} 
+.opacity-20 {opacity:0.2;} 
+.opacity-30 {opacity:0.3;} 
+.opacity-40 {opacity:0.4;} 
+.opacity-50 {opacity:0.5;} 
+.opacity-60 {opacity:0.6;} 
+.opacity-70 {opacity:0.7;} 
+.opacity-80 {opacity:0.8;} 
+.opacity-90 {opacity:0.9;} 
+.opacity-100 {opacity:1;}
+ ```
+These classes set the CSS property opacity to specific values, allowing you to control the element's transparency or visibility. For example, `opacity-0` makes the element completely transparent (invisible), while `opacity-100` makes it fully opaque (visible).
+
 
 ## Documentation
 coming soon... 😅
-<!-- For detailed information on how to customize your `moon.config.json` file and use Moon style effectively, refer to the [documentation](https://moon-style.netlify.app/). -->

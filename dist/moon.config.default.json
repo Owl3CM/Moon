@@ -9,7 +9,7 @@
     },
     "light": {
       "prim": "#FFFFFF",
-      "prince": "#f6f6f6",
+      "prince": "#f0f0f0",
       "lord": "#909090",
       "owl": "#1f1d2b",
       "goat": "#c4c4c7"
@@ -19,14 +19,28 @@
       "prince": "#393c4a",
       "lord": "#9099bc",
       "owl": "#ffffff",
-      "goat": "#9e9fa6"
+      "goat": "#3c4f8d"
     },
-    "great": {
-      "prim": "#313638",
-      "prince": "#f09d51",
-      "lord": "#f06543",
-      "owl": "#f06543",
-      "goat": "#e0dfd5"
+    "darker": {
+      "prim": "#0b132b",
+      "prince": "#1c2541",
+      "lord": "#3a506b",
+      "owl": "#5bc0be",
+      "goat": "#ffffff"
+    },
+    "bad": {
+      "prim": "#949ba0",
+      "prince": "#9dacb2",
+      "lord": "#a0b9bf",
+      "owl": "#c4edff",
+      "goat": "#bcd4de"
+    },
+    "LOL": {
+      "prim": "#211a1e",
+      "prince": "#c3423f",
+      "lord": "#9bc53d",
+      "owl": "#fde74c",
+      "goat": "#393c4a"
     }
   },
   "useStaticNumbers": false,
@@ -142,7 +156,7 @@
       "values": {
         "none": "0px",
         "thin": "1px",
-        "thick": "20px"
+        "thick": "2px"
       }
     },
     {

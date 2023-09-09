@@ -19,7 +19,7 @@ async function run() {
     // await exec(gitStage);
     await exec(publish);
     // await exec(gitPush);
-    console.log("published!");
+    console.log("published! version:" + version);
   } catch (error) {
     console.error(`Error executing commands: ${error}`);
   }

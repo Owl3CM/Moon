@@ -126,20 +126,17 @@ const PropsByName = {
     ],
 };
 export const getStaticCss = () => `\n
+.overflow-auto::-webkit-scrollbar {height:var(--scroller-size);width:var(--scroller-size)}
+.overflow-auto::-webkit-scrollbar-thumb {border-radius:2px;background-color:var(--scroller-thumb);}
+.overflow-auto::-webkit-scrollbar-track {background-color:var(--scroller-bg);border-radius:2px;}
+.overflow-auto::-webkit-scrollbar-track {background-color:var(--scroller-bg);}
+
 .select-none {user-select:none;} .select-text {user-select:text;} .select-all {user-select:all;} .select-auto {user-select:auto;}
 .fixed{position:fixed;} .absolute{position:absolute;} .relative{position:relative;} .sticky {position:-webkit-sticky;position:sticky;} .static{position:static;} .initial{position:initial;} .inherit{position:inherit;} .unset{position:unset;} 
 .opacity-0{opacity:0;} .opacity-10{opacity:0.1;} .opacity-20{opacity:0.2;} .opacity-30{opacity:0.3;} .opacity-40{opacity:0.4;} .opacity-50{opacity:0.5;} .opacity-60{opacity:0.6;} .opacity-60{opacity:0.6;} .opacity-70{opacity:0.7;} .opacity-80{opacity:0.8;} .opacity-90{opacity:0.9;} .opacity-100{opacity:1;}
 .overflow-auto{overflow:auto;}.overflow-scroll {overflow:scroll;}.overflow-hidden{overflow:hidden;}.overflow-visible{overflow:visible;}
 .overflow-x-auto{overflow-x:auto;}.overflow-x-scroll {overflow-x:scroll;}.overflow-x-hidden{overflow-x:hidden;}.overflow-x-visible{overflow-x:visible;}
 .overflow-y-auto{overflow-y:auto;}.overflow-y-scroll {overflow-y:scroll;}.overflow-y-hidden{overflow-y:hidden;}.overflow-y-visible{overflow-y:visible;}
-.bg-transparent {background-color:transparent !important;} .bg-none {background-color:unset!important;} 
-.text-transparent {color:transparent !important;} .text-none {color:unset!important;}
-.fill-transparent {fill:transparent !important;} .fill-none {fill:unset!important;}
-.m-auto {margin:auto;} .mt-auto {margin-top:auto;} .mb-auto {margin-bottom:auto;} .ml-auto {margin-left:auto;} .mr-auto {margin-right:auto;} .mx-auto {margin-left:auto; margin-right:auto;} .my-auto {margin-top:auto; margin-bottom:auto;}
-.overflow-auto::-webkit-scrollbar {height:var(--scroller-size);width:var(--scroller-size)}
-.overflow-auto::-webkit-scrollbar-thumb {border-radius:2px;background-color:var(--scroller-thumb);}
-.overflow-auto::-webkit-scrollbar-track {background-color:var(--scroller-bg);border-radius:2px;}
-.overflow-auto::-webkit-scrollbar-track {background-color:var(--scroller-bg);}
 .hide-scroller::-webkit-scrollbar{display:none;}
 .flex-grow {flex-grow:1;}
 .flex,.row,.col,.wrap,.center{display:flex;}
