@@ -1,8 +1,9 @@
 import React from "react";
-import { changeTheme, currentTheme, removeColors, setThemeVariables } from "..";
+import { removeColors, setThemeVariables } from "..";
+import { Moon } from "../lib";
 
 type Props = {};
-changeTheme("dark");
+Moon.changeTheme("dark");
 
 let dynimcVaribles: any = JSON.parse(localStorage.getItem("dynimcVaribles")) || {
   prim: "#2d303e",
@@ -15,7 +16,7 @@ let dynimcVaribles: any = JSON.parse(localStorage.getItem("dynimcVaribles")) || 
 setThemeVariables({ values: dynimcVaribles });
 
 const TestView = (props: Props) => {
-  const [theme, setTheme] = React.useState(currentTheme());
+  const [theme, setTheme] = React.useState(Moon.currentTheme());
   return (
     <div className="inset-0 bg-prim col">
       <input type="color" onChange={(e) => setThemeVariables({ values: { prim: e.target.value } })} />
@@ -68,7 +69,7 @@ const TestView = (props: Props) => {
           <div className="row gap-lg bg-prim round-xl p-xl">
             <p
               onClick={() => {
-                changeTheme("dark");
+                Moon.changeTheme("dark");
                 setTheme("dark");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -76,7 +77,7 @@ const TestView = (props: Props) => {
             </p>
             <p
               onClick={() => {
-                changeTheme("light");
+                Moon.changeTheme("light");
                 setTheme("light");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -84,7 +85,7 @@ const TestView = (props: Props) => {
             </p>
             <p
               onClick={() => {
-                changeTheme("great");
+                Moon.changeTheme("great");
                 setTheme("great");
               }}
               className="pointer bg-lord text-white py-lg px-xl round-lg text-x shadow-lg">
@@ -93,17 +94,17 @@ const TestView = (props: Props) => {
           </div>
           <p
             onClick={() => {
-              const _currentTheme = currentTheme();
+              const _currentTheme = Moon.currentTheme();
               if (_currentTheme === "dark") {
-                changeTheme("light");
+                Moon.changeTheme("light");
                 setTheme("light");
               }
               if (_currentTheme === "light") {
-                changeTheme("great");
+                Moon.changeTheme("great");
                 setTheme("great");
               }
               if (_currentTheme === "great") {
-                changeTheme("dark");
+                Moon.changeTheme("dark");
                 setTheme("dark");
               }
             }}
