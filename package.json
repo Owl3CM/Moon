@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -64,5 +64,13 @@
   },
   "keywords": [],
   "tags": [],
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Owl3CM/Moon.git"
+  },
+  "homepage": "https://github.com/Owl3CM/Moon",
+  "bugs": {
+    "url": "https://github.com/Owl3CM/Moon/issues"
+  }
 }

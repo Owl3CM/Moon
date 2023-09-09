@@ -38,7 +38,7 @@ import './path/to/moon.css'; // Replace with the actual path to moon.css
 ```
 ### If you are using the default configuration you will find the generated css in the `./src` directory of your project
 ```javascript
-import './src/moon-style';
+import './src/moon.css';
 ```
 
 Make sure to replace `./path/to/moon.css` with the correct path to your `moon.css` file.
@@ -155,10 +155,10 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --custom: 23.5px;
 }
 
-.p-sm { padding:var(--sm)  } 
-.m-sm { margin:var(--sm)  } 
-.pr-md { padding-right:var(--md)  } 
-.mx-sm { margin-inline:var(--sm)  } 
+.p-sm { padding:var(--spacing-sm)  } 
+.m-sm { margin:var(--spacing-sm)  } 
+.pr-md { padding-right:var(--spacing-md)  } 
+.mx-sm { margin-inline:var(--spacing-sm)  } 
 .mr-custom { margin-right:var(--spacing-custom)  }
 .py-custom { padding-block:var(--spacing-custom)  }
 /* ...and so on */
@@ -181,8 +181,8 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 .my-class{
   background-color: var(--prim);
   color: var(--red);
-  padding: var(--md);
-  margin: var(--custom);
+  padding: var(--spacing-md);
+  margin: var(--spacing-custom);
 }
 ```
 # Example
@@ -440,9 +440,16 @@ These classes set the CSS property `display` to flex, which allows you to use fl
 ```css
 .col, .col-center, .col-start, .col-end {flex-direction:column;}
 ```
+```css
+.col-center,.center{justify-content:center;}
+.col-start{justify-content:flex-start;}
+.col-end{justify-content:flex-end;}
+```
 - `col-center`, `center`: These classes horizontally align the items in a flex container to the center.
 - `col-start`: These classes horizontally align the items in a flex container to the start.
 - `col-end`: These classes horizontally align the items in a flex container to the end.
+
+
 
 ```css
 .wrap {flex-wrap:wrap;}
@@ -609,6 +616,25 @@ These classes are used for creating grid layouts:
 .opacity-100 {opacity:1;}
  ```
 These classes set the CSS property opacity to specific values, allowing you to control the element's transparency or visibility. For example, `opacity-0` makes the element completely transparent (invisible), while `opacity-100` makes it fully opaque (visible).
+
+<!-- # Why Moon style
+Moon style is a utility-first CSS framework that helps you quickly and easily generate styles for your web projects. It provides a set of predefined styles and themes that you can customize to match your project's design.
+
+# How to use Moon style
+Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
+
+The default configuration includes predefined styles for properties like `padding`, `margin`, `font-size`, and more. You can customize this configuration to suit your project's needs.
+
+# How to customize Moon style
+If you want to customize the default styles or define new ones, open the `moon.config.json` file in your project and modify it according to your requirements. You can specify your own values for various properties, change colors, and define new themes.
+
+# How to generate CSS
+To generate the CSS based on your configuration, run the following command:
+
+```bash
+yarn moon
+``` -->
+ 
 
 
 ## Documentation
