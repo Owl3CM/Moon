@@ -2,8 +2,22 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import TestView from "./TestView";
 import { Link } from "react-router-dom";
+import TestViewSecond from "./TestViewSecond";
 
-const _TestRoutes = [{ path: "/", Component: TestView, title: "home" }];
+const _TestRoutes = [
+  {
+    //
+    path: "/",
+    Component: TestView,
+    title: "home",
+  },
+  {
+    //
+    path: "/second",
+    Component: TestViewSecond,
+    title: "second",
+  },
+];
 const TestRoutes = () => {
   return (
     <>
@@ -13,7 +27,7 @@ const TestRoutes = () => {
         ))}
       </Routes>
 
-      <div className="fixed bottom-0 left-0 right-0 row-center overflow-auto justify-center gap-x bg-prim p-s">
+      <div className="fixed bottom-0 left-0 right-0 row-center overflow-auto justify-center gap-xl bg-prim p-sm">
         {_TestRoutes.map(({ path, title }) => (
           <Link
             className="button"

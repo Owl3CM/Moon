@@ -14,3 +14,31 @@ a{
     text-decoration: none;
     color: var(--owl);
 }
+
+.rotate {
+    animation: rotate 18s linear infinite;
+    /* animation: up-down  3s  infinite ease-in-out; */
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+        
+    }
+}
+
+@keyframes up-down {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+    
+}

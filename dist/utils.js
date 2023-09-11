@@ -2,6 +2,44 @@ import { Controller } from "./controller.js";
 // Themes
 export const getThemes = (themes) => {
     const themeCalls = {};
+    const colorsOptions = themes["colors-options"] ?? {};
+    delete themes["colors-options"];
+    const opacities = colorsOptions["*"]?.opacities;
+    if (opacities) {
+        const allColorsKeys = Object.values(themes)
+            .map((v) => Object.keys(v))
+            .flat();
+        allColorsKeys.forEach((key) => {
+            if (!colorsOptions[key])
+                colorsOptions[key] = { opacities };
+            else if (!colorsOptions[key].opacities)
+                colorsOptions[key].opacities = opacities;
+        });
+    }
+    Object.entries(colorsOptions).forEach(([key, values]) => {
+        const { opacities } = values;
+        if (!opacities)
+            return;
+        let exist = false;
+        Object.keys(themes).forEach((themeKey) => {
+            const hex = themes[themeKey][key];
+            if (hex) {
+                exist = true;
+                // const rgb = hex.match(/[A-Za-z0-9]{2}/g)!.map((v) => parseInt(v, 16));
+                themes[themeKey][`rgb-${key}`] = hexToRGB(hex);
+            }
+        });
+        if (!exist)
+            return;
+        opacities.forEach((value) => {
+            const colorWithOpacity = `${key}-${value * 1000}`;
+            themes.root[colorWithOpacity] = `rgba(var(--rgb-${key}),${value})`;
+            if (colorsOptions[colorWithOpacity] || !colorsOptions[key])
+                return;
+            colorsOptions[colorWithOpacity] = { props: colorsOptions[key]?.props };
+        });
+        // console.log({ themes });
+    });
     themes.root = {
         transparent: "transparent",
         current: "currentColor",
@@ -17,16 +55,20 @@ export const getThemes = (themes) => {
         return `${themeName} {--${Object.entries(themeValue)
             .map(([key, value]) => {
             Controller.ColorsVariables.push(`${key}`);
-            themeCalls[key] = `${value}`;
+            if (!key.includes("rgb-"))
+                themeCalls[key] = `${value}`;
             return `${key}:${value}`;
         })
             .join(";--")}}`;
     })
         .join("\n");
-    const _themesValues = Object.entries(themeCalls)
-        .map(([key, value]) => {
-        return Object.entries(colorsKeys)
-            .map(([cKey, cValue]) => {
+    const defaultsProps = colorsOptions["*"]?.props ?? ["bg", "text", "fill", "border"];
+    const _themesValues = Object.keys(themeCalls)
+        .map((key) => {
+        const _colorsProps = colorsOptions[key]?.props ?? defaultsProps;
+        return _colorsProps
+            .map((cKey) => {
+            const cValue = colorsKeys[cKey];
             const className = `.${cKey}-${key} `;
             const classValue = `var(--${key})`;
             return `${className}{${cValue}:${classValue};}`;
@@ -41,11 +83,13 @@ const colorsKeys = {
     text: "color",
     fill: "fill",
     border: "border-color",
+    stroke: "stroke",
 };
 // Props
 export const getPropsNames = (propName) => {
     return PropsByName[propName] ?? [{ name: (n) => `${n.replace("-", "")}`, css: (v) => `${propName}:${v}` }];
 };
+const hexToRGB = (hex) => hex && hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;
 export const getDefaultName = (cssName) => {
     return ({
         padding: "p",

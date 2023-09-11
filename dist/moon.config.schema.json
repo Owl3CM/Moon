@@ -239,6 +239,29 @@
         }
       },
       "properties": {
+        "colors-options": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "opacities": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0.01,
+                  "maximum": 1
+                }
+              },
+              "props": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["bg", "text", "fill", "border", "stroke"]
+                }
+              }
+            }
+          }
+        },
         "dark": {
           "type": "object",
           "additionalProperties": {
