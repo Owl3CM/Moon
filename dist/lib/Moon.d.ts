@@ -9,6 +9,6 @@ export declare const Moon: {
     removeColor: (key: Color) => void;
 };
 type SetColors = {
-    [key in Color]: string;
+    [key in Color]?: string;
 };
 export {};

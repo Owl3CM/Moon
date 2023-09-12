@@ -198,3 +198,231 @@
   "useStaticNumbers": false,
   "outputPath": "./styles"
 }
+
+// "styles": {
+//   "type": "array",
+//   "items": {
+//     "type": "object",
+//     "properties": {
+//       "props": {
+//         "type": "object",
+//         "additionalProperties": {
+//           "type": "string",
+//           "description": "User-friendly name for the CSS property"
+//         },
+//         "properties": {
+//           "color": {
+//             "type": "string",
+//             "description": "Text color"
+//           },
+//           "background-color": {
+//             "type": "string",
+//             "description": "Background color"
+//           },
+//           "font-size": {
+//             "type": "string",
+//             "description": "Font size"
+//           },
+//           "font-weight": {
+//             "type": "string",
+//             "description": "Font weight"
+//           },
+//           "line-height": {
+//             "type": "string",
+//             "description": "Line height"
+//           },
+//           "font-family": {
+//             "type": "string",
+//             "description": "Font family"
+//           },
+//           "margin": {
+//             "type": "string",
+//             "description": "Margin"
+//           },
+//           "padding": {
+//             "type": "string",
+//             "description": "Padding"
+//           },
+//           "width": {
+//             "type": "string",
+//             "description": "Width"
+//           },
+//           "height": {
+//             "type": "string",
+//             "description": "Height"
+//           },
+//           "border": {
+//             "type": "string",
+//             "description": "Border"
+//           },
+//           "border-radius": {
+//             "type": "string",
+//             "description": "Border radius"
+//           },
+//           "box-shadow": {
+//             "type": "string",
+//             "description": "Box shadow"
+//           },
+//           "text-align": {
+//             "type": "string",
+//             "description": "Text alignment"
+//           },
+//           "display": {
+//             "type": "string",
+//             "description": "Display"
+//           },
+//           "position": {
+//             "type": "string",
+//             "description": "Position"
+//           },
+//           "top": {
+//             "type": "string",
+//             "description": "Top"
+//           },
+//           "right": {
+//             "type": "string",
+//             "description": "Right"
+//           },
+//           "bottom": {
+//             "type": "string",
+//             "description": "Bottom"
+//           },
+//           "left": {
+//             "type": "string",
+//             "description": "Left"
+//           },
+//           "flex": {
+//             "type": "string",
+//             "description": "Flex"
+//           },
+//           "flex-direction": {
+//             "type": "string",
+//             "description": "Flex direction"
+//           },
+//           "flex-wrap": {
+//             "type": "string",
+//             "description": "Flex wrap"
+//           },
+//           "flex-grow": {
+//             "type": "string",
+//             "description": "Flex grow"
+//           },
+//           "flex-shrink": {
+//             "type": "string",
+//             "description": "Flex shrink"
+//           },
+//           "flex-basis": {
+//             "type": "string",
+//             "description": "Flex basis"
+//           },
+//           "justify-content": {
+//             "type": "string",
+//             "description": "Justify content"
+//           },
+//           "align-items": {
+//             "type": "string",
+//             "description": "Align items"
+//           },
+//           "align-content": {
+//             "type": "string",
+//             "description": "Align content"
+//           },
+//           "align-self": {
+//             "type": "string",
+//             "description": "Align self"
+//           },
+//           "order": {
+//             "type": "string",
+//             "description": "Order"
+//           },
+//           "overflow": {
+//             "type": "string",
+//             "description": "Overflow"
+//           },
+//           "overflow-x": {
+//             "type": "string",
+//             "description": "Overflow x"
+//           },
+//           "overflow-y": {
+//             "type": "string",
+//             "description": "Overflow y"
+//           },
+//           "z-index": {
+//             "type": "string",
+//             "description": "Z-index"
+//           },
+//           "opacity": {
+//             "type": "string",
+//             "description": "Opacity"
+//           },
+//           "transition": {
+//             "type": "string",
+//             "description": "Transition"
+//           },
+//           "transform": {
+//             "type": "string",
+//             "description": "Transform"
+//           },
+//           "transform-origin": {
+//             "type": "string",
+//             "description": "Transform origin"
+//           },
+//           "cursor": {
+//             "type": "string",
+//             "description": "Cursor"
+//           },
+//           "pointer-events": {
+//             "type": "string",
+//             "description": "Pointer events"
+//           },
+//           "user-select": {
+//             "type": "string",
+//             "description": "User select"
+//           },
+//           "animation": {
+//             "type": "string",
+//             "description": "Animation"
+//           },
+//           "animation-name": {
+//             "type": "string",
+//             "description": "Animation name"
+//           },
+//           "animation-duration": {
+//             "type": "string",
+//             "description": "Animation duration"
+//           },
+//           "animation-timing-function": {
+//             "type": "string",
+//             "description": "Animation timing function"
+//           },
+//           "animation-delay": {
+//             "type": "string",
+//             "description": "Animation delay"
+//           },
+//           "inset": {
+//             "type": "string",
+//             "description": "Inset"
+//           },
+//           "inset-block": {
+//             "type": "string",
+//             "description": "Inset block"
+//           },
+//           "Or any css property you want to add": {
+//             "type": "string",
+//             "description": "Inset block"
+//           }
+//         }
+//       },
+//       "variableName": {
+//         "type": "string"
+//       },
+//       "values": {
+//         "type": "object",
+//         "additionalProperties": {
+//           "type": "string"
+//         }
+//       }
+//     },
+//     "required": ["props", "variableName", "values"]
+//   }
+// }

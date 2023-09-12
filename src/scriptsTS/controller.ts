@@ -48,7 +48,9 @@ export const Controller = {
 
 const getMoonTypes = async () => {
   // const stylesNames = Controller.StylesVariables.map((variable) => variable.split(":")[0].slice(2)).join(" | ");
-  const colorsNames = Controller.ColorsVariables.map((v) => `"${v}"`).join(" | ");
+  const colorsNames = Controller.ColorsVariables.filter((value, index, self) => self.indexOf(value) === index)
+    .map((v) => `"${v}"`)
+    .join(" | ");
   const { themes } = Controller.config;
   const themesTypes = Object.keys(themes)
     .filter((theme) => theme !== "root")

@@ -183,7 +183,7 @@ export const getStaticCss = () => `\n
 .overflow-auto::-webkit-scrollbar-track {background-color:var(--scroller-bg);}
 .hide-scroller::-webkit-scrollbar{display:none;}
 .flex-grow {flex-grow:1;}
-.flex,.row,.col,.wrap,.center{display:flex;}
+.flex,.row,.col,.wrap,.center,.row-center,.col-center{display:flex;}
 .row,.row-center,.row-start,.row-end{flex-direction:row;}
 .row-center,.center{align-items:center;}
 .row-start{align-items:flex-start;}

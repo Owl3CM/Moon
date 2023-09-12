@@ -1,0 +1,9 @@
+{
+  "content": [
+    "./src/**/*.{html,js,jsx,tsx}"
+  ],
+  "output": "./src/moon.css",
+  "css": [
+    "./src/moon.css"
+  ]
+}

@@ -1,8 +1,10 @@
-import { Theme, Color } from "./Types";
+import { Theme, Color } from "../../Moon.Types";
 
-let dynimcColors: { [key in Color]: string } = {} as any;
-const hexToRGB = (hex: string) =>
-  hex && hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;
+let dynimcColors: { [key in Color]?: string } = {};
+const hexToRGB = (hex: string) => {
+  if (hex.length === 4) hex = hex.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
+  return hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;
+};
 
 export const Moon = {
   currentTheme: "",
@@ -26,15 +28,23 @@ export const Moon = {
   setColors: (colors: SetColors) => {
     setTimeout(() => {
       const root = document.documentElement;
-      Object.entries(dynimcColors).forEach(([key, value]) => {
-        if (!(colors as any)[key]) {
-          root.style.removeProperty(`--${key}`);
-          root.style.removeProperty(`--rgb-${key}`);
-        } else {
+      const dynimcEntries = Object.entries(dynimcColors);
+      if (dynimcEntries?.length)
+        dynimcEntries.forEach(([key, value]) => {
+          if (!(colors as any)[key]) {
+            root.style.removeProperty(`--${key}`);
+            root.style.removeProperty(`--rgb-${key}`);
+          } else {
+            root.style.setProperty(`--${key}`, `${value}`);
+            root.style.setProperty(`--rgb-${key}`, `${hexToRGB(value)}`);
+          }
+        });
+      else {
+        Object.entries(colors).forEach(([key, value]) => {
           root.style.setProperty(`--${key}`, `${value}`);
           root.style.setProperty(`--rgb-${key}`, `${hexToRGB(value)}`);
-        }
-      });
+        });
+      }
       dynimcColors = { ...colors };
     }, 0);
   },
@@ -61,5 +71,5 @@ export const Moon = {
 };
 
 type SetColors = {
-  [key in Color]: string;
+  [key in Color]?: string;
 };

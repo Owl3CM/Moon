@@ -426,7 +426,7 @@ This class sets the CSS property `flex-grow` to `1`, which allows the element to
 These classes set the CSS property `display` to flex, which allows you to use flexbox to control the layout of elements. For example, `flex` makes the element a flex container, while `row` makes the element a flex container with a row layout.
 
 ```css
-.row, .row-center, .row-start, .row-end {flex-direction:row;}
+.flex,.row,.col,.wrap,.center,.row-center,.col-center{display:flex;}
 ```
 ```css
 .row-center, .center {align-items:center;}

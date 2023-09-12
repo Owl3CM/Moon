@@ -19,10 +19,12 @@
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "yarn build-scriptsTs && node ./dist/moon.js",
     "test": "yarn build && yarn moon",
-    "postinstall": "chmod +x ./dist/moon.js"
+    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js",
+    "purge": "node ./dist/purge.js"
   },
   "bin": {
-    "moon": "./dist/moon.js"
+    "moon": "./dist/moon.js",
+    "purge": "./dist/purge.js"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -64,7 +66,9 @@
   },
   "keywords": [],
   "tags": [],
-  "dependencies": {},
+  "dependencies": {
+    "purgecss": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Owl3CM/Moon.git"
