@@ -16,10 +16,13 @@ export const Controller = {
   StylesVariables: [] as string[],
   ColorsVariables: [] as string[],
   config: {
-    themes: {
-      root: {},
-      light: {},
-      dark: {},
+    colors: {
+      options: {},
+      staticColors: {},
+      themes: {
+        light: {},
+        dark: {},
+      },
     },
     styles: [
       {
@@ -47,13 +50,9 @@ export const Controller = {
 };
 
 const getMoonTypes = async () => {
-  // const stylesNames = Controller.StylesVariables.map((variable) => variable.split(":")[0].slice(2)).join(" | ");
-  const colorsNames = Controller.ColorsVariables.filter((value, index, self) => self.indexOf(value) === index)
-    .map((v) => `"${v}"`)
-    .join(" | ");
-  const { themes } = Controller.config;
+  const colorsNames = Controller.ColorsVariables.map((v) => `"${v}"`).join(" | ");
+  const themes = Controller.config.colors.themes;
   const themesTypes = Object.keys(themes)
-    .filter((theme) => theme !== "root")
     .map((theme) => `"${theme}"`)
     .join(" | ");
   return `

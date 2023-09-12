@@ -11,27 +11,26 @@
         "props": ["bg", "fill", "border", "text"]
       }
     },
-
-    "root": {
+    "staticColors": {
       "red": "#dd3643",
       "cyan": "#63cfc9",
       "nice": "#83d6e1",
       "cute": "#a3e4cb"
     },
-    "themes": {
+    "themes": {  
       "light": {
         "prim": "#FFFFFF",
-        "prince": "#f0f0f0",
-        "lord": "#909090",
-        "owl": "#1f1d2b",
-        "goat": "#c4c4c7"
+        "prince": "#f0f0f0", 
+        "lord": "#909090", 
+        "owl": "#1f1d2b" , 
+        "goat": "#c4c4c7" 
       },
       "dark": {
         "prim": "#2d303e",
         "prince": "#393c4a",
         "lord": "#9099bc",
-        "owl": "#ffffff",
-        "goat": "#3c4f8d"
+        "owl": "#ffffff", 
+        "goat": "#3c4f8d" 
       },
       "customThemes": {
         "prim": "#0b132b",
@@ -46,7 +45,7 @@
         "lord": "#a0b9bf",
         "owl": "#c4edff",
         "goat": "#bcd4de"
-      },
+      }, 
       "LOL": {
         "prim": "#211a1e",
         "prince": "#c3423f",

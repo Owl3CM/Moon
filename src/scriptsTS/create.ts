@@ -1,19 +1,18 @@
 import { Controller } from "./controller.js";
-import { getDefaultName, getPropsNames, getStaticCss, getThemes } from "./utils.js";
+import { getDefaultName, getPropsNames, getStaticCss, getColors } from "./utils.js";
 
 let cssContent = "";
 let useStaticNumbers = false;
 export const getMoonCss = async () => {
   Controller.StylesVariables = [];
-  const { themes, styles } = Controller.config;
+  const { colors, styles } = Controller.config;
   useStaticNumbers = Controller.config.useStaticNumbers ?? false;
   cssContent = "";
 
-  cssContent += getThemes(themes);
+  cssContent += getColors(colors);
   cssContent += getStaticCss();
   styles.forEach(setup);
   cssContent += `\n:root{\n${Controller.StylesVariables.join("\n")}\n}\n`;
-
   return cssContent;
 };
 

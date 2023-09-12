@@ -29,7 +29,7 @@
             }
           }
         },
-        "root": {
+        "staticColors": {
           "type": "object",
           "patternProperties": {
             "^[a-zA-Z0-9_]+$": {
@@ -72,7 +72,7 @@
           }
         }
       },
-      "required": ["options", "root", "themes"]
+      "required": ["options", "staticColors", "themes"]
     },
     "useStaticNumbers": {
       "type": "boolean"

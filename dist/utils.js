@@ -1,22 +1,19 @@
 import { Controller } from "./controller.js";
-// Themes
-export const getThemes = (themes) => {
+// Colors
+export const getColors = (colors) => {
     const themeCalls = {};
-    const colorsOptions = themes["colors-options"] ?? {};
-    delete themes["colors-options"];
-    const opacities = colorsOptions["*"]?.opacities;
+    const { options, staticColors, themes } = colors;
+    const opacities = options["*"]?.opacities;
     if (opacities) {
-        const allColorsKeys = Object.values(themes)
-            .map((v) => Object.keys(v))
-            .flat();
-        allColorsKeys.forEach((key) => {
-            if (!colorsOptions[key])
-                colorsOptions[key] = { opacities };
-            else if (!colorsOptions[key].opacities)
-                colorsOptions[key].opacities = opacities;
+        const colorsNames = getColorsNames(themes, staticColors);
+        colorsNames.forEach((key) => {
+            if (!options[key])
+                options[key] = { opacities };
+            else if (!options[key].opacities)
+                options[key].opacities = opacities;
         });
     }
-    Object.entries(colorsOptions).forEach(([key, values]) => {
+    Object.entries(options).forEach(([key, values]) => {
         const { opacities } = values;
         if (!opacities)
             return;
@@ -25,36 +22,39 @@ export const getThemes = (themes) => {
             const hex = themes[themeKey][key];
             if (hex) {
                 exist = true;
-                // const rgb = hex.match(/[A-Za-z0-9]{2}/g)!.map((v) => parseInt(v, 16));
                 themes[themeKey][`rgb-${key}`] = hexToRGB(hex);
             }
+        });
+        Object.entries(staticColors).forEach(([colorKey, colorValue]) => {
+            if (!colorKey.includes(key))
+                return;
+            exist = true;
+            staticColors[`rgb-${key}`] = hexToRGB(colorValue);
         });
         if (!exist)
             return;
         opacities.forEach((value) => {
             const colorWithOpacity = `${key}-${value * 1000}`;
-            themes.root[colorWithOpacity] = `rgba(var(--rgb-${key}),${value})`;
-            if (colorsOptions[colorWithOpacity] || !colorsOptions[key])
+            staticColors[colorWithOpacity] = `rgba(var(--rgb-${key}),${value})`;
+            if (options[colorWithOpacity] || !options[key])
                 return;
-            colorsOptions[colorWithOpacity] = { props: colorsOptions[key]?.props };
+            options[colorWithOpacity] = { props: options[key]?.props };
         });
-        // console.log({ themes });
     });
-    themes.root = {
+    const root = {
         transparent: "transparent",
         current: "currentColor",
         none: "none",
         black: "#000000",
         white: "#ffffff",
-        ...themes.root,
+        ...staticColors,
     };
     const themesEntries = Object.entries(themes);
-    const _themes = themesEntries
-        .map(([themeKey, themeValue]) => {
-        const themeName = themeKey === "root" ? ":root" : `.${themeKey}`;
-        return `${themeName} {--${Object.entries(themeValue)
+    const themesContent = themesEntries
+        .map(([themeKey, themeValues]) => {
+        const themeName = `.${themeKey}`;
+        return `${themeName} {--${Object.entries(themeValues)
             .map(([key, value]) => {
-            Controller.ColorsVariables.push(`${key}`);
             if (!key.includes("rgb-"))
                 themeCalls[key] = `${value}`;
             return `${key}:${value}`;
@@ -62,10 +62,18 @@ export const getThemes = (themes) => {
             .join(";--")}}`;
     })
         .join("\n");
-    const defaultsProps = colorsOptions["*"]?.props ?? ["bg", "text", "fill", "border"];
-    const _themesValues = Object.keys(themeCalls)
+    const rootContent = `:root{--${Object.entries(root)
+        .map(([key, value]) => {
+        if (!key.includes("rgb-"))
+            themeCalls[key] = `${value}`;
+        return `${key}:${value}`;
+    })
+        .join(";--")}}`;
+    const defaultsProps = options["*"]?.props ?? ["bg", "text", "fill", "border"];
+    Controller.ColorsVariables = Object.keys(themeCalls);
+    const colorsContent = Object.keys(themeCalls)
         .map((key) => {
-        const _colorsProps = colorsOptions[key]?.props ?? defaultsProps;
+        const _colorsProps = options[key]?.props ?? defaultsProps;
         return _colorsProps
             .map((cKey) => {
             const cValue = colorsKeys[cKey];
@@ -76,7 +84,7 @@ export const getThemes = (themes) => {
             .join(" ");
     })
         .join("\n");
-    return `${_themes}\n\n${_themesValues}`;
+    return `${rootContent}\n${themesContent}\n\n${colorsContent}`;
 };
 const colorsKeys = {
     bg: "background-color",
@@ -236,3 +244,11 @@ export const getStaticCss = () => `\n
 .display-grid{display:grid;}
 .display-table{display:table;}
 `;
+function getColorsNames(themes, staticColors) {
+    return [
+        ...Object.values(themes)
+            .map((v) => Object.keys(v))
+            .flat(),
+        ...Object.keys(staticColors),
+    ];
+}
