@@ -4,7 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import postcss from "rollup-plugin-postcss";
 import { terser } from "rollup-plugin-terser";
-import packageJson from "./package.json";
+import packageJson from "./package.json" assert { type: "json" };
 import rollupResolve from "@rollup/plugin-node-resolve";
 import rollupCommonjs from "@rollup/plugin-commonjs";
 

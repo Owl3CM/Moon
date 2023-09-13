@@ -19,13 +19,11 @@
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "node ./dist/moon.js",
     "test": "yarn build && yarn moon",
-    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js",
     "purge": "node ./dist/purge.js",
     "watch-config": "nodemon --watch moon.config.json -e json -x \"yarn moon\"",
-    "watch-files": "chokidar \"src/**/*.{html,js,jsx,tsx}\" -c \"yarn lesgo {path}\"",
+    "watch-files": "chokidar \"src/**/*.{html,js,jsx,tsx}\" -c \" node test.js {path}\"",
     "build-css": "postcss styles.css -o output.css",
-    "lesgo": "node test.js",
-    "test-chokidar": "node test-chokidar.js"
+    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
   },
   "bin": {
     "moon": "./dist/moon.js",
