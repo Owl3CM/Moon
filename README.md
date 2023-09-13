@@ -28,8 +28,14 @@ To generate the CSS based on your configuration, run the following command:
 ```bash
 yarn moon
 ```
+### Or using NPM
+```bash
+npm run moon
 
-This will take about 0.15s to generate a `moon.css` file in your project's output directory, applying the styles defined in your `moon.config.json` file.
+```
+
+This will generate a `moon.css` file in your project's output directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `moon.css` file when you save the changes.
+
 
 ### Importing CSS
 To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:

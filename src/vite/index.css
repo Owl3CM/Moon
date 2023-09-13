@@ -1,5 +1,13 @@
 @import url('../moon.css');
 
+.test{
+    background-color: #4299e1; /* Blue color */
+}
+.hover\:\test:hover {
+    background-color: #ff0000; /* Blue color */
+    padding: 100px;
+}
+
 @font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
 @font-face {font-family: "'GE Dinkum Medium'";src: url("../fonts/bold.ttf");}
 :root{
