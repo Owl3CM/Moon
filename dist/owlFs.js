@@ -1,11 +1,13 @@
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 export const fileExists = async (dir) => fs.existsSync(dir);
 export async function createFolder(dir, files = {}) {
     try {
-        await fs.promises.mkdir(dir, { recursive: true });
-        console.log(`Directory '${dir}' created successfully.`);
-        // remove the undefined files
+        if (!(await fileExists(dir))) {
+            await fs.promises.mkdir(dir, { recursive: true });
+            console.log(chalk.greenBright.bold(`Directory '${dir}' created successfully.`));
+        }
         files = Object.fromEntries(Object.entries(files).filter(([, value]) => value !== undefined));
         for (const { name, content } of Object.values(files)) {
             await createFile({ dir, name, content });
@@ -21,7 +23,7 @@ export async function createFile({ dir, name, content }) {
     const filePath = path.join(dir, name);
     try {
         await fs.promises.writeFile(filePath, content);
-        console.log(`File '${filePath}' created successfully.`);
+        console.log(chalk.greenBright.bold(`File '${filePath}' created successfully.`));
         return filePath;
     }
     catch (err) {
@@ -32,7 +34,7 @@ export async function createFile({ dir, name, content }) {
 export async function deleteFolder(dir) {
     try {
         await fs.promises.rmdir(dir, { recursive: true });
-        console.log(`Directory '${dir}' deleted successfully.`);
+        console.log(chalk.redBright.bold(`Directory '${dir}' deleted successfully.`));
     }
     catch (err) {
         console.error(err);
@@ -54,7 +56,7 @@ export async function runCommand(command) {
         console.log({ command });
         exec(command, (error, stdout, stderr) => {
             if (error) {
-                console.error(`exec error: ${error}`);
+                console.error(chalk.redBright.bold(`Error: while running '${command}'`));
                 reject(error);
             }
             if (stdout)

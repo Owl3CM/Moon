@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.56",
+  "version": "0.0.57",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -20,11 +20,12 @@
     "moon": "yarn build-scriptsTs && node ./dist/moon.js",
     "test": "yarn build && yarn moon",
     "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js",
-    "purge": "node ./dist/purge.js"
+    "purge": "node ./dist/purge.js",
+    "watch-config": "nodemon --watch moon.config.json -e json -x \"yarn moon\""
   },
   "bin": {
     "moon": "./dist/moon.js",
-    "purge": "./dist/purge.js"
+    "moon-purge": "./dist/purge.js"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -67,6 +68,7 @@
   "keywords": [],
   "tags": [],
   "dependencies": {
+    "nodemon": "^3.0.1",
     "purgecss": "^5.0.0"
   },
   "repository": {

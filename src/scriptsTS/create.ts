@@ -11,12 +11,12 @@ export const getMoonCss = async () => {
 
   cssContent += getColors(colors);
   cssContent += getStaticCss();
-  styles.forEach(setup);
+  styles.forEach(generateStyles);
   cssContent += `\n:root{\n${Controller.StylesVariables.join("\n")}\n}\n`;
   return cssContent;
 };
 
-const setup = ({ props, values, variableName }: any) => {
+const generateStyles = ({ props, values, variableName }: any) => {
   if (!props || !Object.keys(props).length) {
     Object.entries(values).forEach(([valueKey, valueValue]) => {
       const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
@@ -42,38 +42,3 @@ const setup = ({ props, values, variableName }: any) => {
     cssContent += `\n`;
   });
 };
-
-// const setup = ({ props, values }) => {
-//   if (!props || !values) return;
-//   Object.entries(props).forEach(([prop, shortN]) => {
-//     cssContent += `\n`;
-//     const extraProps = getPropsNames(prop);
-//     const _shortN = shortN ?? getDefaultName(prop);
-//     Object.entries(values).forEach(([valueKey, valueValue]) => {
-//       extraProps.forEach(({ name, css }) => {
-//         const _name = name(_shortN);
-//         const dash = _name && valueKey ? "-" : "";
-//         const className = `.${_name}${dash}${valueKey}`;
-//         const classValue = css(valueValue);
-//         cssContent += `${className}{${classValue};}`;
-//       });
-//       cssContent += `\n`;
-//     });
-//   });
-// };
-
-// const setup = ({ props, values }) => {
-//   if (!props || !values) return;
-//   Object.entries(props).forEach(([prop, shortN]) => {
-//     const extraProps = getPropsNames(prop);
-//     const _shortN = shortN ?? getDefaultName(prop);
-//     extraProps.forEach(({ name, css }) => {
-//       Object.entries(values).forEach(([valueKey, valueValue]) => {
-//         const className = `.${name(_shortN)}${valueKey ? "-" + valueKey : ""}`;
-//         const classValue = css(valueValue);
-//         cssContent += `${className}{${classValue};}`;
-//       });
-//     });
-//   });
-//   cssContent += `\n`;
-// };

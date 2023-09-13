@@ -9,7 +9,7 @@ const themes: Theme[] = ["dark", "light", "darker", "LOL", "bad"];
 const TestView = () => {
   const [theme, setTheme] = React.useState(Moon.currentTheme);
   return (
-    <div className="inset-0 fixed bg-prim col">
+    <div className="inset-0 fixed bg-prim col bg-gree">
       <div className="bg-prince round-xl p-md shadow-lg size-5x m-auto relative">
         <div className="m-auto col items-center p-xl font-mono">
           <span className="bg-lord-900 p-xl">SVG</span>

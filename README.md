@@ -55,6 +55,9 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 ```json
 {
   "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
+  "useStaticNumbers": false,// Determines whether to use static numbers or css variables
+  "outputPath": "./src",// The output path of the generated css file
+  "content": ["./src/**/*.{html,js,jsx,tsx}"],//  the files that will be scanned for classes to be purged
   "styles": [
     {
       "props": {
@@ -73,39 +76,75 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
     },
     // Add more styles here
   ],
-  "themes": {
-    "root" :{
-      // Define the static colors thats will be applied with all themes
-        "red": "#dd3643",
-        "cyan": "#63cfc9",
-        "nice": "#83d6e1",
-        "cute": "#a3e4cb"
+    "colors": {
+    "options": {
+      "*": {
+        "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
+        "props": ["bg", "fill", "border", "text"]
+        // this will generate the following classes for [ each ] color
+        // .bg-red-50, .bg-red-100 , .bg-red-200 , .bg-red-500 , .bg-red-700 , .bg-red-900
+        // .fill-red-50, .fill-red-100 , .fill-red-200 , .fill-red-500 , .fill-red-700 , .fill-red-900
+        // .border-red-50, .border-red-100 , .border-red-200 , .border-red-500 , .border-red-700 , .border-red-900
+        // .text-red-50, .text-red-100 , .text-red-200 , .text-red-500 , .text-red-700 , .text-red-900
+        // .bg-lord-50, .bg-lord-100 , .bg-lord-200 , .bg-lord-500 , .bg-lord-700 , .bg-lord-900
+        // .text-lord-50, .text-lord-100 , .text-lord-200 , .text-lord-500 , .text-lord-700 , .text-lord-900
+        /* ...and so on */
+      },
+      "prim": {
+        "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
+        "props": ["bg", "fill", "border"]
+        // this will generate the following classes for the [ prim ] color
+        // .bg-prim-50, .bg-prim-100 , .bg-prim-200 , .bg-prim-500 , .bg-prim-700 , .bg-prim-900
+        // .fill-prim-50, .fill-prim-100 , .fill-prim-200 , .fill-prim-500 , .fill-prim-700 , .fill-prim-900
+        // .border-prim-50, .border-prim-100 , .border-prim-200 , .border-prim-500 , .border-prim-700 , .border-prim-900
+      }
     },
-    "light": {
+    "staticColors": {
+      "red": "#dd3643",
+      "cyan": "#63cfc9",
+      "nice": "#83d6e1",
+      "cute": "#a3e4cb",
+      "green": "#7bc74d"
+    },
+    "themes": {
+      "light": {
         "prim": "#FFFFFF",
         "prince": "#f0f0f0",
         "lord": "#909090",
         "owl": "#1f1d2b",
         "goat": "#c4c4c7"
-    },
-    "dark": {
+      },
+      "dark": {
         "prim": "#2d303e",
         "prince": "#393c4a",
         "lord": "#9099bc",
         "owl": "#ffffff",
         "goat": "#3c4f8d"
-    },
-    "LOL": {
+      },
+      "darker": {
+        "prim": "#0b132b",
+        "prince": "#1c2541",
+        "lord": "#3a506b",
+        "owl": "#5bc0be",
+        "goat": "#ffffff"
+      },
+      "bad": {
+        "prim": "#949ba0",
+        "prince": "#9dacb2",
+        "lord": "#a0b9bf",
+        "owl": "#c4edff",
+        "goat": "#bcd4de"
+      },
+      "LOL": {
         "prim": "#211a1e",
         "prince": "#c3423f",
         "lord": "#9bc53d",
         "owl": "#fde74c",
         "goat": "#393c4a"
+      }
     }
-},
+  },
     // Define more themes here
-  "useStaticNumbers": false,
-  "outputPath": "./moon"
 }
 ```
 
@@ -126,25 +165,29 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --prince: #f6f6f6;
   --owl: #1f1d2b;
   --goat: #c4c4c7;
+  --prim-50: rgba(255, 255, 255, 0.05);/* ...and so on */
 }
 .dark {
   --prim: #2d303e;
   --prince: #393c4a;
   --owl: #ffffff;
   --goat: #9e9fa6;
+  --prim-50: rgba(45, 48, 62, 0.05);/* ...and so on */
 }
 .LOL {
-  --prim: #211a1e;
+    --prim: #211a1e;
   --prince: #c3423f;
   --owl: #fde74c;
   --goat: #393c4a;
+  --prim-50: rgba(33, 26, 30, 0.05);/* ...and so on */
 }
 
-.bg-prim { background-color: var(--prim) }
-.text-prim { color: var(--prim) }
-.fill-prim { fill: var(--prim) }
-.border-prim { border-color: var(--prim) }
-.bg-prince { background-color: var(--prince) }
+.bg-prim { background-color: var(--prim) } .bg-prim-50 {var(--prim-50) } .bg-prim-100 {var(--prim-100) } .bg-prim-200 {var(--prim-200) } /* ...and so on */
+.fill-prim { fill: var(--prim) } .fill-prim-50 {var(--prim-50) } .fill-prim-100 {var(--prim-100) } .fill-prim-200 {var(--prim-200) } /* ...and so on */
+.border-prim { border-color: var(--prim) } .border-prim-50 {var(--prim-50) } .border-prim-100 {var(--prim-100) } .border-prim-200 {var(--prim-200) } /* ...and so on */
+.bg-prince { background-color: var(--prince) } .bg-prince-50 {var(--prince-50) } .bg-prince-100 {var(--prince-100) } .bg-prince-200 {var(--prince-200) } /* ...and so on */
+.bg-red { background-color: var(--red) } .bg-red-50 {var(--red-50) } .bg-red-100 {var(--red-100) } .bg-red-200 {var(--red-200) } /* ...and so on */
+.text-red { color: var(--red) } .text-red-50 {var(--red-50) } .text-red-100 {var(--red-100) } .text-red-200 {var(--red-200) } /* ...and so on */
 /* ...and so on */
 ```
 ### The generated classes 
@@ -243,10 +286,55 @@ export default App;
 <!-- ![example.gif](public/gifs/sample-one.gif) -->
 ![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-one.gif?raw=true)
 
+<!-- PurgeCss section -->
+# PurgeCss
+## What is PurgeCss?
+PurgeCSS is a tool to remove unused CSS. It can be used as part of your development workflow. PurgeCSS comes with a JavaScript API, a CLI, and plugins for popular build tools learn more about PurgeCss [here](https://purgecss.com/).
+
+
+## How to use PurgeCss with Moon style?
+<!-- 
+ -->
+PurgeCSS is already included as a dependency in this project, so there's no need to install it separately 
+so you just need to add the `content` property to your `moon.config.json` file and specify the files that you want to scan for classes to be purged.
+### Example
+```json
+{
+  "content": ["./src/**/*.{html,js,jsx,tsx}"],
+}
+```
+### This will scan all the files in the `./src` directory with the extensions `html,js,jsx,tsx` for classes to be purged
+
+## How to run PurgeCss?
+### You can run PurgeCss by running this command
+```bash
+yarn moon-purge
+```
+### Or using NPM
+```bash
+npm run moon-purge
+```
+
+### This command will clean the `moon.css` file from the unused classes 
+
+## How to restore the purged classes?
+
+### You can restore the purged classes by running this command
+```bash
+yarn moon
+```
+### Or using NPM
+```bash
+npm run moon
+```
+### This command will regenerate the `moon.css`  file with the classes that you have defined in your `moon.config.json` file
+
+
+
+
+
 
 # API
-
-## Results
 
 ### `Moon`
 

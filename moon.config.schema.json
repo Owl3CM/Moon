@@ -83,8 +83,7 @@
     "content": {
       "type": "array",
       "items": {
-        "type": "string",
-        "pattern": "^(\\./)?(.*)(\\.html|\\.js|\\.jsx|\\.tsx)$"
+        "type": "string"
       }
     },
     "styles": {

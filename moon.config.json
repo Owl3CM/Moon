@@ -1,5 +1,8 @@
 {
   "$schema": "./moon.config.schema.json",
+  "useStaticNumbers": false,
+  "outputPath": "./src",
+  "content": ["./src/**/*.{html,js,jsx,tsx}"],
   "colors": {
     "options": {
       "*": {
@@ -8,31 +11,32 @@
       },
       "prim": {
         "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
-        "props": ["bg", "fill", "border", "text"]
+        "props": ["bg", "fill", "border"]
       }
     },
     "staticColors": {
       "red": "#dd3643",
       "cyan": "#63cfc9",
       "nice": "#83d6e1",
-      "cute": "#a3e4cb"
+      "cute": "#a3e4cb",
+      "green": "#7bc74d"
     },
-    "themes": {  
+    "themes": {
       "light": {
         "prim": "#FFFFFF",
-        "prince": "#f0f0f0", 
-        "lord": "#909090", 
-        "owl": "#1f1d2b" , 
-        "goat": "#c4c4c7" 
+        "prince": "#f0f0f0",
+        "lord": "#909090",
+        "owl": "#1f1d2b",
+        "goat": "#c4c4c7"
       },
       "dark": {
         "prim": "#2d303e",
         "prince": "#393c4a",
         "lord": "#9099bc",
-        "owl": "#ffffff", 
-        "goat": "#3c4f8d" 
+        "owl": "#ffffff",
+        "goat": "#3c4f8d"
       },
-      "customThemes": {
+      "darker": {
         "prim": "#0b132b",
         "prince": "#1c2541",
         "lord": "#3a506b",
@@ -45,7 +49,7 @@
         "lord": "#a0b9bf",
         "owl": "#c4edff",
         "goat": "#bcd4de"
-      }, 
+      },
       "LOL": {
         "prim": "#211a1e",
         "prince": "#c3423f",
@@ -55,9 +59,6 @@
       }
     }
   },
-  "useStaticNumbers": false,
-  "outputPath": "./src",
-  "content": ["./src/**/*.{html,js,jsx,tsx}"],
   "styles": [
     {
       "props": { "padding": "p", "margin": "m", "gap": "gap", "inset": "inset", "top": "top", "left": "left", "right": "right", "bottom": "bottom" },

@@ -1,15 +1,16 @@
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 
 export const fileExists = async (dir: string): Promise<boolean> => fs.existsSync(dir);
 
 export async function createFolder(dir: string, files: Record<string, any> = {}): Promise<string> {
   try {
-    await fs.promises.mkdir(dir, { recursive: true });
-    console.log(`Directory '${dir}' created successfully.`);
-    // remove the undefined files
+    if (!(await fileExists(dir))) {
+      await fs.promises.mkdir(dir, { recursive: true });
+      console.log(chalk.greenBright.bold(`Directory '${dir}' created successfully.`));
+    }
     files = Object.fromEntries(Object.entries(files).filter(([, value]) => value !== undefined));
-
     for (const { name, content } of Object.values(files)) {
       await createFile({ dir, name, content });
     }
@@ -24,7 +25,7 @@ export async function createFile({ dir, name, content }: { dir: string; name: st
   const filePath = path.join(dir, name);
   try {
     await fs.promises.writeFile(filePath, content);
-    console.log(`File '${filePath}' created successfully.`);
+    console.log(chalk.greenBright.bold(`File '${filePath}' created successfully.`));
     return filePath;
   } catch (err) {
     console.error(err);
@@ -35,7 +36,7 @@ export async function createFile({ dir, name, content }: { dir: string; name: st
 export async function deleteFolder(dir: string): Promise<void> {
   try {
     await fs.promises.rmdir(dir, { recursive: true });
-    console.log(`Directory '${dir}' deleted successfully.`);
+    console.log(chalk.redBright.bold(`Directory '${dir}' deleted successfully.`));
   } catch (err) {
     console.error(err);
     throw new Error(`Failed to delete directory '${dir}'.`);
@@ -59,7 +60,7 @@ export async function runCommand(command: string): Promise<void> {
 
     exec(command, (error, stdout, stderr) => {
       if (error) {
-        console.error(`exec error: ${error}`);
+        console.error(chalk.redBright.bold(`Error: while running '${command}'`));
         reject(error);
       }
       if (stdout) console.log(`stdout: ${stdout}`);
