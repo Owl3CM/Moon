@@ -5,12 +5,13 @@ Moon style is a versatile CSS utility package that helps you quickly and easily 
 You can install Moon style using Yarn:
 
 ```bash
-yarn add moon-style
+yarn add moon-style --dev
 ```
 ### Or using NPM
 ```bash
-npm install moon-style
+npm install moon-style --dev
 ```
+### It is recommended to install moon-style as a dev dependency because it is only used in the development phase to generate the css file
 
 ## Getting Started
 ### Configuration
