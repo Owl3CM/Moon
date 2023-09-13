@@ -61,6 +61,16 @@
   },
   "styles": [
     {
+      "props": { "transition": "transition" },
+      "variableName": "transition",
+      "values": {
+        "none": "none",
+        "fast": "all 0.1s ease-in-out",
+        "normal": "all 0.2s ease-in-out",
+        "slow": "all 0.3s ease-in-out"
+      }
+    },
+    {
       "props": { "padding": "p", "margin": "m", "gap": "gap", "inset": "inset", "top": "top", "left": "left", "right": "right", "bottom": "bottom" },
       "variableName": "spacing",
       "values": {

@@ -1,4 +1,6 @@
 @import url('../moon.css');
+@import url('../../generated.css');
+
 
 .test{
     background-color: #4299e1; /* Blue color */

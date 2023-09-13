@@ -1,0 +1,10 @@
+{
+  "watch": ["src"],
+  "ext": "js jsx ts tsx",
+  "execMap": {
+    "js": "node"
+  },
+  "events": {
+    "restart": "node test.js"
+  }
+}

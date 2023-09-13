@@ -6,8 +6,19 @@ import { BrowserRouter } from "react-router-dom";
 import ToggleTheme from "./ToggleTheme";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <BrowserRouter>
-    <App />
-    <ToggleTheme />
-  </BrowserRouter>
+  <div className="">
+    <div className="bg-red transition-slow">
+      <p>tst</p>
+    </div>
+    <div className="bg-red md[bg-cyan,text-red,p-xl] transition-slow">
+      <p>tst</p>
+    </div>
+    <div className="bg-red hover[bg-cyan,text-red,p-xl] transition-slow">
+      <p>dkf</p>
+    </div>
+  </div>
 );
+// <BrowserRouter>
+//   <App />
+//   <ToggleTheme />
+// </BrowserRouter>
