@@ -19,5 +19,5 @@
     "outDir": "./dist/"
   },
   "include": ["src/scriptsTS"],
-  "exclude": ["src/vite", "src/test", "src/lib"]
+  "exclude": ["src/vite", "src/test"]
 }
