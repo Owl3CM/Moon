@@ -1,1 +1,1 @@
-export { default } from "./Moon";
+export { default as Moon } from "./Moon";
