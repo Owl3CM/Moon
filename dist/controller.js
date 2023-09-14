@@ -1,7 +1,7 @@
 import { getStyles } from "./create.js";
 import { createFile, createFolder, fileExists } from "./owlFs.js";
 import { getColors, getStaticCss } from "./utils.js";
-export const moonPath = "./node_modules/moon-style/dist";
+export const moonPath = false ? "./dist" : "/node_modules/moon-style/dist";
 export const Controller = {
     createStyles: async () => {
         await createFolder(`${moonPath}/moon`, {
