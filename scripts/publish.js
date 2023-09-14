@@ -1,6 +1,6 @@
 import pak from "../package.json" assert { type: "json" };
 import { exec } from "child_process";
-import { moonPath } from "../dist/controller.js";
+import { packagePath } from "../dist/controller.js";
 import chalk from "chalk";
 
 async function run() {
@@ -12,8 +12,8 @@ async function run() {
     const versions = pak.version.split(".");
     version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
   }
-  console.log(moonPath);
-  if (moonPath === "./dist") {
+  console.log(packagePath);
+  if (packagePath === "./dist") {
     console.log(chalk.red("fuck you return this"));
     return;
   }

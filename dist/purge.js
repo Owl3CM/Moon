@@ -2,7 +2,7 @@
 import { exec } from "child_process";
 import { readFile } from "./owlFs.js";
 import { writeFile } from "fs";
-import { moonPath } from "./controller.js";
+import { cssFolder, packagePath } from "./controller.js";
 const config = await readFile("./moon.config.json");
 if (!config)
     throw new Error("moon.config.json not found");
@@ -11,7 +11,7 @@ if (!moonConfig.content) {
     throw new Error("Content not specified in moon.config.json");
 }
 const { content } = moonConfig;
-const path = `${moonPath}/moon`;
+const path = `${cssFolder}/moon`;
 const purgeConfig = {
     content,
     output: `${path}`,
@@ -20,7 +20,7 @@ const purgeConfig = {
 const writeJitCss = async () => {
     return new Promise((resolve, reject) => {
         if (moonConfig?.useJit) {
-            exec(`node ${moonPath}/dynamic.js {path}`, (err, stdout, stderr) => {
+            exec(`node ${packagePath}/dynamic.js {path}`, (err, stdout, stderr) => {
                 if (err) {
                     console.error("\nError: while purging css");
                     return;

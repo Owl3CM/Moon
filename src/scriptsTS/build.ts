@@ -1,5 +1,5 @@
 import { readFile } from "./owlFs.js";
-import { Controller, moonPath } from "./controller.js";
+import { Controller, packagePath } from "./controller.js";
 import { copyFileSync } from "fs";
 
 const createMoon = async () => {
@@ -12,6 +12,6 @@ readFile("./moon.config.json")
     createMoon();
   })
   .catch(async (err) => {
-    await copyFileSync(`${moonPath}/moon.config.default.json`, "./moon.config.json");
+    await copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
     createMoon();
   });
