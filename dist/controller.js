@@ -1,9 +1,7 @@
 import { getStyles } from "./create.js";
 import { createFile, createFolder } from "./owlFs.js";
 import { getColors, getStaticCss } from "./utils.js";
-import dotenv from "dotenv";
-dotenv.config();
-export const moonPath = process.env.NODE_ENV === "local" ? "./dist" : "./node_modules/moon-style/dist";
+export const moonPath = "./node_modules/moon-style/dist";
 export const Controller = {
     createStyles: async () => {
         await createFolder("./moon", {

@@ -1,9 +1,4 @@
 import { Theme, Color } from "../../../../Moon.Types";
-import "../../../../moon/moon.static.css";
-import "../../../../moon/moon.themes.css";
-import "../../../../moon/moon.styles.css";
-import "../../../../moon/moon.jit.css";
-     
 export declare const Moon: {
     currentTheme: string;
     setTheme: (theme: Theme) => void;
