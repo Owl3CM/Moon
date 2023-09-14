@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { fileExists, readFile } from "./owlFs.js";
 import { Controller, packagePath } from "./controller.js";
 import { copyFileSync } from "fs";
