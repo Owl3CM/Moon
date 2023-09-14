@@ -2,8 +2,8 @@
   "$schema": "./moon.config.schema.json",
   "useStaticNumbers": false,
   "useJit": true,
-  "projectDir": "./src",
-  "content": ["./src/**/*.{html,js,jsx,tsx}"],
+  "projectDir": "src",
+  "content": ["src/**/*.{html,js,jsx,tsx}"],
   "colors": {
     "options": {
       "*": {

@@ -15,23 +15,31 @@ const path = `${moonPath}/moon`;
 
 const purgeConfig = {
   content,
-  output: `${moonPath}moon/main.css`,
+  output: `${path}`,
   css: [`${path}/moon.styles.css`, `${path}/moon.themes.css`, `${path}/moon.static.css`, `${path}/moon.jit.css`],
 };
 
-if (moonConfig?.useJit) {
-  exec(`node ${moonPath}/dynamic.js {path}`, (err, stdout, stderr) => {
-    if (err) {
-      console.error("\nError: while purging css");
-      return;
+const writeJitCss = async () => {
+  return new Promise((resolve, reject) => {
+    if (moonConfig?.useJit) {
+      exec(`node ${moonPath}/dynamic.js {path}`, (err, stdout, stderr) => {
+        if (err) {
+          console.error("\nError: while purging css");
+          return;
+        }
+        resolve(true);
+      });
+    } else {
+      resolve(true);
     }
   });
-}
+};
+
+await writeJitCss();
 
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
   if (err) throw err;
   console.log("purgecss-config.json updated");
-
   exec(`yarn purgecss --config purgecss-config.json`, (err, stdout, stderr) => {
     if (err) {
       console.error(err);
