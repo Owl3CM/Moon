@@ -1,6 +1,7 @@
 import pak from "../package.json" assert { type: "json" };
 import { exec } from "child_process";
 import { moonPath } from "../dist/controller.js";
+import chalk from "chalk";
 
 async function run() {
   let version = "";
@@ -12,7 +13,10 @@ async function run() {
     version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
   }
   console.log(moonPath);
-  if (moonPath === "./dist") return;
+  if (moonPath === "./dist") {
+    console.log(chalk.red("fuck you return this"));
+    return;
+  }
   // const removeDist = "rm -rf dist ";
   // const buildDist = "yarn build";
   // const copyConfig = "cp ./moonconfig.json ./dist/moonconfig.json";
