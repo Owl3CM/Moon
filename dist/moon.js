@@ -12,7 +12,7 @@ const watchCommands = [`chokidar "moon.config.json" -c "node ${moonPath}/build.j
 if (config?.useJit) {
     watchCommands.push(`chokidar "${config.content[0]}" -c "node ${moonPath}/dynamic.js {path}"`);
 }
-exec(`concurrently -n "watch,additional" -c "bgYellow.bold,bgCyan.bold" "${watchCommands.join('" "')}" "echo Additional commands here"`, (err) => {
+exec(`concurrently -n "watch,additional" -c "bgYellow.bold,bgCyan.bold" "${watchCommands.join('" "')}" `, (err) => {
     if (err) {
         console.error("\nError: while ", chalk.redBright.bold("building"), err);
         return;
