@@ -5,7 +5,7 @@ async function run() {
   let version = "";
   if (pak.version.includes("beta")) {
     const versions = pak.version.split(".");
-    version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}-beta.${+versions[4] + 1}`;
+    version = `${versions[0]}.${versions[1]}.${versions[2]}.${+versions[3] + 1}`;
   } else {
     const versions = pak.version.split(".");
     version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
