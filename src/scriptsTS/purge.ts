@@ -15,7 +15,7 @@ const path = `${moonPath}/moon`;
 
 const purgeConfig = {
   content,
-  output: "./moon/main.css",
+  output: `${moonPath}moon/main.css`,
   css: [`${path}/moon.styles.css`, `${path}/moon.themes.css`, `${path}/moon.static.css`, `${path}/moon.jit.css`],
 };
 
