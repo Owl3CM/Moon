@@ -86,6 +86,9 @@
         "type": "string"
       }
     },
+    "useJit": {
+      "type": "boolean"
+    },
     "styles": {
       "type": "array",
       "items": {
@@ -111,5 +114,5 @@
       }
     }
   },
-  "required": ["colors", "useStaticNumbers", "content", "projectDir", "styles"]
+  "required": ["colors", "useStaticNumbers", "content", "projectDir", "useJit", "styles"]
 }

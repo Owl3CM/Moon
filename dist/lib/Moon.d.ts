@@ -1,6 +1,7 @@
 import { Theme, Color } from "../../../../Moon.Types";
-export declare const Moon: {
+declare const Moon: {
     currentTheme: string;
+    init: (theme?: Theme) => void;
     setTheme: (theme: Theme) => void;
     removeColors: (colors?: Color[]) => void;
     setColors: (colors: SetColors) => void;
@@ -8,7 +9,7 @@ export declare const Moon: {
     setColor: (key: Color, value: string) => void;
     removeColor: (key: Color) => void;
 };
+export default Moon;
 type SetColors = {
     [key in Color]?: string;
 };
-export {};

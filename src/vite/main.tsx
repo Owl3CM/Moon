@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ToggleTheme from "./ToggleTheme";
-import { Moon } from "../lib";
+import Moon from "../lib";
 
 Moon.setTheme("dark");
 createRoot(document.getElementById("root") as HTMLElement).render(

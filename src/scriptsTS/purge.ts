@@ -3,7 +3,6 @@ import { exec } from "child_process";
 import { readFile } from "./owlFs.js";
 import { writeFile } from "fs";
 import { moonPath } from "./controller.js";
-
 const config = await readFile("./moon.config.json");
 if (!config) throw new Error("moon.config.json not found");
 
@@ -19,6 +18,15 @@ const purgeConfig = {
   output: "./moon/main.css",
   css: [`${path}/moon.styles.css`, `${path}/moon.themes.css`, `${path}/moon.static.css`, `${path}/moon.jit.css`],
 };
+
+if (moonConfig?.useJit) {
+  exec(`node ${moonPath}/dynamic.js {path}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error("\nError: while purging css");
+      return;
+    }
+  });
+}
 
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
   if (err) throw err;

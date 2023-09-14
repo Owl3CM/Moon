@@ -6,9 +6,13 @@ const hexToRGB = (hex: string) => {
   return hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;
 };
 
-export const Moon = {
+const Moon = {
   currentTheme: "",
+  init: (theme: Theme = localStorage.theme) => {
+    document.documentElement.className = theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  },
   setTheme: (theme: Theme) => {
+    localStorage.theme = theme;
     Moon.removeColors();
     Moon.currentTheme && document.documentElement.classList.remove(Moon.currentTheme);
     document.documentElement.classList.add(theme);
@@ -69,6 +73,8 @@ export const Moon = {
     root.style.removeProperty(`--rgb-${key}`);
   },
 };
+
+export default Moon;
 
 type SetColors = {
   [key in Color]?: string;
