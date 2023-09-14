@@ -1,7 +1,7 @@
 {
   "$schema": "./moon.config.schema.json",
   "useStaticNumbers": false,
-  "outputPath": "./src",
+  "projectDir": "./src",
   "content": ["./src/**/*.{html,js,jsx,tsx}"],
   "colors": {
     "options": {

@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -20,9 +20,6 @@
     "moon": "node ./dist/moon.js",
     "test": "yarn build && yarn moon",
     "purge": "node ./dist/purge.js",
-    "watch-config": "nodemon --watch moon.config.json -e json -x \"yarn moon\"",
-    "watch-files": "chokidar \"src/**/*.{html,js,jsx,tsx}\" -c \" node test.js {path}\"",
-    "build-css": "postcss styles.css -o output.css",
     "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
   },
   "bin": {
@@ -44,6 +41,7 @@
     "autoprefixer": "^10.4.15",
     "babel-loader": "^8.2.5",
     "cssnano": "^6.0.1",
+    "dotenv": "^16.3.1",
     "fs": "^0.0.1-security",
     "postcss": "^8.4.29",
     "react": "^18.2.0",
@@ -73,7 +71,6 @@
   "tags": [],
   "dependencies": {
     "chokidar-cli": "^3.0.0",
-    "nodemon": "^3.0.1",
     "postcss-cli": "^10.1.0",
     "postcss-preset-env": "^9.1.3",
     "purgecss": "^5.0.0"

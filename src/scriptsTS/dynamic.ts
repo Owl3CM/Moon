@@ -1,18 +1,23 @@
 import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 
 const filePath = process.argv[2];
-const config = JSON.parse(await fs.promises.readFile("./moon.config.json"));
+const config = JSON.parse(await (fs as any).promises.readFile("./moon.config.json"));
 console.log(JSON.stringify(process.argv));
 const normalizedFilePath = path.normalize(filePath);
 console.log(`File changed: ${normalizedFilePath}`);
 // Define the custom class name pattern
 const customClassPatterns = {
-  hover: /hover:([a-zA-Z0-9-]+)/g,
+  //   hover: /hover:([a-zA-Z0-9-]+)/g,
+  //   add this pattren for hover
+  // hover[bg-red,text-white]
+  hover: /hover\[([a-zA-Z0-9-,]+)\]/g,
+  md: /hover\[([a-zA-Z0-9-,]+)\]/g,
+  //   add pattern for this
 };
-const cssRules = [];
-// Define the directory where your project files are located
-const projectDirectory = "./src"; // Change this to your project's directory
+const cssRules: string[] = [];
+const projectDirectory = config.projectDir ?? "./src";
 
 // Function to scan files and directories recursively
 function scanDirectory(directory) {
@@ -32,13 +37,29 @@ function scanDirectory(directory) {
       // Extract custom class names from the file content
       Object.entries(customClassPatterns).forEach(([pK, pattern]) => {
         const customClassNames = [...fileContent.matchAll(pattern)].map((match) => match[1]);
-        // Generate CSS rules based on custom class names
-        customClassNames.forEach((className) => {
-          const [cssProp, cssVarible] = splitString(className);
+        // console.log(chalk.cyanBright.bold("\n" + customClassNames + "\n"));
+        customClassNames.forEach((classNames) => {
           // const cssPropertyName = className.replace("-", ":");
-          cssRules.push(`.${pK}\\:${className}:${pK} { 
-            ${colorsKeys[cssProp]}: var(--${cssVarible});
-        }`);
+          const classes = classNames.split(",");
+          let content = "";
+          if (pK === "md") {
+            content = `@media (min-width: 500PX) { .${pK}\\[${classes.join("\\,")}\\] { `;
+            classes.forEach((className) => {
+              console.log(chalk.cyanBright.bold("\n" + className + "\n"));
+              const [cssProp, cssVarible] = splitString(className);
+              content += `${colorsKeys[cssProp]}: var(--${cssVarible});`;
+            });
+            content += "}}";
+          } else {
+            content = `.${pK}\\[${classes.join("\\,")}\\]:${pK} { `;
+            classes.forEach((className) => {
+              console.log(chalk.cyanBright.bold("\n" + className + "\n"));
+              const [cssProp, cssVarible] = splitString(className);
+              content += `${colorsKeys[cssProp]}: var(--${cssVarible});`;
+            });
+            content += "}";
+          }
+          cssRules.push(content);
         });
       });
     }
@@ -50,12 +71,12 @@ const colorsKeys = {
   fill: "fill",
   border: "border-color",
   stroke: "stroke",
+  p: "padding",
 };
 // Start scanning the project directory
 scanDirectory(projectDirectory);
 
-// Write the generated CSS to a file (e.g., generated.css)
-fs.writeFileSync("generated.css", cssRules.join("\n"));
+fs.writeFileSync("./moon/moon.jit.css", cssRules.join("\n"));
 
 function splitString(inputString) {
   const hyphenIndex = inputString.indexOf("-"); // Find the first hyphen

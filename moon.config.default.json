@@ -57,7 +57,7 @@
     }
   },
   "useStaticNumbers": false,
-  "outputPath": "./src",
+  "projectDir": "./src",
   "content": ["./src/**/*.{html,js,jsx,tsx}"],
   "styles": [
     {

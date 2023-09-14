@@ -2,8 +2,11 @@
   "content": [
     "./src/**/*.{html,js,jsx,tsx}"
   ],
-  "output": "./src/moon.css",
+  "output": "./moon/moon.purged.css",
   "css": [
-    "./src/moon.css"
+    "./moon/moon.styles.css",
+    "./moon/moon.themes.css",
+    "./moon/moon.static.css",
+    "./moon/moon.jit.css"
   ]
 }

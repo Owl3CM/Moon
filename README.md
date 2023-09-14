@@ -34,27 +34,18 @@ npm run moon
 
 ```
 
-This will generate a `moon.css` file in your project's output directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `moon.css` file when you save the changes.
+This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
 
-
-### Importing CSS
-To apply the generated styles to your project, import the `moon.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
+<!-- ### Importing CSS
+To apply the generated styles to your project, import the `main.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
 ```javascript
-import './path/to/moon.css'; // Replace with the actual path to moon.css
-```
-### If you are using the default configuration you will find the generated css in the `./src` directory of your project
-```javascript
-import './src/moon.css';
-```
-
-Make sure to replace `./path/to/moon.css` with the correct path to your `moon.css` file.
+import '../moon/main.css';
+``` -->
 
 ### Themes
 Moon style comes with predefined themes that you can use or modify in your `moon.config.json` file. Themes include color palettes and other design elements to quickly change the look and feel of your project.
 
-### Output Path
-By default, the generated `moon.css` file is placed in the `./src` directory of your project. You can customize the output path in your `moon.config.json` file by modifying the `outputPath` property.
 
 ### Example Configuration
 Here's an example of a `moon.config.json` file with predefined styles and themes:
@@ -63,7 +54,7 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 {
   "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
   "useStaticNumbers": false,// Determines whether to use static numbers or css variables
-  "outputPath": "./src",// The output path of the generated css file
+  "projectDir": "./src",// The project directory
   "content": ["./src/**/*.{html,js,jsx,tsx}"],//  the files that will be scanned for classes to be purged
   "styles": [
     {

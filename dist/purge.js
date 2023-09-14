@@ -9,12 +9,11 @@ const moonConfig = JSON.parse(config);
 if (!moonConfig.content) {
     throw new Error("Content not specified in moon.config.json");
 }
-const { content, outputPath } = moonConfig;
-const output = `${outputPath}/moon.css`;
+const { content } = moonConfig;
 const purgeConfig = {
     content,
-    output,
-    css: [output],
+    output: "./moon/main.css",
+    css: ["./moon/moon.styles.css", "./moon/moon.themes.css", "./moon/moon.static.css", "./moon/moon.jit.css"],
 };
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
     if (err)

@@ -77,7 +77,7 @@
     "useStaticNumbers": {
       "type": "boolean"
     },
-    "outputPath": {
+    "projectDir": {
       "type": "string"
     },
     "content": {
@@ -111,5 +111,5 @@
       }
     }
   },
-  "required": ["colors", "useStaticNumbers", "outputPath", "content", "styles"]
+  "required": ["colors", "useStaticNumbers", "content", "projectDir", "styles"]
 }
