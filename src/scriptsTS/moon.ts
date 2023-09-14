@@ -10,14 +10,11 @@ import { copyFileSync } from "fs";
 
 console.clear();
 
-if (!(await fileExists("./moon.config.json"))) {
-  await copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
-}
+if (!(await fileExists("./moon.config.json"))) await copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
 
-let config = (await readFile("./moon.config.json")) as any;
-if (config) {
-  config = JSON.parse(config);
-}
+const usersCommand = process.argv.slice(2).join(" ");
+
+let config = JSON.parse(await readFile("./moon.config.json")) as any;
 
 exec(`node ${packagePath}/build.js`, (err) => {
   if (err) {
@@ -45,6 +42,13 @@ if (config?.useJit) {
     }
   });
 }
+
+exec(`${usersCommand}`, (err, stdout, stderr) => {
+  if (err) {
+    console.error("\nError: while ", chalk.redBright.bold(`executing ${usersCommand}`), err);
+    return;
+  }
+});
 
 console.log("\nMoon is ", chalk.yellowBright.bold("Watching"), " for changes in ", chalk.yellowBright.bold("moon.config.json"));
 console.log(chalk.cyanBright.bold("\nPress Ctrl+C to stop watching for changes in moon.config.json"));
