@@ -2,12 +2,18 @@
 import { packagePath } from "./controller.js";
 import { exec } from "child_process";
 import chalk from "chalk";
-import { readFile } from "./owlFs.js";
+import { fileExists, readFile } from "./owlFs.js";
+import { copyFileSync } from "fs";
 // import os from "os";
 // const platform = os.platform();
 // console.log(`Operating System: ${platform}`);
 
 console.clear();
+
+if (!(await fileExists("./moon.config.json"))) {
+  await copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
+}
+
 let config = (await readFile("./moon.config.json")) as any;
 if (config) {
   config = JSON.parse(config);
