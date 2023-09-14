@@ -1,1 +1,1 @@
-export * from "./lib";
+export { default as Moon } from "./lib/Moon";
