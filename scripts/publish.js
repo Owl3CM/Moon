@@ -2,8 +2,14 @@ import pak from "../package.json" assert { type: "json" };
 import { exec } from "child_process";
 
 async function run() {
-  const versions = pak.version.split(".");
-  const version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
+  let version = "";
+  if (pak.version.includes("beta")) {
+    const versions = pak.version.split(".");
+    version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}-beta.${+versions[4] + 1}`;
+  } else {
+    const versions = pak.version.split(".");
+    version = `${versions[0]}.${versions[1]}.${+versions[2] + 1}`;
+  }
   // const removeDist = "rm -rf dist ";
   // const buildDist = "yarn build";
   // const copyConfig = "cp ./moonconfig.json ./dist/moonconfig.json";
