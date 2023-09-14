@@ -34,8 +34,12 @@ npm run moon
 
 ```
 
-This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
 
+This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
+### Importing CSS
+```html
+  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
+```
 <!-- ### Importing CSS
 To apply the generated styles to your project, import the `main.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 

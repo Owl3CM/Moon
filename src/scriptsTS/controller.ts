@@ -6,7 +6,7 @@ export const moonPath = "./node_modules/moon-style/dist";
 
 export const Controller = {
   createStyles: async () => {
-    await createFolder("./moon", {
+    await createFolder(`${moonPath}/moon`, {
       main: { name: "main.css", content: await getMainCss() },
       moon: { name: "moon.styles.css", content: await getStyles() },
       themes: { name: "moon.themes.css", content: await getColors() },

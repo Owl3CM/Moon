@@ -2,6 +2,7 @@
 import { exec } from "child_process";
 import { readFile } from "./owlFs.js";
 import { writeFile } from "fs";
+import { moonPath } from "./controller.js";
 const config = await readFile("./moon.config.json");
 if (!config)
     throw new Error("moon.config.json not found");
@@ -10,10 +11,11 @@ if (!moonConfig.content) {
     throw new Error("Content not specified in moon.config.json");
 }
 const { content } = moonConfig;
+const path = `${moonPath}/moon`;
 const purgeConfig = {
     content,
     output: "./moon/main.css",
-    css: ["./moon/moon.styles.css", "./moon/moon.themes.css", "./moon/moon.static.css", "./moon/moon.jit.css"],
+    css: [`${path}/moon.styles.css`, `${path}/moon.themes.css`, `${path}/moon.static.css`, `${path}/moon.jit.css`],
 };
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
     if (err)
@@ -24,6 +26,7 @@ writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) 
             console.error(err);
             return;
         }
+        // Todo: remove all files except main.css
         console.log(stdout);
     });
 });

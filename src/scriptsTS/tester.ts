@@ -20,6 +20,7 @@ const createMoon = async () => {
     process.exit();
   });
 };
+
 readFile("./moon.config.json")
   .then(async (res) => {
     await createMoon();

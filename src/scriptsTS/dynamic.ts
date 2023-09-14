@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
+import { moonPath } from "./controller";
 
 const filePath = process.argv[2];
 const config = JSON.parse(await (fs as any).promises.readFile("./moon.config.json"));
@@ -64,7 +65,7 @@ const colorsKeys = {
 };
 scanDirectory(projectDirectory);
 
-fs.writeFileSync("./moon/moon.jit.css", cssRules.join("\n"));
+fs.writeFileSync(`${moonPath}/moon/moon.jit.css`, cssRules.join("\n"));
 
 function splitString(inputString) {
   const hyphenIndex = inputString.indexOf("-");
