@@ -1,7 +1,7 @@
 import { getStyles } from "./create.js";
 import { createFile, createFolder, fileExists } from "./owlFs.js";
 import { getColors, getStaticCss } from "./utils.js";
-export const packagePath = false ? "./dist" : "node_modules/moon-style/dist";
+export const packagePath = true ? "./dist" : "node_modules/moon-style/dist";
 export const cssFolder = ".";
 export const Controller = {
     createStyles: async () => {
@@ -18,6 +18,15 @@ export const Controller = {
     init: async (config) => {
         Controller.config = { ...Controller.config, ...config };
     },
+    colorsClassByValue: {},
+    // {
+    //   [key: string]: {
+    //     class: string;
+    //     value: string;
+    //     parent: string;
+    //     varible?: string;
+    //   };
+    // }
     StylesVariables: [],
     ColorsVariables: [],
     config: {

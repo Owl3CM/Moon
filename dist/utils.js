@@ -3,90 +3,74 @@ import { Controller } from "./controller.js";
 export const getColors = async () => {
     const colors = Controller.config.colors;
     const themeCalls = {};
-    const { options, staticColors, themes } = colors;
-    const opacities = options["*"]?.opacities;
-    if (opacities) {
-        const colorsNames = getColorsNames(themes, staticColors);
-        colorsNames.forEach((key) => {
-            if (!options[key])
-                options[key] = { opacities };
-            else if (!options[key].opacities)
-                options[key].opacities = opacities;
-        });
-    }
-    Object.entries(options).forEach(([key, values]) => {
-        const { opacities } = values;
+    const { staticColors, themes } = colors;
+    Controller.ColorsVariables = getAllColorsNamesVaribles(themes, staticColors);
+    const options = handleOptions(colors.options);
+    Object.entries(options).forEach(([colorName, { opacities }]) => {
         if (!opacities)
             return;
-        let exist = false;
         Object.keys(themes).forEach((themeKey) => {
-            const hex = themes[themeKey][key];
-            if (hex) {
-                exist = true;
-                themes[themeKey][`rgb-${key}`] = hexToRGB(hex);
-            }
+            const _Theme = themes[themeKey];
+            const hex = _Theme[colorName];
+            hex && (_Theme[`rgb-${colorName}`] = hexToRGB(hex));
         });
-        Object.entries(staticColors).forEach(([colorKey, colorValue]) => {
-            if (!colorKey.includes(key))
+        const hex = staticColors[colorName];
+        hex && (staticColors[`rgb-${colorName}`] = hexToRGB(hex));
+        appendTheGeneratedOpacitiesToTheStaticColors(opacities, colorName, staticColors, options);
+    });
+    const themesContent = Object.entries({ root: staticColors, ...themes })
+        .map(([themeKey, themeValues]) => `${themeKey === "root" ? ":" : "."}${themeKey}{${Object.entries(themeValues)
+        .map(([key, value]) => `--${key}:${value};`)
+        .join("")}}`)
+        .join("\n");
+    // const rootContent = `:root{${Object.entries(staticColors)
+    //   .map(([key, value]) => `--${key}:${value};`)
+    //   .join("")}}`;
+    // const staticColors = {
+    //   transparent: "transparent",
+    //   current: "currentColor",
+    //   none: "none",
+    //   black: "#000000",
+    //   white: "#ffffff",
+    //   ...staticColors,
+    // };
+    const colorsContent = ".colors-content-here{}";
+    // const colorsContent = Object.keys(themeCalls)
+    //   .map((key) => {
+    //     const _colorsProps = options[key]?.props ?? defaultsProps;
+    //     return _colorsProps
+    //       .map((cKey) => {
+    //         const cValue = colorsKeys[cKey];
+    //         const className = `.${cKey}-${key} `;
+    //         const classValue = `var(--${key})`;
+    //         return `${className}{${cValue}:${classValue};}`;
+    //       })
+    //       .join(" ");
+    //   })
+    //   .join("\n");
+    Object.entries(staticColors).forEach(([key, value]) => {
+        if (!Controller.colorsClassByValue["staticColors"])
+            Controller.colorsClassByValue["staticColors"] = {};
+        const _colorsProps = options[key]?.props ?? defaultsProps;
+        _colorsProps?.forEach((propKey) => {
+            if (key.startsWith("rgb-"))
                 return;
-            exist = true;
-            staticColors[`rgb-${key}`] = hexToRGB(colorValue);
-        });
-        if (!exist)
-            return;
-        opacities.forEach((value) => {
-            const colorWithOpacity = `${key}-${value * 1000}`;
-            staticColors[colorWithOpacity] = `rgba(var(--rgb-${key}),${value})`;
-            if (options[colorWithOpacity] || !options[key])
-                return;
-            options[colorWithOpacity] = { props: options[key]?.props };
+            const _class = `${propKey}-${key}`;
+            const variable = `--${key}`;
+            Controller.colorsClassByValue["staticColors"][_class] = {
+                class: _class,
+                value,
+                variable,
+                classValue: `${colorsKeys[propKey]}:var(${variable})`,
+            };
         });
     });
-    const root = {
-        transparent: "transparent",
-        current: "currentColor",
-        none: "none",
-        black: "#000000",
-        white: "#ffffff",
-        ...staticColors,
-    };
-    const themesEntries = Object.entries(themes);
-    const themesContent = themesEntries
-        .map(([themeKey, themeValues]) => {
-        const themeName = `.${themeKey}`;
-        return `${themeName} {--${Object.entries(themeValues)
-            .map(([key, value]) => {
-            if (!key.includes("rgb-"))
-                themeCalls[key] = `${value}`;
-            return `${key}:${value}`;
-        })
-            .join(";--")}}`;
-    })
-        .join("\n");
-    const rootContent = `:root{--${Object.entries(root)
-        .map(([key, value]) => {
-        if (!key.includes("rgb-"))
-            themeCalls[key] = `${value}`;
-        return `${key}:${value}`;
-    })
-        .join(";--")}}`;
-    const defaultsProps = options["*"]?.props ?? ["bg", "text", "fill", "border"];
-    Controller.ColorsVariables = Object.keys(themeCalls);
-    const colorsContent = Object.keys(themeCalls)
-        .map((key) => {
-        const _colorsProps = options[key]?.props ?? defaultsProps;
-        return _colorsProps
-            .map((cKey) => {
-            const cValue = colorsKeys[cKey];
-            const className = `.${cKey}-${key} `;
-            const classValue = `var(--${key})`;
-            return `${className}{${cValue}:${classValue};}`;
-        })
-            .join(" ");
-    })
-        .join("\n");
+    // logger(Object.keys(Controller.colorsClassByValue.staticColors), "colorsClassByValue");
+    // logger(staticColors, "staticColors");
+    // logger(Controller.colorsClassByValue, "colorsClassByValue");
+    // logger(Controller.ColorsVariables, "ColorsVariables");
     return `/* This file is generated by Moon Style. Do not edit it manually. */
-${rootContent}\n${themesContent}\n\n${colorsContent}`;
+${themesContent}\n\n${colorsContent}`;
 };
 const colorsKeys = {
     bg: "background-color",
@@ -250,6 +234,37 @@ export const getStaticCss = async () => `/* This file is generated by Moon Style
 .display-grid{display:grid;}
 .display-table{display:table;}
 `;
+const getAllColorsNamesVaribles = (themes, staticColors) => [
+    ...Object.values(themes)
+        .map((v) => Object.keys(v))
+        .flat(),
+    ...Object.keys(staticColors),
+].filter((v, i, a) => a.indexOf(v) === i);
+function appendTheGeneratedOpacitiesToTheStaticColors(opacities, key, staticColors, options) {
+    opacities.forEach((value) => {
+        const colorWithOpacity = `${key}-${value * 1000}`;
+        staticColors[colorWithOpacity] = `rgba(var(--rgb-${key}),${value})`;
+        if (options[colorWithOpacity] || !options[key])
+            return;
+        options[colorWithOpacity] = { props: options[key]?.props };
+    });
+}
+let defaultsProps = ["bg", "text", "fill", "border"];
+function handleOptions(options) {
+    if (!options)
+        return {};
+    let { opacities, props } = options["*"];
+    if (props)
+        defaultsProps = props;
+    Controller.ColorsVariables.forEach((key) => {
+        if (!options[key])
+            options[key] = { opacities };
+        else if (!options[key].opacities)
+            options[key].opacities = opacities;
+    });
+    delete options["*"];
+    return options;
+}
 function getColorsNames(themes, staticColors) {
     return [
         ...Object.values(themes)

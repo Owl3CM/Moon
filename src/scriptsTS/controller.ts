@@ -2,7 +2,7 @@ import { getStyles } from "./create.js";
 import { createFile, createFolder, fileExists, readFile } from "./owlFs.js";
 import { getColors, getStaticCss } from "./utils.js";
 
-export const packagePath = false ? "./dist" : "node_modules/moon-style/dist";
+export const packagePath = true ? "./dist" : "node_modules/moon-style/dist";
 export const cssFolder = ".";
 
 export const Controller = {
@@ -18,10 +18,19 @@ export const Controller = {
 
     await createFile({ dir: "./", name: "Moon.Types.d.ts", content: await getMoonTypes() });
   },
-
   init: async (config: any) => {
     Controller.config = { ...Controller.config, ...config };
   },
+
+  colorsClassByValue: {} as any,
+  // {
+  //   [key: string]: {
+  //     class: string;
+  //     value: string;
+  //     parent: string;
+  //     varible?: string;
+  //   };
+  // }
   StylesVariables: [] as string[],
   ColorsVariables: [] as string[],
   config: {

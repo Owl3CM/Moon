@@ -2,8 +2,28 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 
-export const fileExists = async (dir: string): Promise<boolean> => fs.existsSync(dir);
+let counter = 0;
 
+export const fileExists = async (dir: string): Promise<boolean> => fs.existsSync(dir);
+export const logger = async (message: any, name = `log${counter++}`, clear = false) => {
+  if (typeof message === "object") message = JSON.stringify(message);
+  else if (typeof message === "string") message = `"${message}"`;
+  else if (typeof message === "function") message = message.toString();
+  else if (typeof message === "number") message = message.toString();
+  else if (typeof message === "boolean") message = message.toString();
+  else if (typeof message === "undefined") message = "undefined";
+  else if (typeof message === "bigint") message = message.toString();
+  else if (typeof message === "symbol") message = message.toString();
+  const date = new Date();
+  const time = date.toLocaleTimeString() + " - " + date.getMilliseconds() + " ms";
+  const log = `const ${name}__${counter++} = ${message};// ${time}`;
+  if (clear) fs.writeFileSync("./logger.js", "");
+  if (!fileExists("./logger.js")) {
+    fs.mkdirSync("./logger.js");
+  }
+  fs.appendFileSync("./logger.js", log + "\n");
+};
+logger("logger started", "logger", true);
 export async function createFolder(dir: string, files: Record<string, any> = {}): Promise<string> {
   try {
     if (!(await fileExists(dir))) {

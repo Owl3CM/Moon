@@ -1,4 +1,4 @@
 
   export type Theme = "light" | "dark" | "darker" | "bad" | "LOL";
-  export type Color = "prim" | "prince" | "lord" | "owl" | "goat" | "transparent" | "current" | "none" | "black" | "white" | "red" | "cyan" | "nice" | "cute" | "green" | "prim-50" | "prim-100" | "prim-200" | "prim-500" | "prim-700" | "prim-900" | "prince-50" | "prince-100" | "prince-200" | "prince-500" | "prince-700" | "prince-900" | "lord-50" | "lord-100" | "lord-200" | "lord-500" | "lord-700" | "lord-900" | "owl-50" | "owl-100" | "owl-200" | "owl-500" | "owl-700" | "owl-900" | "goat-50" | "goat-100" | "goat-200" | "goat-500" | "goat-700" | "goat-900" | "red-50" | "red-100" | "red-200" | "red-500" | "red-700" | "red-900" | "cyan-50" | "cyan-100" | "cyan-200" | "cyan-500" | "cyan-700" | "cyan-900" | "nice-50" | "nice-100" | "nice-200" | "nice-500" | "nice-700" | "nice-900" | "cute-50" | "cute-100" | "cute-200" | "cute-500" | "cute-700" | "cute-900" | "green-50" | "green-100" | "green-200" | "green-500" | "green-700" | "green-900";
+  export type Color = "prim" | "prince" | "lord" | "owl" | "goat" | "red" | "cyan" | "nice" | "cute" | "green";
   

@@ -7,12 +7,8 @@
   "colors": {
     "options": {
       "*": {
-        "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
-        "props": ["bg", "fill", "border", "text"]
-      },
-      "prim": {
-        "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
-        "props": ["bg", "fill", "border"]
+        "opacities": [0.05, 0.25],
+        "props": ["bg", "text"]
       }
     },
     "staticColors": {
