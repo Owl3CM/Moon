@@ -1,35 +1,35 @@
 #!/usr/bin/env node
 import { packagePath } from "./builder/controller.js";
-import { exec } from "child_process";
-import chalk from "chalk";
 import { fileExists, readFile } from "./helpers/owlFs.js";
 import { copyFileSync } from "fs";
-import { build } from "./builder/build.js";
+import { buildConfig } from "./builder/build.js";
+import chokidar from "chokidar";
+import { Sync_Changes, Jit_Start } from "./jit/jit.js";
+// import chalk from "chalk";
 // import os from "os";
 // const platform = os.platform();
 // console.log(`Operating System: ${platform}`);
 
 if (!(await fileExists("./moon.config.json"))) copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
 let config = JSON.parse(await readFile("./moon.config.json")) as any;
-await build();
-exec(`chokidar "moon.config.json" -c " node ${packagePath}/builder/build.js build"`, (err) => {
-  if (err) {
-    console.error("\nError: while ", chalk.redBright.bold("watching"), " for changes in ", chalk.redBright.bold("moon.config.json"));
-    return;
-  }
-});
-if (config?.useJit) {
-  exec(`node ${packagePath}/jit/init.js`, () => {});
-  exec(`chokidar chokidar "${config.content[0]}"  -c " node ${packagePath}/jit/jit.js {path}"`, (err, stdout, stderr) => {
-    if (err) {
-      console.error("\nError: while ", chalk.redBright.bold("watching"), " for changes in ", chalk.redBright.bold("moon.config.json"));
-      return;
-    }
-  });
-}
-console.log("\nMoon is ", chalk.yellowBright.bold("Watching"), " for changes in ", chalk.yellowBright.bold("moon.config.json"));
-console.log(chalk.cyanBright.bold("\nPress Ctrl+C to stop watching for changes in moon.config.json"));
 
+await buildConfig();
+const configWatcher = chokidar.watch("./moon.config.json");
+configWatcher.on("change", async (path) => {
+  await buildConfig();
+});
+
+if (config?.useJit) {
+  if (config?.useJit) {
+    Jit_Start();
+    const watcher = chokidar.watch(config.content[0]);
+    watcher.on("change", (path) => {
+      Sync_Changes(path);
+    });
+  }
+}
+// console.log("\nMoon is ", chalk.yellowBright.bold("Watching"), " for changes in ", chalk.yellowBright.bold("moon.config.json"));
+// console.log(chalk.cyanBright.bold("\nPress Ctrl+C to stop watching for changes in moon.config.json"));
 process.on("SIGINT", () => {
   process.exit();
 });

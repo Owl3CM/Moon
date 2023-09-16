@@ -1,12 +1,12 @@
-import { fileExists, readFile } from "../helpers/owlFs.js";
-import { Controller, packagePath } from "./controller.js";
-import { copyFileSync } from "fs";
-export const build = async () => {
-    if (!(await fileExists("./moon.config.json")))
-        await copyFileSync(`${packagePath}/moon.config.default.json`, "./moon.config.json");
+import { readFile } from "../helpers/owlFs.js";
+import { Controller } from "./controller.js";
+export const buildConfig = async () => {
     const config = await readFile("./moon.config.json");
-    await Controller.init(JSON.parse(config));
-    await Controller.createStyles();
+    try {
+        await Controller.init(JSON.parse(config));
+        await Controller.createStyles();
+    }
+    catch (e) {
+        console.log(e);
+    }
 };
-if (process?.argv[2] === "build")
-    build();

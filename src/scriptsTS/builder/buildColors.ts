@@ -77,12 +77,12 @@ export const getColors = async () => {
       const variable = `--${key}`;
       const classValue = `${colorsKeys[propKey]}:var(${variable})`;
       colorsContent += `.${_class}{${classValue};} `;
-      Controller.ClassByValue[_class] = classValue;
+      Controller.GeneratedClasses[_class] = classValue;
     });
     colorsContent += `\n`;
   });
 
-  // logger(Object.keys(Controller.colorsClassByValue.staticColors), "colorsClassByValue");
+  // logger(Object.keys(Controller.colorsGeneratedClasses.staticColors), "colorsGeneratedClasses");
   // logger(staticColors, "staticColors");
   // logger(Controller.ColorsVariables, "ColorsVariables");
 

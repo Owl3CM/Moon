@@ -30,7 +30,7 @@ export const logger = async (message, name = `log${counter++}`, clear = false) =
     }
     fs.appendFileSync("./logger.js", log + "\n");
 };
-logger("logger started", "logger", true);
+// logger("logger started", "logger", true);
 export async function createFolder(dir, files = {}) {
     try {
         if (!(await fileExists(dir))) {

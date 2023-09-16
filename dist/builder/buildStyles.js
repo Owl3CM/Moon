@@ -28,13 +28,67 @@ const generateStyles = ({ props, values, variableName }) => {
             const _shortN = shortN ?? getDefaultName(prop);
             extraProps.forEach(({ name, css }) => {
                 const _name = name(_shortN);
+                Controller.PropsByShourtNames[_name] = css;
                 const dash = _name && shortName ? "-" : "";
                 const className = `${_name}${dash}${shortName}`;
                 const classValue = css(valueName);
-                Controller.ClassByValue[className] = classValue;
+                Controller.GeneratedClasses[className] = classValue;
                 cssContent += `.${className}{${classValue};}`;
             });
         });
         cssContent += `\n`;
     });
+};
+const addExtraProps = (propName, shortKey) => {
+    return {
+        padding: {
+            [shortKey]: "padding",
+            [`${shortKey}r`]: "padding-right",
+            [`${shortKey}l`]: "padding-left",
+            [`${shortKey}t`]: "padding-top",
+            [`${shortKey}b`]: "padding-bottom",
+            [`${shortKey}x`]: "padding-inline",
+            [`${shortKey}y`]: "padding-block",
+        },
+        margin: {
+            [shortKey]: "margin",
+            [`${shortKey}r`]: "margin-right",
+            [`${shortKey}l`]: "margin-left",
+            [`${shortKey}t`]: "margin-top",
+            [`${shortKey}b`]: "margin-bottom",
+            [`${shortKey}x`]: "margin-inline",
+            [`${shortKey}y`]: "margin-block",
+        },
+        width: { [shortKey]: "width", [`min-${shortKey}`]: "min-width", [`max-${shortKey}`]: "max-width" },
+        height: { [shortKey]: "height", [`min-${shortKey}`]: "min-height", [`max-${shortKey}`]: "max-height" },
+        border: {
+            [shortKey]: "border",
+            [`${shortKey}-t`]: "border-top",
+            [`${shortKey}-r`]: "border-right",
+            [`${shortKey}-b`]: "border-bottom",
+            [`${shortKey}-l`]: "border-left",
+            [`${shortKey}-x`]: "border-inline",
+            [`${shortKey}-y`]: "border-block",
+        },
+        "border-width": {
+            [shortKey]: "border-width",
+            [`${shortKey}-t`]: "border-top-width",
+            [`${shortKey}-r`]: "border-right-width",
+            [`${shortKey}-b`]: "border-bottom-width",
+            [`${shortKey}-l`]: "border-left-width",
+            [`${shortKey}-x`]: "border-inline-width",
+            [`${shortKey}-y`]: "border-block-width",
+        },
+        "border-radius": {
+            [shortKey]: "border-radius",
+            [`${shortKey}-t`]: "border-top-left-radius",
+            [`${shortKey}-r`]: "border-top-right-radius",
+            [`${shortKey}-b`]: "border-bottom-right-radius",
+            [`${shortKey}-l`]: "border-bottom-left-radius",
+            [`${shortKey}-tl`]: "border-top-left-radius",
+            [`${shortKey}-tr`]: "border-top-right-radius",
+            [`${shortKey}-br`]: "border-bottom-right-radius",
+            [`${shortKey}-bl`]: "border-bottom-left-radius",
+        },
+    }[propName];
 };

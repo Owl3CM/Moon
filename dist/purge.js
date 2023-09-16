@@ -2,7 +2,8 @@
 import { exec } from "child_process";
 import { readFile } from "./helpers/owlFs.js";
 import { writeFile } from "fs";
-import { cssFolder, packagePath } from "./builder/controller.js";
+import { cssFolder } from "./builder/controller.js";
+import { Jit_Start } from "./jit/jit.js";
 const config = await readFile("./moon.config.json");
 if (!config)
     throw new Error("moon.config.json not found");
@@ -22,17 +23,7 @@ const purgeConfig = {
         //, `${path}/moon.jit.css`
     ],
 };
-const writeJitCss = async () => {
-    return new Promise((resolve, reject) => {
-        if (moonConfig?.useJit) {
-            exec(`node ${packagePath}/jit/init.js`, () => { });
-        }
-        else {
-            resolve(true);
-        }
-    });
-};
-await writeJitCss();
+Jit_Start();
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
     if (err)
         throw err;
