@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.0.64-beta.9",
+  "version": "0.0.64-beta.10",
   "description": "moon-style",
   "main": "dist/index.js",
   "source": "src/index.ts",
@@ -21,7 +21,7 @@
     "just-test": "yarn build && node ./dist/build.js",
     "test": "yarn build && start /B yarn moon && yarn start",
     "purge": "node ./dist/purge.js",
-    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js && chmod +x ./dist/init.js"
+    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js "
   },
   "bin": {
     "moon": "./dist/moon.js",
