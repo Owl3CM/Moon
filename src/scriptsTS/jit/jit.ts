@@ -2,9 +2,10 @@ import { appendFileSync, readFileSync, readdirSync, statSync, writeFileSync } fr
 import path from "path";
 import { cssFolder, packagePath } from "../builder/controller.js";
 import { logger } from "../helpers/owlFs.js";
-import { JitGenerated } from "./JitGenerated.js";
-import { ClassesGenerated as CG } from "../ClassesGenerated.js";
-const ClassesGenerated = CG ?? JSON.parse(readFileSync("../ClassesGenerated.js") as any);
+// import { JitGenerated } from "./JitGenerated.js";
+// import { ClassesGenerated as CG } from "../ClassesGenerated.js";
+const ClassesGenerated = JSON.parse(readFileSync("../ClassesGenerated.js") as any);
+const JitGenerated = JSON.parse(readFileSync("./JitGenerated.js") as any);
 const colorsKeys = {
   bg: "background-color",
   text: "color",
