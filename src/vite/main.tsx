@@ -9,7 +9,7 @@ import Moon from "../index";
 
 Moon.setTheme("dark");
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <div className="">
+  <div className="m:40% transition-500">
     <p className="test transition-400 bg:#fff hover:[text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]">test</p>
     <button
       onClick={({ currentTarget }) => {

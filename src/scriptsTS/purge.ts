@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { exec } from "child_process";
-import { readFile } from "./owlFs.js";
+import { readFile } from "./helpers/owlFs.js";
 import { writeFile } from "fs";
-import { cssFolder, packagePath } from "./controller.js";
+import { cssFolder, packagePath } from "./builder/controller.js";
 const config = await readFile("./moon.config.json");
 if (!config) throw new Error("moon.config.json not found");
 
@@ -27,13 +27,7 @@ const purgeConfig = {
 const writeJitCss = async () => {
   return new Promise((resolve, reject) => {
     if (moonConfig?.useJit) {
-      exec(`node ${packagePath}/dynamic.js {path}`, (err, stdout, stderr) => {
-        if (err) {
-          console.error("\nError: while purging css");
-          return;
-        }
-        resolve(true);
-      });
+      exec(`node ${packagePath}/jit/init.js`, () => {});
     } else {
       resolve(true);
     }

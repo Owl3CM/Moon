@@ -2,7 +2,7 @@
   "$schema": "./moon.config.schema.json",
   "useStaticNumbers": false,
   "useJit": true,
-  "projectDir": "src",
+  "projectDir": "src/vite",
   "content": ["src/**/*.{html,js,jsx,tsx}"],
   "colors": {
     "options": {

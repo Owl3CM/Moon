@@ -1,5 +1,5 @@
 import React from "react";
-import { Moon } from "../lib";
+import Moon from "../index";
 import { Theme } from "../../Moon.Types";
 
 Moon.setTheme("dark");

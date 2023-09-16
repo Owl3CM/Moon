@@ -1,6 +1,6 @@
 import pak from "../package.json" assert { type: "json" };
 import { exec } from "child_process";
-import { packagePath } from "../dist/controller.js";
+import { packagePath } from "../dist/builder/controller.js";
 import chalk from "chalk";
 
 async function run() {
@@ -32,7 +32,7 @@ async function run() {
     // await exec(gitStage);
     await exec(publish);
     // await exec(gitPush);
-    console.log("published! version:" + version);
+    console.log("\n" + chalk.cyanBright("published! version:" + version) + "\n");
   } catch (error) {
     console.error(`Error executing commands: ${error}`);
   }

@@ -1,5 +1,5 @@
-import { readFile } from "./owlFs.js";
-import { Controller } from "./controller.js";
+import { readFile } from "./helpers/owlFs.js";
+import { Controller } from "./builder/controller.js";
 import { copyFileSync } from "fs";
 import { exec } from "child_process";
 import chalk from "chalk";
