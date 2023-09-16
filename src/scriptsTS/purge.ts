@@ -2,7 +2,7 @@
 import { exec } from "child_process";
 import { readFile } from "./helpers/owlFs.js";
 import { writeFile } from "fs";
-import { cssFolder, packagePath } from "./builder/controller.js";
+import { cssFolder } from "./builder/controller.js";
 import { Jit_Start } from "./jit/jit.js";
 const config = await readFile("./moon.config.json");
 if (!config) throw new Error("moon.config.json not found");

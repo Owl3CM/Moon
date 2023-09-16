@@ -30,6 +30,7 @@ export const Controller = {
         bg: "background-color",
         text: "color",
         round: "border-radius",
+        content: (v) => `content:attr(data-${v})`,
     },
     config: {
         useJit: true,

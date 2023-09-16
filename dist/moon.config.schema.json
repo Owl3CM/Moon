@@ -1,118 +1,226 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Moon CSS Configuration",
-  "type": "object",
-  "properties": {
-    "colors": {
-      "type": "object",
-      "properties": {
-        "options": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "opacities": {
-                "type": "array",
-                "items": {
-                  "type": "number",
-                  "minimum": 0.01,
-                  "maximum": 1
-                }
-              },
-              "props": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": ["bg", "text", "fill", "border", "stroke"]
-                }
-              }
-            }
-          }
-        },
-        "staticColors": {
-          "type": "object",
-          "patternProperties": {
-            "^[a-zA-Z0-9_]+$": {
-              "type": "string",
-              "format": "color"
-            }
-          }
-        },
-        "themes": {
-          "type": "object",
-          "properties": {
-            "dark": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
-            },
-            "light": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
-            },
-            "Or any theme name you want": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
-            },
-            "additionalProperties": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
-            }
-          }
-        }
-      },
-      "required": ["options", "staticColors", "themes"]
-    },
-    "useStaticNumbers": {
-      "type": "boolean"
-    },
-    "projectDir": {
-      "type": "string"
-    },
-    "content": {
-      "type": "array",
-      "items": {
-        "type": "string"
+  "useStaticNumbers": false,
+  "useJit": true,
+  "projectDir": "src",
+  "content": ["src/**/*.{html,js,jsx,tsx}"],
+  "colors": {
+    "options": {
+      "*": {
+        "opacities": [0.05, 0.25],
+        "props": ["bg", "text"]
       }
     },
-    "useJit": {
-      "type": "boolean"
+    "staticColors": {
+      "red": "#dd3643",
+      "cyan": "#63cfc9",
+      "nice": "#83d6e1",
+      "cute": "#a3e4cb",
+      "green": "#7bc74d"
     },
-    "styles": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "props": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          },
-          "variableName": {
-            "type": "string"
-          },
-          "values": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "string"
-            }
-          }
-        },
-        "required": ["props", "variableName", "values"]
+    "themes": {
+      "light": {
+        "prim": "#FFFFFF",
+        "prince": "#f0f0f0",
+        "lord": "#909090",
+        "owl": "#1f1d2b",
+        "goat": "#c4c4c7"
+      },
+      "dark": {
+        "prim": "#2d303e",
+        "prince": "#393c4a",
+        "lord": "#9099bc",
+        "owl": "#ffffff",
+        "goat": "#3c4f8d"
+      },
+      "darker": {
+        "prim": "#0b132b",
+        "prince": "#1c2541",
+        "lord": "#3a506b",
+        "owl": "#5bc0be",
+        "goat": "#ffffff"
+      },
+      "bad": {
+        "prim": "#949ba0",
+        "prince": "#9dacb2",
+        "lord": "#a0b9bf",
+        "owl": "#c4edff",
+        "goat": "#bcd4de"
+      },
+      "LOL": {
+        "prim": "#211a1e",
+        "prince": "#c3423f",
+        "lord": "#9bc53d",
+        "owl": "#fde74c",
+        "goat": "#393c4a"
       }
     }
   },
-  "required": ["colors", "useStaticNumbers", "content", "projectDir", "useJit", "styles"]
+  "styles": [
+    {
+      "props": { "padding": "p", "margin": "m", "gap": "gap", "inset": "inset", "top": "top", "left": "left", "right": "right", "bottom": "bottom" },
+      "variableName": "spacing",
+      "values": {
+        "0": "0",
+        "xs": "2px",
+        "sm": "4px",
+        "md": "8px",
+        "lg": "10px",
+        "xl": "12px",
+        "2x": "16px",
+        "3x": "20px",
+        "4x": "26px",
+        "5x": "32px",
+        "6x": "40px"
+      }
+    },
+    {
+      "props": { "width": "w", "height": "h", "size": "size" },
+      "variableName": "size",
+      "values": {
+        "0": "0",
+        "xs": "20px",
+        "sm": "40px",
+        "md": "80px",
+        "lg": "100px",
+        "xl": "120px",
+        "2x": "160px",
+        "3x": "200px",
+        "4x": "260px",
+        "5x": "320px",
+        "6x": "400px"
+      }
+    },
+    {
+      "props": { "font-size": "text" },
+      "variableName": "text",
+      "values": {
+        "xs": "0.75rem",
+        "sm": "0.875rem",
+        "md": "1rem",
+        "lg": "1.125rem",
+        "xl": "1.25rem",
+        "2x": "1.5rem",
+        "3x": "1.875rem",
+        "4x": "2.25rem",
+        "5x": "3rem",
+        "6x": "4rem"
+      }
+    },
+    {
+      "props": { "border-radius": "round" },
+      "variableName": "round",
+      "values": {
+        "none": "0px",
+        "sm": "4px",
+        "md": "8px",
+        "lg": "16px",
+        "xl": "24px",
+        "2x": "32px",
+        "full": "999px"
+      }
+    },
+    {
+      "props": { "font-weight": "weight" },
+      "variableName": "weight",
+      "values": {
+        "normal": 400,
+        "bold": 700
+      }
+    },
+    {
+      "props": { "line-height": "line-h" },
+      "variableName": "line-h",
+      "values": {
+        "normal": 1.5,
+        "dense": 1.25,
+        "loose": 2
+      }
+    },
+    {
+      "props": { "font-family": "font" },
+      "variableName": "font",
+      "values": {
+        "sans": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\"",
+        "serif": "Georgia, Cambria, \"Times New Roman\", Times, serif",
+        "mono": "Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+      }
+    },
+    {
+      "props": { "box-shadow": "shadow" },
+      "variableName": "shadow",
+      "values": {
+        "sm": "0 0 2px rgba(0, 0, 0, 0.1)",
+        "md": "0 0 4px rgba(0, 0, 0, 0.1)",
+        "lg": "0 0 8px rgba(0, 0, 0, 0.2)",
+        "xl": "0 0 16px rgba(0, 0, 0, 0.2)",
+        "2x": "0 0 24px rgba(0, 0, 0, 0.2)",
+        "focus": "0px 0px rgba(32, 211, 238,0.1)",
+        "error": "0px 0px rgba(231, 53, 60,0.1)",
+        "none": "none"
+      }
+    },
+    {
+      "props": { "border-width": "border" },
+      "variableName": "border",
+      "values": {
+        "none": "0px",
+        "thin": "1px",
+        "thick": "2px"
+      }
+    },
+    {
+      "props": { "border-style": "border" },
+      "variableName": "border",
+      "values": {
+        "none": "none",
+        "solid": "solid",
+        "dashed": "dashed",
+        "dotted": "dotted"
+      }
+    },
+    {
+      "props": { "transition": "transition" },
+      "variableName": "transition",
+      "values": {
+        "none": "none",
+        "100": "all 100ms ease-in-out",
+        "200": "all 200ms ease-in-out",
+        "300": "all 300ms ease-in-out",
+        "400": "all 400ms ease-in-out",
+        "500": "all 500ms ease-in-out",
+        "600": "all 600ms ease-in-out"
+      }
+    },
+    {
+      "props": { "z-index": "z" },
+      "variableName": "z",
+      "values": {
+        "0": "0",
+        "10": "1",
+        "20": "2",
+        "30": "3",
+        "40": "4",
+        "50": "5",
+        "60": "6",
+        "70": "7",
+        "80": "8",
+        "90": "9",
+        "100": "10"
+      }
+    }
+  ],
+  "screens": {
+    "xs": "0px",
+    "sm": "600px",
+    "md": "960px",
+    "lg": "1280px",
+    "xl": "1920px",
+    "phone": "0px",
+    "tablet": "600px",
+    "desktop": "960px",
+    "wide": "1280px",
+    "ultra": "1920px"
+  }
+}
 }

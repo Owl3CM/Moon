@@ -1,4 +1,19 @@
- 
+.bonch {
+    animation: bonch 1s ease-in-out infinite;
+} 
+
+@keyframes bonch {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+    
+}
 
 @font-face {font-family: "'BoutrosMBCDinkum Medium'";src: url('../fonts/light.ttf');}
 @font-face {font-family: "'GE Dinkum Medium'";src: url("../fonts/bold.ttf");}

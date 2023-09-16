@@ -5,6 +5,7 @@ import { copyFileSync } from "fs";
 import { buildConfig } from "./builder/build.js";
 import chokidar from "chokidar";
 import { Sync_Changes, Jit_Start } from "./jit/jit.js";
+// import { funcPerformance } from "./builder/utils.js";
 // import chalk from "chalk";
 // import os from "os";
 // const platform = os.platform();
@@ -16,14 +17,18 @@ let config = JSON.parse(await readFile("./moon.config.json")) as any;
 await buildConfig();
 const configWatcher = chokidar.watch("./moon.config.json");
 configWatcher.on("change", async (path) => {
+  // funcPerformance(buildConfig, []);
   await buildConfig();
+  Jit_Start();
 });
 
 if (config?.useJit) {
   if (config?.useJit) {
+    // funcPerformance(Jit_Start, []);
     Jit_Start();
     const watcher = chokidar.watch(config.content[0]);
     watcher.on("change", (path) => {
+      // funcPerformance(Sync_Changes, [path]);
       Sync_Changes(path);
     });
   }
