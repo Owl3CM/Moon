@@ -21,19 +21,20 @@ const generateStyles = ({ props, values, variableName }: any) => {
     });
     return;
   }
-  Object.entries(values).forEach(([valueKey, valueValue]) => {
-    const _variableName = `--${variableName ? variableName + "-" : ""}${valueKey}`;
-    Controller.StylesVariables.push(`${_variableName}:${valueValue};`);
-    const valueName = useStaticNumbers ? valueValue : `var(${_variableName})`;
+  Object.entries(values).forEach(([shortName, proprty]) => {
+    const _variableName = `--${variableName ? variableName + "-" : ""}${shortName}`;
+    Controller.StylesVariables.push(`${_variableName}:${proprty};`);
+    const valueName = useStaticNumbers ? proprty : `var(${_variableName})`;
     Object.entries(props).forEach(([prop, shortN]) => {
       const extraProps = getPropsNames(prop);
       const _shortN = shortN ?? getDefaultName(prop);
       extraProps.forEach(({ name, css }: any) => {
         const _name = name(_shortN);
-        const dash = _name && valueKey ? "-" : "";
-        const className = `.${_name}${dash}${valueKey}`;
+        const dash = _name && shortName ? "-" : "";
+        const className = `${_name}${dash}${shortName}`;
         const classValue = css(valueName);
-        cssContent += `${className}{${classValue};}`;
+        Controller.ClassByValue[className] = classValue;
+        cssContent += `.${className}{${classValue};}`;
       });
     });
     cssContent += `\n`;

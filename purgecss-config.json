@@ -1,12 +1,11 @@
 {
   "content": [
-    "./src/**/*.{html,js,jsx,tsx}"
+    "src/**/*.{html,js,jsx,tsx}"
   ],
-  "output": "./moon/moon.purged.css",
+  "output": "./moon",
   "css": [
     "./moon/moon.styles.css",
     "./moon/moon.themes.css",
-    "./moon/moon.static.css",
-    "./moon/moon.jit.css"
+    "./moon/moon.static.css"
   ]
 }

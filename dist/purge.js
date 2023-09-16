@@ -15,7 +15,12 @@ const path = `${cssFolder}/moon`;
 const purgeConfig = {
     content,
     output: `${path}`,
-    css: [`${path}/moon.styles.css`, `${path}/moon.themes.css`, `${path}/moon.static.css`, `${path}/moon.jit.css`],
+    css: [
+        `${path}/moon.styles.css`,
+        `${path}/moon.themes.css`,
+        `${path}/moon.static.css`,
+        //, `${path}/moon.jit.css`
+    ],
 };
 const writeJitCss = async () => {
     return new Promise((resolve, reject) => {

@@ -27,7 +27,7 @@ const TestRoutes = () => {
         ))}
       </Routes>
 
-      <div className="fixed bottom-0 left-0 right-0 row-center overflow-auto justify-center gap-xl bg-prim p-sm">
+      <div className="fixed bottom-0 active:[bg:#fff] left-0 right-0 row-center overflow-auto justify-center gap-xl bg-prim p-sm">
         {_TestRoutes.map(({ path, title }) => (
           <Link
             className="button"

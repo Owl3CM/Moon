@@ -180,6 +180,19 @@
       }
     },
     {
+      "props": { "transition": "transition" },
+      "variableName": "transition",
+      "values": {
+        "none": "none",
+        "100": "all 100ms ease-in-out",
+        "200": "all 200ms ease-in-out",
+        "300": "all 300ms ease-in-out",
+        "400": "all 400ms ease-in-out",
+        "500": "all 500ms ease-in-out",
+        "600": "all 600ms ease-in-out"
+      }
+    },
+    {
       "props": { "z-index": "z" },
       "variableName": "z",
       "values": {
