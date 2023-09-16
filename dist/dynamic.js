@@ -36,10 +36,13 @@ const colorsKeys = {
 const newJitGenerated = {};
 const filePath = process.argv[2];
 logger(process);
-let config = {};
+let config = {
+    projectDir: "./src",
+};
 try {
     const config_content = readFileSync("./moon.config.json");
-    config = config_content ? JSON.parse(config_content) : {};
+    if (config_content)
+        config = JSON.parse(config_content);
 }
 catch (e) {
     logger(e, "error");
@@ -53,7 +56,7 @@ const start = () => {
         colors: /([a-zA-Z0-9-]+):#([a-zA-Z0-9-]+)/g,
         spacing: /([a-zA-Z0-9-]+):([0-9]+(px|rem|%|vw|vh|em|ch|ex|cm|mm|in|pt|pc))/g,
     };
-    const projectDirectory = "./src/vite";
+    const projectDirectory = config.projectDir || "./src";
     function scanDirectory(directory) {
         const files = readdirSync(directory);
         files.forEach((file) => {
