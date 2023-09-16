@@ -1,4 +1,3 @@
-import { logger } from "../helpers/owlFs.js";
 import { Controller } from "./controller.js";
 import { getDefaultName, getPropsNames } from "./utils.js";
 

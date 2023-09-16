@@ -1,7 +1,7 @@
 import { getColors } from "./buildColors.js";
 import { getStaticCss } from "./buildStaticClasses.js";
 import { getStyles } from "./buildStyles.js";
-import { createFile, createFolder, fileExists, logger } from "../helpers/owlFs.js";
+import { createFile, createFolder, fileExists } from "../helpers/owlFs.js";
 
 export const packagePath = "node_modules/moon-style/dist";
 export const cssFolder = ".";
@@ -14,11 +14,6 @@ export const Controller = {
       moon: { name: "moon.styles.css", content: await getStyles() },
       themes: { name: "moon.themes.css", content: await getColors() },
       static: { name: "moon.static.css", content: await getStaticCss() },
-    });
-    await createFile({
-      dir: `${packagePath}`,
-      name: "ClassesGenerated.js",
-      content: `export const ClassesGenerated=${JSON.stringify(Controller.GeneratedClasses)}`,
     });
 
     if (!(await fileExists(`${cssFolder}/moon/moon.jit.css`)))

@@ -6,3 +6,13 @@
 .height\:100\%{height:100%}
 .active\:\[bg\:\#fff\]:active{background-color:#fff;}
 .bg\:\#fff{background-color:#fff}
+.active\:hover\:\[h\:10\%\,text\:\#f00\,bg\:\#ff0\,border\:\#0af\,m\:100px\,p\:100px\,border-solid\]:active:hover{height:10%;color:#f00;background-color:#ff0;border-color:#0af;margin:100px;padding:100px;border-style:var(--border-solid);}
+.active\:hover\:\[bg-red\,p-xl\]:active:hover{background-color:var(--red);padding:var(--spacing-xl);}
+.active\:\[bg-red\,p-lg\]:active{background-color:var(--red);padding:var(--spacing-lg);}
+.text\:\#f00{color:#f00}
+.bg\:\#ff0{background-color:#ff0}
+.border\:\#0af{border-color:#0af}
+.h\:10\%{height:10%}
+.m\:100px{margin:100px}
+.p\:100px{padding:100px}
+.p\:10px{padding:10px}

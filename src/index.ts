@@ -1,7 +1,7 @@
 import { Theme, Color } from "../Moon.Types";
 
 let dynimcColors: { [key in Color]?: string } = {};
-const hexToRGB = (hex: string) => {
+const hexToRGB = (hex: any) => {
   if (hex.length === 4) hex = hex.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
   return hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;
 };
