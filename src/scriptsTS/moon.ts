@@ -18,8 +18,10 @@ await buildConfig();
 const configWatcher = chokidar.watch("./moon.config.json");
 configWatcher.on("change", async (path) => {
   // funcPerformance(buildConfig, []);
-  await buildConfig();
-  Jit_Start();
+  try {
+    await buildConfig();
+    Jit_Start();
+  } catch {}
 });
 
 if (config?.useJit) {

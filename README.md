@@ -43,6 +43,10 @@ npm install moon-style --dev
 
 
 ## Getting Started
+### Importing CSS
+```html
+  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
+```
 ### Configuration
 Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
 
@@ -50,13 +54,6 @@ The default configuration includes predefined styles for properties like `paddin
 
 ### Customization (Optional)
 If you want to customize the default styles or define new ones, open the `moon.config.json` file in your project and modify it according to your requirements. You can specify your own values for various properties, change colors, and define new themes.
-
-  "scripts": {
-    ("start" or :"dev") : start /B yarn moon && your start script 
-  },
-
-
-
 
 <!-- ```bash
 
@@ -68,13 +65,8 @@ yarn moon
 npm run moon
 
 ``` -->
+<!-- This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes. -->
 
-
-This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
-### Importing CSS
-```html
-  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
-```
 <!-- ### Importing CSS
 To apply the generated styles to your project, import the `main.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
