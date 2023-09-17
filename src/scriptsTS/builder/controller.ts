@@ -4,7 +4,7 @@ import { getStyles } from "./buildStyles.js";
 import { createFile, createFolder, fileExists } from "../helpers/owlFs.js";
 
 export const packagePath = "node_modules/moon-style/dist";
-export const cssFolder = "node_modules/moon-style/dist";
+export const cssFolder = ".";
 
 export const Controller = {
   createStyles: async () => {

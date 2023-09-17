@@ -45,8 +45,11 @@ npm install moon-style --dev
 ## Getting Started
 ### Importing CSS
 ```html
-  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
+  <link rel="stylesheet" href="/moon/main.css">
 ```
+<!-- ```html
+  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
+``` -->
 ### Configuration
 Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
 
