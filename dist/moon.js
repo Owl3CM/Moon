@@ -19,20 +19,19 @@ configWatcher.on("change", async (path) => {
     // funcPerformance(buildConfig, []);
     try {
         await buildConfig();
-        Jit_Start();
+        if (config?.useJit)
+            Jit_Start();
     }
     catch { }
 });
 if (config?.useJit) {
-    if (config?.useJit) {
-        // funcPerformance(Jit_Start, []);
-        Jit_Start();
-        const watcher = chokidar.watch(config.content[0]);
-        watcher.on("change", (path) => {
-            // funcPerformance(Sync_Changes, [path]);
-            Sync_Changes(path);
-        });
-    }
+    // funcPerformance(Jit_Start, []);
+    Jit_Start();
+    const watcher = chokidar.watch(config.content[0]);
+    watcher.on("change", (path) => {
+        // funcPerformance(Sync_Changes, [path]);
+        Sync_Changes(path);
+    });
 }
 // console.log("\nMoon is ", chalk.yellowBright.bold("Watching"), " for changes in ", chalk.yellowBright.bold("moon.config.json"));
 // console.log(chalk.cyanBright.bold("\nPress Ctrl+C to stop watching for changes in moon.config.json"));

@@ -175,8 +175,21 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
         "goat": "#393c4a"
       }
     }
-  },
     // Define more themes here
+  },
+   "screens": { // the screens that will be used in the generated css
+    "xs": "0px",
+    "sm": "600px",
+    "md": "960px",
+    "lg": "1280px",
+    "xl": "1920px",
+    "phone": "0px",
+    "tablet": "600px",
+    "desktop": "960px",
+    "wide": "1280px",
+    "ultra": "1920px" 
+    // you can add more screens here
+  }
 }
 ```
 
@@ -326,12 +339,12 @@ Just-in-time (JIT) mode is a feature that allows you to generate CSS on demand. 
 ## How to use JIT mode?
 Use it with colors like this 
 ```html
-<div className="bg-#f00 text-#ff0 fill#0af border#0af" ></div>
+<div className="bg:#f00 text:#ff0 fill:#0af border:#0af" ></div>
 ```
-- `bg#f00`: This class sets the CSS property `background-color` to `#f00`.
-- `text#ff0`: This class sets the CSS property `color` to `#ff0`.
-- `fill#0af`: This class sets the CSS property `fill` to `#0af`.
-- `border#0af`: This class sets the CSS property `border-color` to `#0af`.
+- `bg:#f00`: This class sets the CSS property `background-color` to `#f00`.
+- `text:#ff0`: This class sets the CSS property `color` to `#ff0`.
+- `fill:#0af`: This class sets the CSS property `fill` to `#0af`.
+- `border:#0af`: This class sets the CSS property `border-color` to `#0af`.
 
 Use it with numbers like this 
 ```html
@@ -439,9 +452,27 @@ npm run moon
 
 # API
 
+  <!-- init: (theme: Theme = localStorage.getItem("theme") as Theme) => {
+    Moon.setTheme(theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  },
+  setTheme: (theme: Theme) => {
+    localStorage.setItem("theme", theme);
+    Moon.removeColors();
+    Moon.currentTheme && document.documentElement.classList.remove(Moon.currentTheme);
+    document.documentElement.classList.add(theme);
+    Moon.currentTheme = theme;
+  }, -->
+
 ### `Moon`
 
 The `Moon` object is a utility provided by Moon style to manage themes and colors. You can use the following methods and properties:
+
+- **`Moon.init`:** This method initializes the Moon style. It sets the current theme to the one specified in the `theme` parameter. If no theme is specified, it uses the theme specified in the `localStorage` object. If no theme is specified in the `localStorage` object, it uses the theme specified in the `prefers-color-scheme` media query. If no theme is specified in the `prefers-color-scheme` media query, it uses the `light` theme.
+
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.init(); // Initializes Theme
+  ```
 
 - **`Moon.currentTheme`:** Returns the current active theme.
 
