@@ -1,8 +1,9 @@
 import { readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { Controller, cssFolder } from "../builder/controller.js";
 import path from "path";
+// import { logger } from "../helpers/owlFs.js";
 
-const config = JSON.parse(readFileSync("./moon.config.json") as any);
+let config: any;
 
 const ColorsPropsByShourtNames = {
   bg: "background-color",
@@ -41,6 +42,7 @@ const scanDirectoryForExtract = (directory) => {
 };
 
 export const Jit_Start = () => {
+  config = JSON.parse(readFileSync("./moon.config.json") as any);
   JitGenerated = {};
   isChanged = false;
   try {
@@ -77,25 +79,78 @@ const extractActions = (fileContent) => {
   const pattern = customClassPatterns.actions;
   const matchs = fileContent.match(pattern);
   matchs?.forEach((match) => {
+    // if (JitGenerated[match]) return;
+    // let screen: any;
+    // const data = match.split(":[");
+    // const rest = data[0].split(":");
+    // const classes = data[1].slice(0, -1).split(",");
+    // // const test = classes.join("\\,").replace(":", "\\:").replace("#", "\\#").replace("%", "\\%");
+    // const cleanClassesName = classes.join("\\,").split(":").join("\\:").split("#").join("\\#").split("%").join("\\%");
+    // let name = rest.join("\\:") + `\\:\\[${cleanClassesName}\\]`;
+    // rest.forEach((act) => {
+    //   const _screen = config.screens[act];
+    //   if (_screen) {
+    //     logger("screen", _screen);
+    //     screen = _screen;
+    //     return;
+    //   }
+    //   name += `:${act}`;
+    // });
+    // const classValueContent = classes
+    //   .map((className) => {
+    //     let v = Controller.GeneratedClasses[className];
+    //     if (!v) {
+    //       const [propName, colorValue] = className.split(":");
+    //       v = `${colorValue.startsWith("#") ? `${ColorsPropsByShourtNames[propName]}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
+    //     }
+    //     return `${v};`;
+    //   })
+    //   .join("");
+    // const generated = `.${name}{${classValueContent}}`;
+    // JitGenerated[match] = screen ? `@media (max-width: ${screen}){${generated}}` : generated;
+    // isChanged = true;
+    // rewrite with handle pseudo elements before and after
     if (JitGenerated[match]) return;
+    let screen: any;
     const data = match.split(":[");
     const rest = data[0].split(":");
     const classes = data[1].slice(0, -1).split(",");
-    // const test = classes.join("\\,").replace(":", "\\:").replace("#", "\\#").replace("%", "\\%");
-    const test = classes.join("\\,").split(":").join("\\:").split("#").join("\\#").split("%").join("\\%");
-    const name = rest.join("\\:") + `\\:\\[${test}\\]:` + rest.join(":");
+    const cleanClassesName = classes.join("\\,").split(":").join("\\:").split("#").join("\\#").split("%").join("\\%");
+    let name = rest.join("\\:") + `\\:\\[${cleanClassesName}\\]`;
+    rest.forEach((act) => {
+      const _screen = config.screens[act];
+      if (_screen) {
+        screen = _screen;
+      } else if (act === "before" || act === "after") {
+        classes.push(`content:${act}`);
+        name += `::${act}`;
+      } else name += `:${act}`;
+    });
     const classValueContent = classes
       .map((className) => {
         let v = Controller.GeneratedClasses[className];
         if (!v) {
           const [propName, colorValue] = className.split(":");
-          v = `${colorValue.startsWith("#") ? `${ColorsPropsByShourtNames[propName]}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
+          v = `${colorValue.startsWith("#") ? `${ColorsPropsByShourtNames[propName] ?? propName}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
         }
         return `${v};`;
       })
       .join("");
-    JitGenerated[match] = `.${name}{${classValueContent}}`;
+
+    const generated = `.${name}{${classValueContent}}`;
+    JitGenerated[match] = screen ? `@media (max-width: ${screen}){${generated}}` : generated;
     isChanged = true;
+
+    // pseudo elements before and after
+    // const pseudoElements = ["before", "after"];
+    // pseudoElements.forEach((pseudoElement) => {
+    //   const pseudoElementMatch = `${match}:${pseudoElement}`;
+    //   if (JitGenerated[pseudoElementMatch]) return;
+    //   const pseudoElementName = `${name}:${pseudoElement}`;
+    //   const pseudoElementGenerated = `.${pseudoElementName}{${classValueContent}}`;
+    //   JitGenerated[pseudoElementMatch] = screen ? `@media (max-width: ${screen}){${pseudoElementGenerated}}` : pseudoElementGenerated;
+    //   isChanged = true;
+    // });
   });
 };
 const extractColors = (fileContent) => {
@@ -107,7 +162,9 @@ const extractColors = (fileContent) => {
     const propName = data[0];
     const colorValue = data[1];
     const name = `${propName}\\:\\${colorValue}`;
-    const classValueContent = `${ColorsPropsByShourtNames[propName]}:${colorValue}`;
+    const foundedName = ColorsPropsByShourtNames[propName];
+    if (!foundedName) return;
+    const classValueContent = `${foundedName}:${colorValue}`;
     JitGenerated[match] = `.${name}{${classValueContent}}`;
     isChanged = true;
   });

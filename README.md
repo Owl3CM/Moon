@@ -2,7 +2,7 @@
 Moon style is a versatile CSS utility package that helps you quickly and easily generate styles for your web projects. It provides a set of predefined styles and themes that you can customize to match your project's design.
 
 ## Installation
-You can install Moon style using Yarn:
+### You can install Moon style using Yarn:
 
 ```bash
 yarn add moon-style --dev
@@ -13,7 +13,43 @@ npm install moon-style --dev
 ```
 ### It is recommended to install moon-style as a dev dependency because it is only used in the development phase to generate the css file
 
+# How to integrate Moon style with your project
+### By editing the `package.json` file in your project and adding the following script to the `scripts` section
+
+```json
+  "scripts": {
+    "start": "start /B yarn moon && your start script",
+    "dev": "start /B yarn moon && your dev script",
+    "build": "yarn moon-purge && your build script",
+  },
+```
+
+## What this changes?
+### This changes will make the `moon` script run before your `start` or `dev` script and the `moon-purge` script run before your `build` script
+
+## What does the `moon` script do?
+
+- Generate the `.css` files in the `moon` folder in your project's root directory according to the configuration in your `moon.config.json` file
+- Watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
+- Watch all the files in the `./src` directory with the extensions `html,js,jsx,tsx` for generate the css on demand
+
+- Clean the `moon.css` file from the unused classes
+
+## What does the `moon-purge` script do?
+- Clean the `moon.css` file from the unused classes
+
+
+
+
+
 ## Getting Started
+### Importing CSS
+```html
+  <link rel="stylesheet" href="/moon/main.css">
+```
+<!-- ```html
+  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
+``` -->
 ### Configuration
 Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
 
@@ -22,8 +58,7 @@ The default configuration includes predefined styles for properties like `paddin
 ### Customization (Optional)
 If you want to customize the default styles or define new ones, open the `moon.config.json` file in your project and modify it according to your requirements. You can specify your own values for various properties, change colors, and define new themes.
 
-### CSS Generation
-To generate the CSS based on your configuration, run the following command:
+<!-- ```bash
 
 ```bash
 yarn moon
@@ -32,14 +67,9 @@ yarn moon
 ```bash
 npm run moon
 
-```
+``` -->
+<!-- This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes. -->
 
-
-This will generate a `moon` folder in your project's root directory, applying the styles defined in your `moon.config.json` file ,and also watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
-### Importing CSS
-```html
-  <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
-```
 <!-- ### Importing CSS
 To apply the generated styles to your project, import the `main.css` file in your main TypeScript (`main.ts`) or JavaScript (`index.js`) file:
 
@@ -145,8 +175,21 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
         "goat": "#393c4a"
       }
     }
-  },
     // Define more themes here
+  },
+   "screens": { // the screens that will be used in the generated css
+    "xs": "0px",
+    "sm": "600px",
+    "md": "960px",
+    "lg": "1280px",
+    "xl": "1920px",
+    "phone": "0px",
+    "tablet": "600px",
+    "desktop": "960px",
+    "wide": "1280px",
+    "ultra": "1920px" 
+    // you can add more screens here
+  }
 }
 ```
 
@@ -288,6 +331,77 @@ export default App;
 <!-- ![example.gif](public/gifs/sample-one.gif) -->
 ![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-one.gif?raw=true)
 
+<!-- explane these hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
+# Just in time (JIT) mode
+## What is JIT mode?
+Just-in-time (JIT) mode is a feature that allows you to generate CSS on demand. This means that you don't have to generate the CSS for all the classes in your project at once. Instead, you can generate the CSS for only the classes that you need.
+
+## How to use JIT mode?
+Use it with colors like this 
+```html
+<div className="bg:#f00 text:#ff0 fill:#0af border:#0af" ></div>
+```
+- `bg:#f00`: This class sets the CSS property `background-color` to `#f00`.
+- `text:#ff0`: This class sets the CSS property `color` to `#ff0`.
+- `fill:#0af`: This class sets the CSS property `fill` to `#0af`.
+- `border:#0af`: This class sets the CSS property `border-color` to `#0af`.
+
+Use it with numbers like this 
+```html
+<div className="p:100px m:100px my:10rem py:20rem h:10% w:300px max-h:30rem " ></div>
+```
+
+- `p:100px`: This class sets the CSS property `padding` to `100px`.
+- `m:100px`: This class sets the CSS property `margin` to `100px`.
+- `my:10rem`: This class sets the CSS property `margin-block` to `10rem`.
+- `py:20rem`: This class sets the CSS property `padding-block` to `20rem`.
+- `h:10%`: This class sets the CSS property `height` to `10%`.
+- `w:300px`: This class sets the CSS property `width` to `300px`.
+- `max-h:30rem`: This class sets the CSS property `max-height` to `30rem`.
+
+<!-- explane the hover and active and ... -->
+Use it with pseudo classes like this 
+```html
+<div className="hover:[bg-cyan]" ></div>
+<div className="hover:active:[bg-cyan]" ></div>
+<div className="hover:[bg-cyan,text-red]" ></div>
+<div className="hover:active:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+```
+
+- `hover:[bg-cyan]`: This class sets the CSS property `background-color` to `#cyan` when the element is hovered.
+- `hover:active:[bg-cyan]`: This class sets the CSS property `background-color` to `#cyan` when the element is hovered and active.
+- `hover:[bg-cyan,text-red]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered.
+- `hover:active:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and active, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)`.
+<!-- explane the hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
+Use it with media queries like this 
+```html
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm] lg:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+```
+
+- `hover:md:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium.
+- `hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)` when the screen size is medium.
+- `hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm] lg:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)` when the screen size is medium and large.
+
+Use it with static classes like this 
+```html
+<div className="disable:[opacity-10,bg-red]" ></div>
+```
+
+- `disable:[opacity-10,bg-red]`: This class sets the CSS property `opacity` to `0.1` and the `background-color` to `#red` when the element is disabled.
+
+Use it with pseudo elements like this 
+```html
+<div data-before="no you don't" className="before:[bg-red,h:20px,w:20px,display:block]" >do i have a red background?</div>
+<div data-after="am the after content" className="hover:after:[bg-red,text#f00,h:20px,w:20px,display:block]" >do i have an after content?</div>
+```
+
+- `before:[bg-red,h:20px,w:20px,display:block]`: This class sets the CSS property `background-color` to `#red`, the `height` to `20px`, the `width` to `20px`, and the `display` to `block` for the `::before` pseudo-element.
+- `hover:after:[bg-red,text#f00,h:20px,w:20px,display:block]`: This class sets the CSS property `background-color` to `#red`, the `color` to `#f00`, the `height` to `20px`, the `width` to `20px`, and the `display` to `block` for the `::after` pseudo-element when the element is hovered.
+
+
+
 <!-- PurgeCss section -->
 # PurgeCss
 ## What is PurgeCss?
@@ -338,9 +452,27 @@ npm run moon
 
 # API
 
+  <!-- init: (theme: Theme = localStorage.getItem("theme") as Theme) => {
+    Moon.setTheme(theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  },
+  setTheme: (theme: Theme) => {
+    localStorage.setItem("theme", theme);
+    Moon.removeColors();
+    Moon.currentTheme && document.documentElement.classList.remove(Moon.currentTheme);
+    document.documentElement.classList.add(theme);
+    Moon.currentTheme = theme;
+  }, -->
+
 ### `Moon`
 
 The `Moon` object is a utility provided by Moon style to manage themes and colors. You can use the following methods and properties:
+
+- **`Moon.init`:** This method initializes the Moon style. It sets the current theme to the one specified in the `theme` parameter. If no theme is specified, it uses the theme specified in the `localStorage` object. If no theme is specified in the `localStorage` object, it uses the theme specified in the `prefers-color-scheme` media query. If no theme is specified in the `prefers-color-scheme` media query, it uses the `light` theme.
+
+  ```javascript
+  import { Moon } from "moon-style";
+  Moon.init(); // Initializes Theme
+  ```
 
 - **`Moon.currentTheme`:** Returns the current active theme.
 

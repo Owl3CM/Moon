@@ -7,12 +7,12 @@ const hexToRGB = (hex: any) => {
 };
 
 const Moon = {
-  currentTheme: "",
-  init: (theme: Theme = localStorage.theme) => {
-    document.documentElement.className = theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  currentTheme: "" as Theme,
+  init: (theme: Theme = localStorage.getItem("theme") as Theme) => {
+    Moon.setTheme(theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
   },
   setTheme: (theme: Theme) => {
-    localStorage.theme = theme;
+    localStorage.setItem("theme", theme);
     Moon.removeColors();
     Moon.currentTheme && document.documentElement.classList.remove(Moon.currentTheme);
     document.documentElement.classList.add(theme);

@@ -208,6 +208,96 @@
         "90": "9",
         "100": "10"
       }
+    },
+    {
+      "props": { "display": "display" },
+      "variableName": "display",
+      "values": {
+        "none": "none",
+        "block": "block",
+        "inline-block": "inline-block",
+        "inline": "inline",
+        "flex": "flex",
+        "inline-flex": "inline-flex",
+        "grid": "grid",
+        "inline-grid": "inline-grid",
+        "table": "table",
+        "table-row": "table-row",
+        "table-cell": "table-cell",
+        "list-item": "list-item"
+      }
+    },
+    {
+      "props": { "blur": "blur", "backdrop-blur": "backdrop-blur" },
+      "variableName": "blur",
+      "values": {
+        "0": "0px",
+        "xs": "2px",
+        "sm": "4px",
+        "md": "8px",
+        "lg": "10px",
+        "xl": "12px",
+        "2x": "16px",
+        "3x": "20px",
+        "4x": "26px",
+        "5x": "32px",
+        "6x": "40px"
+      }
+    },
+    {
+      "props": { "opacity": "opacity" },
+      "variableName": "opacity",
+      "values": {
+        "0": "0",
+        "xs": "0.05",
+        "sm": "0.1",
+        "md": "0.2",
+        "lg": "0.3",
+        "xl": "0.4",
+        "2x": "0.5",
+        "3x": "0.6",
+        "4x": "0.7",
+        "5x": "0.8",
+        "6x": "0.9",
+        "100": "1"
+      }
+    },
+    {
+      "props": {
+        "brightness": "brightness",
+        "contrast": "contrast",
+        "saturate": "saturate",
+        "invert": "invert",
+        "sepia": "sepia",
+        "hue-rotate": "hue-rotate"
+      },
+      "variableName": "filter",
+      "values": {
+        "0": "0",
+        "xs": "0.05",
+        "sm": "0.1",
+        "md": "0.2",
+        "lg": "0.3",
+        "xl": "0.4",
+        "2x": "0.5",
+        "3x": "0.6",
+        "4x": "0.7",
+        "5x": "0.8",
+        "6x": "0.9",
+        "100": "1"
+      }
     }
-  ]
+  ],
+  "screens": {
+    "xs": "0px",
+    "sm": "600px",
+    "md": "960px",
+    "lg": "1280px",
+    "xl": "1920px",
+    "phone": "0px",
+    "tablet": "600px",
+    "desktop": "960px",
+    "wide": "1280px",
+    "ultra": "1920px"
+  }
 }

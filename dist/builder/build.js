@@ -1,8 +1,8 @@
 import { readFile } from "../helpers/owlFs.js";
 import { Controller } from "./controller.js";
 export const buildConfig = async () => {
-    const config = await readFile("./moon.config.json");
     try {
+        const config = await readFile("./moon.config.json");
         await Controller.init(JSON.parse(config));
         await Controller.createStyles();
     }

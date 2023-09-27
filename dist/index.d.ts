@@ -1,6 +1,6 @@
 import { Theme, Color } from "../../../Moon.Types";
 declare const Moon: {
-    currentTheme: string;
+    currentTheme: Theme;
     init: (theme?: Theme) => void;
     setTheme: (theme: Theme) => void;
     removeColors: (colors?: Color[]) => void;

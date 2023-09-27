@@ -112,7 +112,15 @@
         },
         "required": ["props", "variableName", "values"]
       }
+    },
+    "screens": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9_]+$": {
+          "type": "string"
+        }
+      }
     }
   },
-  "required": ["colors", "useStaticNumbers", "content", "projectDir", "useJit", "styles"]
+  "required": ["colors", "useStaticNumbers", "content", "projectDir", "useJit", "styles", "screens"]
 }
