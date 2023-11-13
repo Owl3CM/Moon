@@ -36,6 +36,8 @@ const PropsByName = {
     { name: (n: any) => `${n}b`, css: (v: any) => `padding-bottom:${v}` },
     { name: (n: any) => `${n}x`, css: (v: any) => `padding-inline:${v}` },
     { name: (n: any) => `${n}y`, css: (v: any) => `padding-block:${v}` },
+    { name: (n: any) => `${n}s`, css: (v: any) => `padding-inline-start:${v}` },
+    { name: (n: any) => `${n}e`, css: (v: any) => `padding-inline-end:${v}` },
   ],
   margin: [
     { name: (n: any) => `${n}`, css: (v: any) => `margin:${v}` },
@@ -45,6 +47,8 @@ const PropsByName = {
     { name: (n: any) => `${n}b`, css: (v: any) => `margin-bottom:${v}` },
     { name: (n: any) => `${n}x`, css: (v: any) => `margin-inline:${v}` },
     { name: (n: any) => `${n}y`, css: (v: any) => `margin-block:${v}` },
+    { name: (n: any) => `${n}s`, css: (v: any) => `margin-inline-start:${v}` },
+    { name: (n: any) => `${n}e`, css: (v: any) => `margin-inline-end:${v}` },
   ],
   width: [
     { name: (n: any) => n, css: (v: any) => `width:${v}` },
@@ -65,6 +69,8 @@ const PropsByName = {
     { name: (n: any) => `${n}-l`, css: (v: any) => `border-left:${v}` },
     { name: (n: any) => `${n}-x`, css: (v: any) => `border-inline:${v}` },
     { name: (n: any) => `${n}-y`, css: (v: any) => `border-block:${v}` },
+    { name: (n: any) => `${n}-s`, css: (v: any) => `border-inline-start:${v}` },
+    { name: (n: any) => `${n}-e`, css: (v: any) => `border-inline-end:${v}` },
   ],
   "border-width": [
     { name: (n: any) => n, css: (v: any) => `border-width:${v}` },
@@ -74,6 +80,8 @@ const PropsByName = {
     { name: (n: any) => `${n}-l`, css: (v: any) => `border-left-width:${v}` },
     { name: (n: any) => `${n}-x`, css: (v: any) => `border-inline-width:${v}` },
     { name: (n: any) => `${n}-y`, css: (v: any) => `border-block-width:${v}` },
+    { name: (n: any) => `${n}-s`, css: (v: any) => `border-inline-start-width:${v}` },
+    { name: (n: any) => `${n}-e`, css: (v: any) => `border-inline-end-width:${v}` },
   ],
   "border-radius": [
     { name: (n: any) => n, css: (v: any) => `border-radius:${v}` },
@@ -85,6 +93,8 @@ const PropsByName = {
     { name: (n: any) => `${n}-tr`, css: (v: any) => `border-top-right-radius:${v}` },
     { name: (n: any) => `${n}-br`, css: (v: any) => `border-bottom-right-radius:${v}` },
     { name: (n: any) => `${n}-bl`, css: (v: any) => `border-bottom-left-radius:${v}` },
+    { name: (n: any) => `${n}-s`, css: (v: any) => `border-start-start-radius:${v};border-start-end-radius:${v}` },
+    { name: (n: any) => `${n}-e`, css: (v: any) => `border-end-start-radius:${v};border-end-end-radius:${v}` },
   ],
   blur: [{ name: (n: any) => n, css: (v: any) => `filter:blur(${v})` }],
   "backdrop-blur": [{ name: (n: any) => n, css: (v: any) => `backdrop-filter:blur(${v})` }],

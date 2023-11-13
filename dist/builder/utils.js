@@ -34,6 +34,8 @@ const PropsByName = {
         { name: (n) => `${n}b`, css: (v) => `padding-bottom:${v}` },
         { name: (n) => `${n}x`, css: (v) => `padding-inline:${v}` },
         { name: (n) => `${n}y`, css: (v) => `padding-block:${v}` },
+        { name: (n) => `${n}s`, css: (v) => `padding-inline-start:${v}` },
+        { name: (n) => `${n}e`, css: (v) => `padding-inline-end:${v}` },
     ],
     margin: [
         { name: (n) => `${n}`, css: (v) => `margin:${v}` },
@@ -43,6 +45,8 @@ const PropsByName = {
         { name: (n) => `${n}b`, css: (v) => `margin-bottom:${v}` },
         { name: (n) => `${n}x`, css: (v) => `margin-inline:${v}` },
         { name: (n) => `${n}y`, css: (v) => `margin-block:${v}` },
+        { name: (n) => `${n}s`, css: (v) => `margin-inline-start:${v}` },
+        { name: (n) => `${n}e`, css: (v) => `margin-inline-end:${v}` },
     ],
     width: [
         { name: (n) => n, css: (v) => `width:${v}` },
@@ -63,6 +67,8 @@ const PropsByName = {
         { name: (n) => `${n}-l`, css: (v) => `border-left:${v}` },
         { name: (n) => `${n}-x`, css: (v) => `border-inline:${v}` },
         { name: (n) => `${n}-y`, css: (v) => `border-block:${v}` },
+        { name: (n) => `${n}-s`, css: (v) => `border-inline-start:${v}` },
+        { name: (n) => `${n}-e`, css: (v) => `border-inline-end:${v}` },
     ],
     "border-width": [
         { name: (n) => n, css: (v) => `border-width:${v}` },
@@ -72,6 +78,8 @@ const PropsByName = {
         { name: (n) => `${n}-l`, css: (v) => `border-left-width:${v}` },
         { name: (n) => `${n}-x`, css: (v) => `border-inline-width:${v}` },
         { name: (n) => `${n}-y`, css: (v) => `border-block-width:${v}` },
+        { name: (n) => `${n}-s`, css: (v) => `border-inline-start-width:${v}` },
+        { name: (n) => `${n}-e`, css: (v) => `border-inline-end-width:${v}` },
     ],
     "border-radius": [
         { name: (n) => n, css: (v) => `border-radius:${v}` },
@@ -83,6 +91,8 @@ const PropsByName = {
         { name: (n) => `${n}-tr`, css: (v) => `border-top-right-radius:${v}` },
         { name: (n) => `${n}-br`, css: (v) => `border-bottom-right-radius:${v}` },
         { name: (n) => `${n}-bl`, css: (v) => `border-bottom-left-radius:${v}` },
+        { name: (n) => `${n}-s`, css: (v) => `border-start-start-radius:${v};border-start-end-radius:${v}` },
+        { name: (n) => `${n}-e`, css: (v) => `border-end-start-radius:${v};border-end-end-radius:${v}` },
     ],
     blur: [{ name: (n) => n, css: (v) => `filter:blur(${v})` }],
     "backdrop-blur": [{ name: (n) => n, css: (v) => `backdrop-filter:blur(${v})` }],
