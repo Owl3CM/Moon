@@ -52,6 +52,8 @@ const addExtraProps = (propName, shortKey) => {
       [`${shortKey}b`]: "padding-bottom",
       [`${shortKey}x`]: "padding-inline",
       [`${shortKey}y`]: "padding-block",
+      [`${shortKey}s`]: "padding-inline-start",
+      [`${shortKey}e`]: "padding-inline-end",
     },
     margin: {
       [shortKey]: "margin",
@@ -61,6 +63,8 @@ const addExtraProps = (propName, shortKey) => {
       [`${shortKey}b`]: "margin-bottom",
       [`${shortKey}x`]: "margin-inline",
       [`${shortKey}y`]: "margin-block",
+      [`${shortKey}s`]: "margin-inline-start",
+      [`${shortKey}e`]: "margin-inline-end",
     },
     width: { [shortKey]: "width", [`min-${shortKey}`]: "min-width", [`max-${shortKey}`]: "max-width" },
     height: { [shortKey]: "height", [`min-${shortKey}`]: "min-height", [`max-${shortKey}`]: "max-height" },
@@ -72,6 +76,8 @@ const addExtraProps = (propName, shortKey) => {
       [`${shortKey}-l`]: "border-left",
       [`${shortKey}-x`]: "border-inline",
       [`${shortKey}-y`]: "border-block",
+      [`${shortKey}-s`]: "border-inline-start",
+      [`${shortKey}-e`]: "border-inline-end",
     },
     "border-width": {
       [shortKey]: "border-width",
@@ -81,6 +87,8 @@ const addExtraProps = (propName, shortKey) => {
       [`${shortKey}-l`]: "border-left-width",
       [`${shortKey}-x`]: "border-inline-width",
       [`${shortKey}-y`]: "border-block-width",
+      [`${shortKey}-s`]: "border-inline-start-width",
+      [`${shortKey}-e`]: "border-inline-end-width",
     },
 
     "border-radius": {

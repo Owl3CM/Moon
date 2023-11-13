@@ -27,7 +27,7 @@ configWatcher.on("change", async (path) => {
 
 if (config?.useJit) {
   // funcPerformance(Jit_Start, []);
-  Jit_Start();
+  await Jit_Start();
   const watcher = chokidar.watch(config.content[0]);
   watcher.on("change", (path) => {
     // funcPerformance(Sync_Changes, [path]);

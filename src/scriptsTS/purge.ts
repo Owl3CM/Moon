@@ -25,7 +25,7 @@ const purgeConfig = {
   ],
 };
 
-Jit_Start();
+await Jit_Start();
 
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
   if (err) throw err;

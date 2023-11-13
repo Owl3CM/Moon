@@ -21,28 +21,28 @@ const customClassPatterns = {
     colors: /([a-zA-Z0-9-]+):#([a-zA-Z0-9-]+)/g,
     spacing: /([a-zA-Z0-9-]+):([0-9]+(px|rem|%|vw|vh|em|ch|ex|cm|mm|in|pt|pc))/g,
 };
-const scanDirectoryForExtract = (directory) => {
+const scanDirectoryForExtract = async (directory) => {
     const files = readdirSync(directory);
-    files.forEach((file) => {
+    for (const file of files) {
         try {
             const filePath = path.join(directory, file);
             const fileStat = statSync(filePath);
             if (fileStat.isDirectory()) {
-                scanDirectoryForExtract(filePath);
+                await scanDirectoryForExtract(filePath);
             }
             else if (fileStat.isFile() && /\.(js|jsx|ts|tsx)$/i.test(file)) {
                 Extract(filePath);
             }
         }
         catch (e) { }
-    });
+    }
 };
-export const Jit_Start = () => {
+export const Jit_Start = async () => {
     config = JSON.parse(readFileSync("./moon.config.json"));
     JitGenerated = {};
     isChanged = false;
     try {
-        scanDirectoryForExtract(config.projectDir ?? "./src");
+        await scanDirectoryForExtract(config.projectDir ?? "./src");
         Jit_End();
     }
     catch (e) { }
