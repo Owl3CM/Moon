@@ -25,9 +25,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
     <div className="transition-300 bg-white p-xs active:[bg-red,p-lg]">
       <p>actions</p>
     </div>
-    <div className="backdrop-blur-sm inset-0 fixed">
+    {/* <div className="backdrop-blur-sm inset-0 fixed">
       <p>blur</p>
-    </div>
+    </div> */}
   </div>
 );
 // <BrowserRouter>
