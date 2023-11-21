@@ -24,6 +24,8 @@ const purgeConfig = {
         //, `${path}/moon.jit.css`
     ],
 };
+await buildConfig();
+await Jit_Start();
 writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) => {
     if (err)
         throw err;
@@ -33,8 +35,6 @@ writeFile("./purgecss-config.json", JSON.stringify(purgeConfig, null, 2), (err) 
             console.error(err);
             return;
         }
-        await buildConfig();
-        await Jit_Start();
         // Todo: remove all files except main.css
         console.log(stdout);
     });

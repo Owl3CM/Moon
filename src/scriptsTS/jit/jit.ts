@@ -61,8 +61,6 @@ export const Sync_Changes = (filePath) => {
 const Jit_End = () => {
   if (isChanged) {
     isChanged = false;
-    console.log(JitGenerated);
-
     writeFileSync(`${cssFolder}/moon/moon.jit.css`, `\n${Object.values(JitGenerated).join("\n")}`);
   }
 };
