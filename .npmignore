@@ -1,9 +1,0 @@
-src
-scripts
-.vercel
-.editorconfig
-.prettierrc
-.eslintignore
-.eslintrc
-tsconfig.json
-rollup.*

@@ -22,12 +22,11 @@
     "test": "yarn build && start /B yarn moon && yarn start",
     "purge": "node ./dist/purge.js",
     "test-purge": "yarn build-scriptsTs && node ./dist/purge.js",
-    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js "
+    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
   },
   "bin": {
     "moon": "./dist/moon.js",
-    "moon-purge": "./dist/purge.js",
-    "moon-init": "./dist/init.js"
+    "moon-purge": "./dist/purge.js"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

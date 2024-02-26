@@ -11,13 +11,8 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "baseUrl": "./src",
-    "paths": {
-      "@/*": ["./*"]
-    },
     "outDir": "./dist/"
   },
-  "include": ["src/scriptsTS"],
-  "exclude": ["src/vite", "src/test"]
+  "include": ["src/scriptsTS"]
 }
+ 
