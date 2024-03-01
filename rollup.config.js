@@ -8,7 +8,7 @@ import rollupResolve from "@rollup/plugin-node-resolve";
 import rollupCommonjs from "@rollup/plugin-commonjs";
 
 const config = {
-  input: "src/index.ts",
+  input: "lib/index.ts",
   plugins: [
     rollupResolve(), // Required to resolve third-party modules
     rollupCommonjs(), // Required for CommonJS module support

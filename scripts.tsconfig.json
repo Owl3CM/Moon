@@ -13,6 +13,6 @@
     "isolatedModules": true,
     "outDir": "./dist/"
   },
-  "include": ["src/scriptsTS"]
+  "include": ["lib"]
 }
  
