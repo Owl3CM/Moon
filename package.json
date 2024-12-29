@@ -1,8 +1,8 @@
 {
   "name": "moon-style",
-  "version": "0.0.77",
+  "version": "0.0.78",
   "description": "moon-style",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "source": "lib/index.ts",
   "private": false,
   "engines": {
