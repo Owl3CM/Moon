@@ -83,5 +83,6 @@
   "homepage": "https://github.com/Owl3CM/Moon",
   "bugs": {
     "url": "https://github.com/Owl3CM/Moon/issues"
-  }
+  },
+  "license": "MIT"
 }
