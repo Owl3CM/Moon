@@ -36,7 +36,7 @@ export const getColors = async () => {
       ([themeKey, themeValues]) =>
         `${themeKey === "root" ? ":" : "."}${themeKey}{${Object.entries(themeValues)
           .map(([key, value]) => `--${key}:${value};`)
-          .join("")}}`
+          .join("")}}`,
     )
     .join("\n");
 
@@ -78,7 +78,7 @@ function appendTheGeneratedOpacitiesToTheStaticColors(
   opacities: any,
   key: string,
   staticColors: { [key: string]: string },
-  options: { [key: string]: { props?: string[] | undefined; opacities?: number[] | undefined } }
+  options: { [key: string]: { props?: string[] | undefined; opacities?: number[] | undefined } },
 ) {
   opacities.forEach((value: any) => {
     const colorWithOpacity = `${key}-${value * 1000}`;

@@ -1,33 +1,41 @@
 # Moon style
+
 Moon style is a versatile CSS utility package that helps you quickly and easily generate styles for your web projects. It provides a set of predefined styles and themes that you can customize to match your project's design.
 
 ## Installation
+
 ### You can install Moon style using Yarn:
 
 ```bash
 yarn add moon-style --dev
 ```
+
 ### Or using NPM
+
 ```bash
 npm install moon-style --dev
 ```
+
 ### It is recommended to install moon-style as a dev dependency because it is only used in the development phase to generate the css file
 
 # How to integrate Moon style with your project
-### By editing the `package.json` file in your project and adding the following script to the `scripts` section
+
+### By editing the `vite.config` file in your project and adding the `moon-style` plugin
 
 ```json
-  "scripts": {
-    "start": "start /B yarn moon && your start script",
-    "dev": "start /B yarn moon && your dev script",
-    "build": "yarn moon-purge && your build script",
-  },
+import { defineConfig } from "vite";
+import moonPlugin from "moon-style/dist/vite-plugin-moon";
+
+export default defineConfig({
+  plugins: [moonPlugin({ useJit: true, watchPath: "./moon.config.json" })],
+});
 ```
 
 ## What this changes?
-### This changes will make the `moon` script run before your `start` or `dev` script and the `moon-purge` script run before your `build` script
 
-## What does the `moon` script do?
+### This changes will make the `moon` run before your `start` or `dev` process and the `moon-purge` run before your `build` process
+
+## What does the `moon` command do?
 
 - Generate the `.css` files in the `moon` folder in your project's root directory according to the configuration in your `moon.config.json` file
 - Watch the `moon.config.json` file for changes and automatically regenerate the `.css` files when you save the changes.
@@ -35,27 +43,30 @@ npm install moon-style --dev
 
 - Clean the `moon.css` file from the unused classes
 
-## What does the `moon-purge` script do?
+## What does the `moon-purge` command do?
+
 - Clean the `moon.css` file from the unused classes
 
-
-
-
-
 ## Getting Started
+
 ### Importing CSS
+
 ```html
-  <link rel="stylesheet" href="/moon/main.css">
+<link rel="stylesheet" href="/moon/main.css" />
 ```
+
 <!-- ```html
   <link rel="stylesheet" href="/node_modules/moon-style/dist/moon/main.css">
 ``` -->
+
 ### Configuration
+
 Moon style relies on a configuration file named `moon.config.json` to generate styles. If you don't already have this file in your project, Moon style will create a default configuration for you at `./moon.config.json`.
 
 The default configuration includes predefined styles for properties like `padding`, `margin`, `font-size`, and more. You can customize this configuration to suit your project's needs.
 
 ### Customization (Optional)
+
 If you want to customize the default styles or define new ones, open the `moon.config.json` file in your project and modify it according to your requirements. You can specify your own values for various properties, change colors, and define new themes.
 
 <!-- ```bash
@@ -78,37 +89,38 @@ import '../moon/main.css';
 ``` -->
 
 ### Themes
+
 Moon style comes with predefined themes that you can use or modify in your `moon.config.json` file. Themes include color palettes and other design elements to quickly change the look and feel of your project.
 
-
 ### Example Configuration
+
 Here's an example of a `moon.config.json` file with predefined styles and themes:
 
 ```json
 {
   "$schema": "./node_modules/moon-style/dist/moon.config.schema.json",
-  "useStaticNumbers": false,// Determines whether to use static numbers or css variables
-  "projectDir": "./src",// The project directory
-  "content": ["./src/**/*.{html,js,jsx,tsx}"],//  the files that will be scanned for classes to be purged
+  "useStaticNumbers": false, // Determines whether to use static numbers or css variables
+  "projectDir": "./src", // The project directory
+  "content": ["./src/**/*.{html,js,jsx,tsx}"], //  the files that will be scanned for classes to be purged
   "styles": [
     {
       "props": {
-        //  the css property name : the generated class name 
-         "padding": "p",
-         "margin": "m" 
+        //  the css property name : the generated class name
+        "padding": "p",
+        "margin": "m"
       },
-      "variableName": "spacing",// the variable name that will be used in the generated css
-      "values": { 
-        // the values of the css variable 
+      "variableName": "spacing", // the variable name that will be used in the generated css
+      "values": {
+        // the values of the css variable
         "sm": "4px",
         "md": "8px",
         "custom": "23.5px"
         // you can add more values here
-      } 
-    },
+      }
+    }
     // Add more styles here
   ],
-    "colors": {
+  "colors": {
     "options": {
       "*": {
         "opacities": [0.05, 0.1, 0.2, 0.5, 0.7, 0.9],
@@ -177,7 +189,8 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
     }
     // Define more themes here
   },
-   "screens": { // the screens that will be used in the generated css
+  "screens": {
+    // the screens that will be used in the generated css
     "xs": "0px",
     "sm": "600px",
     "md": "960px",
@@ -187,14 +200,16 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
     "tablet": "600px",
     "desktop": "960px",
     "wide": "1280px",
-    "ultra": "1920px" 
+    "ultra": "1920px"
     // you can add more screens here
   }
 }
 ```
 
 ### This config will generate the following css
-###  The generated root variables
+
+### The generated root variables
+
 ```css
 :root {
   --red: #dd3643;
@@ -203,7 +218,9 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --cute: #a3e4cb;
 }
 ```
+
 ### The generated themes
+
 ```css
 .light {
   --prim: #FFFFFF;
@@ -235,7 +252,9 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 .text-red { color: var(--red) } .text-red-50 {var(--red-50) } .text-red-100 {var(--red-100) } .text-red-200 {var(--red-200) } /* ...and so on */
 /* ...and so on */
 ```
-### The generated classes 
+
+### The generated classes
+
 ```css
 :root {
   --sm: 4px;
@@ -243,40 +262,64 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
   --custom: 23.5px;
 }
 
-.p-sm { padding:var(--spacing-sm)  } 
-.m-sm { margin:var(--spacing-sm)  } 
-.pr-md { padding-right:var(--spacing-md)  } 
-.mx-sm { margin-inline:var(--spacing-sm)  } 
-.mr-custom { margin-right:var(--spacing-custom)  }
-.py-custom { padding-block:var(--spacing-custom)  }
+.p-sm {
+  padding: var(--spacing-sm);
+}
+.m-sm {
+  margin: var(--spacing-sm);
+}
+.pr-md {
+  padding-right: var(--spacing-md);
+}
+.mx-sm {
+  margin-inline: var(--spacing-sm);
+}
+.mr-custom {
+  margin-right: var(--spacing-custom);
+}
+.py-custom {
+  padding-block: var(--spacing-custom);
+}
 /* ...and so on */
-.pr-sm { padding-right:var(--spacing-sm)  }
-.mr-custom { margin-right:var(--spacing-custom)  }
-.pl-md { padding-left:var(--spacing-md)  }
-.ml-custom { margin-left:var(--spacing-custom)  }
+.pr-sm {
+  padding-right: var(--spacing-sm);
+}
+.mr-custom {
+  margin-right: var(--spacing-custom);
+}
+.pl-md {
+  padding-left: var(--spacing-md);
+}
+.ml-custom {
+  margin-left: var(--spacing-custom);
+}
 /* ...and so on */
 ```
+
 ### Usage
 
 ### You can use the generated classes in your html like this
+
 ```html
 <div className="p-md m-custom bg-prim text-red"></div>
 ```
 
-
 ### Or you can use the variables in your css like this
+
 ```css
-.my-class{
+.my-class {
   background-color: var(--prim);
   color: var(--red);
   padding: var(--spacing-md);
   margin: var(--spacing-custom);
 }
 ```
+
 # Example
+
 ### You can use the generated classes in your react app like this
-  
-```js 
+
+```js
 import React from "react";
 import { Moon } from "moon-style";
 import { Theme } from "../Moon.Types";
@@ -328,27 +371,36 @@ export default App;
 ```
 
 ### The result should be like this
+
 <!-- ![example.gif](public/gifs/sample-one.gif) -->
+
 ![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-one.gif?raw=true)
 
 <!-- explane these hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
+
 # Just in time (JIT) mode
+
 ## What is JIT mode?
+
 Just-in-time (JIT) mode is a feature that allows you to generate CSS on demand. This means that you don't have to generate the CSS for all the classes in your project at once. Instead, you can generate the CSS for only the classes that you need.
 
 ## How to use JIT mode?
-Use it with colors like this 
+
+Use it with colors like this
+
 ```html
-<div className="bg:#f00 text:#ff0 fill:#0af border:#0af" ></div>
+<div className="bg:#f00 text:#ff0 fill:#0af border:#0af"></div>
 ```
+
 - `bg:#f00`: This class sets the CSS property `background-color` to `#f00`.
 - `text:#ff0`: This class sets the CSS property `color` to `#ff0`.
 - `fill:#0af`: This class sets the CSS property `fill` to `#0af`.
 - `border:#0af`: This class sets the CSS property `border-color` to `#0af`.
 
-Use it with numbers like this 
+Use it with numbers like this
+
 ```html
-<div className="p:100px m:100px my:10rem py:20rem h:10% w:300px max-h:30rem " ></div>
+<div className="p:100px m:100px my:10rem py:20rem h:10% w:300px max-h:30rem "></div>
 ```
 
 - `p:100px`: This class sets the CSS property `padding` to `100px`.
@@ -360,95 +412,108 @@ Use it with numbers like this
 - `max-h:30rem`: This class sets the CSS property `max-height` to `30rem`.
 
 <!-- explane the hover and active and ... -->
-Use it with pseudo classes like this 
+
+Use it with pseudo classes like this
+
 ```html
-<div className="hover:[bg-cyan]" ></div>
-<div className="hover:active:[bg-cyan]" ></div>
-<div className="hover:[bg-cyan,text-red]" ></div>
-<div className="hover:active:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+<div className="hover:[bg-cyan]"></div>
+<div className="hover:active:[bg-cyan]"></div>
+<div className="hover:[bg-cyan,text-red]"></div>
+<div className="hover:active:[bg-cyan,text-red,p-xl,m-sm]"></div>
 ```
 
 - `hover:[bg-cyan]`: This class sets the CSS property `background-color` to `#cyan` when the element is hovered.
 - `hover:active:[bg-cyan]`: This class sets the CSS property `background-color` to `#cyan` when the element is hovered and active.
 - `hover:[bg-cyan,text-red]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered.
 - `hover:active:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and active, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)`.
-<!-- explane the hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
-Use it with media queries like this 
+  <!-- explane the hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
+  Use it with media queries like this
+
 ```html
-<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm]" ></div>
-<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm]" ></div>
-<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm] lg:[bg-cyan,text-red,p-xl,m-sm]" ></div>
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm]"></div>
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm]"></div>
+<div className="hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm] lg:[bg-cyan,text-red,p-xl,m-sm]"></div>
 ```
 
 - `hover:md:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium.
 - `hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)` when the screen size is medium.
 - `hover:md:[bg-cyan,text-red,p-xl,m-sm] md:[bg-cyan,text-red,p-xl,m-sm] lg:[bg-cyan,text-red,p-xl,m-sm]`: This class sets the CSS property `background-color` to `#cyan` and the `color` to `#red` when the element is hovered and the screen size is medium, and also sets the `padding` to `var(--spacing-xl)` and the `margin` to `var(--spacing-sm)` when the screen size is medium and large.
 
-Use it with static classes like this 
+Use it with static classes like this
+
 ```html
-<div className="disable:[opacity-10,bg-red]" ></div>
+<div className="disable:[opacity-10,bg-red]"></div>
 ```
 
 - `disable:[opacity-10,bg-red]`: This class sets the CSS property `opacity` to `0.1` and the `background-color` to `#red` when the element is disabled.
 
-Use it with pseudo elements like this 
+Use it with pseudo elements like this
+
 ```html
-<div data-before="no you don't" className="before:[bg-red,h:20px,w:20px,display:block]" >do i have a red background?</div>
-<div data-after="am the after content" className="hover:after:[bg-red,text#f00,h:20px,w:20px,display:block]" >do i have an after content?</div>
+<div data-before="no you don't" className="before:[bg-red,h:20px,w:20px,display:block]">do i have a red background?</div>
+<div data-after="am the after content" className="hover:after:[bg-red,text#f00,h:20px,w:20px,display:block]">do i have an after content?</div>
 ```
 
 - `before:[bg-red,h:20px,w:20px,display:block]`: This class sets the CSS property `background-color` to `#red`, the `height` to `20px`, the `width` to `20px`, and the `display` to `block` for the `::before` pseudo-element.
 - `hover:after:[bg-red,text#f00,h:20px,w:20px,display:block]`: This class sets the CSS property `background-color` to `#red`, the `color` to `#f00`, the `height` to `20px`, the `width` to `20px`, and the `display` to `block` for the `::after` pseudo-element when the element is hovered.
 
-
-
 <!-- PurgeCss section -->
+
 # PurgeCss
+
 ## What is PurgeCss?
+
 PurgeCSS is a tool to remove unused CSS. It can be used as part of your development workflow. PurgeCSS comes with a JavaScript API, a CLI, and plugins for popular build tools learn more about PurgeCss [here](https://purgecss.com/).
 
-
 ## How to use PurgeCss with Moon style?
-<!-- 
+
+<!--
  -->
-PurgeCSS is already included as a dependency in this project, so there's no need to install it separately 
+
+PurgeCSS is already included as a dependency in this project, so there's no need to install it separately
 so you just need to add the `content` property to your `moon.config.json` file and specify the files that you want to scan for classes to be purged.
+
 ### Example
+
 ```json
 {
-  "content": ["./src/**/*.{html,js,jsx,tsx}"],
+  "content": ["./src/**/*.{html,js,jsx,tsx}"]
 }
 ```
+
 ### This will scan all the files in the `./src` directory with the extensions `html,js,jsx,tsx` for classes to be purged
 
 ## How to run PurgeCss?
+
 ### You can run PurgeCss by running this command
+
 ```bash
 yarn moon-purge
 ```
+
 ### Or using NPM
+
 ```bash
 npm run moon-purge
 ```
 
-### This command will clean the `moon.css` file from the unused classes 
+### This command will clean the `moon.css` file from the unused classes
 
 ## How to restore the purged classes?
 
 ### You can restore the purged classes by running this command
+
 ```bash
 yarn moon
 ```
+
 ### Or using NPM
+
 ```bash
 npm run moon
 ```
-### This command will regenerate the `moon.css`  file with the classes that you have defined in your `moon.config.json` file
 
-
-
-
-
+### This command will regenerate the `moon.css` file with the classes that you have defined in your `moon.config.json` file
 
 # API
 
@@ -480,39 +545,47 @@ The `Moon` object is a utility provided by Moon style to manage themes and color
   import { Moon } from "moon-style";
   const theme = Moon.currentTheme; // Returns the current theme (e.g., "light", "dark", "great")
   ```
+
 - **`Moon.setTheme(theme: string)`:** Sets the specified theme as the current theme.
 
   ```javascript
   import { Moon } from "moon-style";
   Moon.setTheme("dark"); // Sets the "dark" theme
   ```
+
 - **`Moon.setColors(colors: { [key: string]: string })`:** Sets the specified colors as CSS variables.
 
   ```javascript
   import { Moon } from "moon-style";
-  Moon.setColors({ red: "#dd3643", cyan: "#63cfc9" ,prim : "#FFFFFF"}); // Sets the "red" and "cyan" colors
+  Moon.setColors({ red: "#dd3643", cyan: "#63cfc9", prim: "#FFFFFF" }); // Sets the "red" and "cyan" colors
   ```
+
 - **`Moon.setColor(key: string, value: string)`:** Sets the specified color as a CSS variable.
 
   ```javascript
   import { Moon } from "moon-style";
   Moon.setColor("red", "#dd3643"); // Sets the "red" color
   ```
+
 - **`Moon.removeColors()`:** Removes all custom colors.
 
   ```javascript
   import { Moon } from "moon-style";
   Moon.removeColors(); // Removes all custom colors
-  Moon.removeColors(["cyan","prim"]); // Removes the custom colors "cyan" and "prim" 
+  Moon.removeColors(["cyan", "prim"]); // Removes the custom colors "cyan" and "prim"
   ```
+
 - **`Moon.removeColor(key: string)`:** Removes the specified custom color.
 
   ```javascript
   import { Moon } from "moon-style";
   Moon.removeColor("red"); // Removes the custom "red" color
   ```
+
 ## Examples of useing the API
+
 ### In this Example we will use setColor and setColors to change the colors of the theme
+
 ```js
 import React from "react";
 import { Moon } from "moon-style";
@@ -612,22 +685,43 @@ const ColorPicker = ({ name = "", value }) => {
 };
 
 ```
+
 <!-- ![example.gif](public/gifs/sample-two.gif) -->
+
 ![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-two.gif?raw=true)
 
+# Static Classes
 
-# Static Classes 
 ## This classes will always be generated in the css file
+
 ```css
-.fixed {position:fixed;} 
-.absolute {position:absolute;} 
-.relative {position:relative;} 
-.sticky {position:-webkit-sticky;position:sticky;} 
-.static {position:static;} 
-.initial {position:initial;} 
-.inherit {position:inherit;} 
-.unset {position:unset;} 
+.fixed {
+  position: fixed;
+}
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+.static {
+  position: static;
+}
+.initial {
+  position: initial;
+}
+.inherit {
+  position: inherit;
+}
+.unset {
+  position: unset;
+}
 ```
+
 - `fixed`: This class sets the CSS property position to fixed, which positions the element relative to the viewport.
 - `absolute`: This class sets the CSS property position to absolute, which positions the element relative to its closest positioned ancestor.
 - `relative`: This class sets the CSS property position to relative, which positions the element relative to its normal position.
@@ -638,121 +732,232 @@ const ColorPicker = ({ name = "", value }) => {
 - `unset`: This class sets the CSS property position to unset, which resets the position to its default value.
 
 ```css
- .flex-grow {flex-grow:1;}
+.flex-grow {
+  flex-grow: 1;
+}
 ```
+
 This class sets the CSS property `flex-grow` to `1`, which allows the element to grow to fill the available space.
 
 ```css
-.flex, .row, .col, .wrap, .center {display:flex;}
+.flex,
+.row,
+.col,
+.wrap,
+.center {
+  display: flex;
+}
 ```
+
 These classes set the CSS property `display` to flex, which allows you to use flexbox to control the layout of elements. For example, `flex` makes the element a flex container, while `row` makes the element a flex container with a row layout.
 
 ```css
-.flex,.row,.col,.wrap,.center,.row-center,.col-center{display:flex;}
+.flex,
+.row,
+.col,
+.wrap,
+.center,
+.row-center,
+.col-center {
+  display: flex;
+}
 ```
+
 ```css
-.row-center, .center {align-items:center;}
-.row-start {align-items:flex-start;}
-.row-end {align-items:flex-end;}
+.row-center,
+.center {
+  align-items: center;
+}
+.row-start {
+  align-items: flex-start;
+}
+.row-end {
+  align-items: flex-end;
+}
 ```
+
 - `row-center`, `center`: These classes vertically align the items in a flex container to the center.
 - `row-start`: These classes vertically align the items in a flex container to the start.
 - `row-end`: These classes vertically align the items in a flex container to the end.
 
 ```css
-.col, .col-center, .col-start, .col-end {flex-direction:column;}
+.col,
+.col-center,
+.col-start,
+.col-end {
+  flex-direction: column;
+}
 ```
+
 ```css
-.col-center,.center{justify-content:center;}
-.col-start{justify-content:flex-start;}
-.col-end{justify-content:flex-end;}
+.col-center,
+.center {
+  justify-content: center;
+}
+.col-start {
+  justify-content: flex-start;
+}
+.col-end {
+  justify-content: flex-end;
+}
 ```
+
 - `col-center`, `center`: These classes horizontally align the items in a flex container to the center.
 - `col-start`: These classes horizontally align the items in a flex container to the start.
 - `col-end`: These classes horizontally align the items in a flex container to the end.
 
-
-
 ```css
-.wrap {flex-wrap:wrap;}
+.wrap {
+  flex-wrap: wrap;
+}
 ```
+
 `wrap`: This class sets the CSS property `flex-wrap` to `wrap`, allowing flex containers to wrap their items to the next line if they exceed the container's width.
 
 ```css
-.select-none {user-select:none;} 
-.select-text {user-select:text;} 
-.select-all {user-select:all;} 
-.select-auto {user-select:auto;}
+.select-none {
+  user-select: none;
+}
+.select-text {
+  user-select: text;
+}
+.select-all {
+  user-select: all;
+}
+.select-auto {
+  user-select: auto;
+}
 ```
+
 - `select-none`: This class sets the CSS property user-select to none, which prevents text selection on elements with this class.
 - `select-auto`: This class sets the CSS property user-select to auto, allowing the default user-select behavior on elements with this class.
 - `select-text`: This class sets the CSS property user-select to text, allowing text selection on elements with this class.
 - `select-all`: This class sets the CSS property user-select to all, enabling the selection of all content within elements with this class.
 
-
-```css 
-.overflow-auto {overflow:auto;}
-.overflow-scroll {overflow:scroll;}
-.overflow-hidden {overflow:hidden;}
-.overflow-visible {overflow:visible;}
+```css
+.overflow-auto {
+  overflow: auto;
+}
+.overflow-scroll {
+  overflow: scroll;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-visible {
+  overflow: visible;
+}
 ```
+
 - `overflow-auto`: This class sets the CSS property overflow to auto, allowing the element to scroll when its content overflows.
 - `overflow-scroll`: This class sets the CSS property overflow to scroll, forcing the element to have a scroll bar when its content overflows.
 - `overflow-hidden`: This class sets the CSS property overflow to hidden, hiding any content that overflows the element's boundaries.
 - `overflow-visible`: This class sets the CSS property overflow to visible, making all content within the element visible, even if it overflows the container.
+
 ```css
-.overflow-x-auto {overflow-x:auto;}
-.overflow-x-scroll {overflow-x:scroll;}
-.overflow-x-hidden {overflow-x:hidden;}
-.overflow-x-visible {overflow-x:visible;}
- ```
+.overflow-x-auto {
+  overflow-x: auto;
+}
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+.overflow-x-visible {
+  overflow-x: visible;
+}
+```
+
 These classes control horizontal overflow behavior, similar to the previous set of classes, but specifically for the `overflow-x` property.
 
 ```css
-.overflow-y-auto {overflow-y:auto;}
-.overflow-y-scroll {overflow-y:scroll;}
-.overflow-y-hidden {overflow-y:hidden;}
-.overflow-y-visible {overflow-y:visible;}
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+.overflow-y-visible {
+  overflow-y: visible;
+}
 ```
 
 These classes control vertical overflow behavior, similar to the previous set of classes, but specifically for the `overflow-y` property.
 
 ```css
-.hide-scroller::-webkit-scrollbar {display:none;}
+.hide-scroller::-webkit-scrollbar {
+  display: none;
+}
 ```
+
 `hide-scroller`: This class uses the `::-webkit-scrollbar` pseudo-element to hide the scroll bar in WebKit-based browsers (like Safari and Chrome) for elements with this class. It effectively removes the scroll bar's appearance.
 
-
 ```css
-.h-screen {height:100vh;} 
-.w-screen {width:100vw;} 
-.w-fill {width:100%;}
-.h-fill {height:100%;}
+.h-screen {
+  height: 100vh;
+}
+.w-screen {
+  width: 100vw;
+}
+.w-fill {
+  width: 100%;
+}
+.h-fill {
+  height: 100%;
+}
 ```
+
 These classes set the CSS properties height and `width` to specific values, allowing you to control the element's `height` and `width`. For example, `h-screen` sets the element's height to 100vh, while `w-screen` sets the element's width to 100vw.
 
 ```css
-.min-w-max {min-width:max-content;}
+.min-w-max {
+  min-width: max-content;
+}
 ```
+
 `min-w-max`: This class sets the CSS property min-width to max-content, allowing the element to have a minimum width based on its content.
 
 ```css
-.items-center {align-items:center;}
-.items-start {align-items:flex-start;}
-.items-end {align-items:flex-end;}
+.items-center {
+  align-items: center;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-end {
+  align-items: flex-end;
+}
 ```
+
 - `items-center`: This class aligns the items in a flex container vertically and horizontally to the center.
 - `items-start`: This class aligns the items in a flex container vertically to the start.
 - `items-end`: This class aligns the items in a flex container vertically to the end.
 
 ```css
-.justify-center {justify-content:center;}
-.justify-start {justify-content:flex-start;}
-.justify-end {justify-content:flex-end;}
-.justify-between {justify-content:space-between;}
-.justify-around {justify-content:space-around;}
-.justify-evenly {justify-content:space-evenly;}
+.justify-center {
+  justify-content: center;
+}
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-evenly {
+  justify-content: space-evenly;
+}
 ```
+
 - `justify-center`: This class horizontally aligns the items in a flex container to the center.
 - `justify-start`: This class horizontally aligns the items in a flex container to the start.
 - `justify-end`: This class horizontally aligns the items in a flex container to the end.
@@ -761,49 +966,96 @@ These classes set the CSS properties height and `width` to specific values, allo
 - `justify-evenly`: This class evenly distributes the items along the main axis with equal space between them.
 
 ```css
-.self-start {align-self:flex-start;}
-.self-center {align-self:center;}  
-.self-end {align-self:flex-end;}
-.self-stretch {align-self:stretch;}
+.self-start {
+  align-self: flex-start;
+}
+.self-center {
+  align-self: center;
+}
+.self-end {
+  align-self: flex-end;
+}
+.self-stretch {
+  align-self: stretch;
+}
 ```
+
 - `self-start`: This class aligns an individual flex item to the start within a flex container.
 - `self-center`: This class aligns an individual flex item to the center within a flex container.
 - `self-end`: This class aligns an individual flex item to the end within a flex container.
 - `self-stretch`: This class stretches an individual flex item to fill the container along the cross-axis.
+
 ```css
-.col-span-full {grid-column:1 / -1;}    
-.col-span-1 {grid-column:span 1 / span 1;}
-.col-span-2 {grid-column:span 2 / span 2;}
-.col-span-3 {grid-column:span 3 / span 3;}
-.row-span-full {grid-row:1/-1;}
-.row-span-1 {grid-row:span 1 / span 1;}
-.row-span-2 {grid-row:span 2 / span 2;}
-.row-span-3 {grid-row:span 3 / span 3;}
+.col-span-full {
+  grid-column: 1 / -1;
+}
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+.row-span-full {
+  grid-row: 1/-1;
+}
+.row-span-1 {
+  grid-row: span 1 / span 1;
+}
+.row-span-2 {
+  grid-row: span 2 / span 2;
+}
+.row-span-3 {
+  grid-row: span 3 / span 3;
+}
 ```
+
 These classes are used for creating grid layouts:
+
 - `col-span-full`: This class spans a grid column from the first to the last column.
 - `col-span-1`, `col-span-2`, `col-span-3`: These classes span grid columns by a specific number of columns.
 - `row-span-full`: This class spans a grid row from the first to the last row.
 - `row-span-1`, `row-span-2`, `row-span-3`: These classes span grid rows by a specific number of rows.
 
-
 ```css
-.text-center {text-align:center;}
-.text-left {text-align:left;}
-.text-right {text-align:right;} 
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 ```
+
 - `text-center`: This class sets the text alignment to center.
 - `text-left`: This class sets the text alignment to left.
 - `text-right`: This class sets the text alignment to right.
 
 ```css
-.pointer {cursor:pointer;}
-.cursor-default {cursor:default;}
-.cursor-cursor {cursor:w-resize;}
-.pointer-none {pointer-events:none;}
-.pointer-auto {pointer-events:auto;}
-.pointer-all {pointer-events:all;}
+.pointer {
+  cursor: pointer;
+}
+.cursor-default {
+  cursor: default;
+}
+.cursor-cursor {
+  cursor: w-resize;
+}
+.pointer-none {
+  pointer-events: none;
+}
+.pointer-auto {
+  pointer-events: auto;
+}
+.pointer-all {
+  pointer-events: all;
+}
 ```
+
 - `pointer`: This class changes the cursor to a pointer hand when hovering over an element, indicating it's clickable.
 - `cursor-default`: This class sets the default cursor.
 - `cursor-cursor`: This class sets the cursor to a horizontal resize cursor, typically used for resizing elements horizontally.
@@ -811,32 +1063,69 @@ These classes are used for creating grid layouts:
 - `pointer-auto`: This class restores the default pointer events behavior.
 - `pointer-all`: This class allows all pointer events on the element.
 
-
 ```css
-.display-none {display:none;}
-.display-block {display:block;}
-.display-inline {display:inline;}
-.display-inline-block {display:inline-block;}
-.display-flex {display:flex;}
-.display-grid {display:grid;}
-.display-table {display:table;}
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
+}
+.display-inline {
+  display: inline;
+}
+.display-inline-block {
+  display: inline-block;
+}
+.display-flex {
+  display: flex;
+}
+.display-grid {
+  display: grid;
+}
+.display-table {
+  display: table;
+}
 ```
+
 - `display-none`: This class sets the CSS property `display` to `none`, hiding the element.
 - `display-block`: This class sets the CSS property `
 
 ```css
-.opacity-0 {opacity:0;} 
-.opacity-10 {opacity:0.1;} 
-.opacity-20 {opacity:0.2;} 
-.opacity-30 {opacity:0.3;} 
-.opacity-40 {opacity:0.4;} 
-.opacity-50 {opacity:0.5;} 
-.opacity-60 {opacity:0.6;} 
-.opacity-70 {opacity:0.7;} 
-.opacity-80 {opacity:0.8;} 
-.opacity-90 {opacity:0.9;} 
-.opacity-100 {opacity:1;}
- ```
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-10 {
+  opacity: 0.1;
+}
+.opacity-20 {
+  opacity: 0.2;
+}
+.opacity-30 {
+  opacity: 0.3;
+}
+.opacity-40 {
+  opacity: 0.4;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-60 {
+  opacity: 0.6;
+}
+.opacity-70 {
+  opacity: 0.7;
+}
+.opacity-80 {
+  opacity: 0.8;
+}
+.opacity-90 {
+  opacity: 0.9;
+}
+.opacity-100 {
+  opacity: 1;
+}
+```
+
 These classes set the CSS property opacity to specific values, allowing you to control the element's transparency or visibility. For example, `opacity-0` makes the element completely transparent (invisible), while `opacity-100` makes it fully opaque (visible).
 
 <!-- # Why Moon style
@@ -856,8 +1145,7 @@ To generate the CSS based on your configuration, run the following command:
 ```bash
 yarn moon
 ``` -->
- 
-
 
 ## Documentation
+
 coming soon... 😅
