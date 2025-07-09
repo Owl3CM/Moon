@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { promisify } from "util";
 import { exec as execCallback } from "child_process";
 import { stat, writeFile } from "fs/promises";
@@ -15,9 +14,11 @@ const exec = promisify(execCallback);
 const configPath = "./moon.config.json";
 const purgeConfigPath = "./purgecss-config.json";
 
+if (!(await fileExists(configPath))) copyFileSync(`${packagePath}/moon.config.default.json`, configPath);
+
 const rawConfig = await readFile(configPath);
 if (!rawConfig) {
-  throw new Error("moon.config.json not found");
+  throw new Error("moon.config.json not found or empty");
 }
 
 export const PurgeCSS = async () => {
@@ -72,11 +73,6 @@ export const PurgeCSS = async () => {
 };
 
 export const Watcher = async () => {
-  // If moon.config.json does not exist, copy the default
-  if (!(await fileExists(configPath))) {
-    copyFileSync(`${packagePath}/moon.config.default.json`, configPath);
-  }
-
   // Read config again (could have just been created)
   let config = JSON.parse(await readFile(configPath));
 
