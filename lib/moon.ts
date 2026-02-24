@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
 import { Watcher } from "./workflow.js";
+import { handleIconsCommand } from "./icons.js";
 
-Watcher();
+const args = process.argv.slice(2);
+
+if (args[0] && args[0].startsWith("icons:")) {
+  handleIconsCommand(args);
+} else {
+  Watcher();
+}
 
 // import { packagePath } from "./builder/controller.js";
 // import { fileExists, readFile } from "./helpers/owlFs.js";

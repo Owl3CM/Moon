@@ -15,6 +15,7 @@
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "target": "es5",
+    "jsx": "react",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,5 +25,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["lib/index.ts"]
+  "include": ["lib/index.ts", "lib/icon.tsx"]
 }

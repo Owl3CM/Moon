@@ -22,7 +22,7 @@ npm install moon-style --dev
 
 ### By editing the `vite.config` file in your project and adding the `moon-style` plugin
 
-```json
+```ts
 import { defineConfig } from "vite";
 import moonPlugin from "moon-style/dist/vite-plugin-moon";
 
@@ -30,6 +30,8 @@ export default defineConfig({
   plugins: [moonPlugin({ useJit: true, watchPath: "./moon.config.json" })],
 });
 ```
+
+> **Auto-Inject:** The plugin automatically injects `Moon.init()` and imports all Moon CSS files via `transformIndexHtml`. No manual imports or `Moon.init()` calls needed in your code.
 
 ## What this changes?
 
@@ -317,57 +319,54 @@ Here's an example of a `moon.config.json` file with predefined styles and themes
 
 # Example
 
-### You can use the generated classes in your react app like this
+### With the Vite plugin, `Moon.init()` and CSS imports are handled automatically. You only need to use the Moon API for theme switching:
 
-```js
+```tsx
 import React from "react";
-import { Moon } from "moon-style";
+import Moon from "moon-style";
 import { Theme } from "../Moon.Types";
 
-Moon.setTheme("dark");
+// No need to call Moon.init() — it's auto-injected by the Vite plugin
 
 const themes: Theme[] = ["dark", "light", "darker", "LOL", "bad"];
 
 const App = () => {
-    const [theme, setTheme] = React.useState(Moon.currentTheme);
-    return (
-        <div className="inset-0 fixed bg-prim col">
-            <div className="bg-prince round-xl p-md shadow-lg size-5x m-auto">
-                <div className="m-auto col items-center p-xl font-mono">
-                    <span className="text-owl">SVG</span>
-                    <svg className="size-md" viewBox="0 0 24 24" fill="none">
-                        <path
-                            className="fill-owl"
-                            d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                        />
-                    </svg>
-                    <p className="border-thick border-solid border-owl round-md p-md text-owl">Border</p>
-                    <div className="row gap-lg bg-lord round-xl p-xl">
-                        {themes.map((item, index) => {
-                            return (
-                                <p
-                                    key={index}
-                                    onClick={() => {
-                                        Moon.setTheme(item);
-                                        setTheme(item);
-                                    }}
-                                    style={{
-                                        border: `5px solid ${item === theme ? "var(--owl)" : "var(--prince)"}`,
-                                    }}
-                                    className="pointer bg-prince text-owl py-lg px-xl round-lg text-x shadow-lg">
-                                    {item}
-                                </p>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
+  const [theme, setTheme] = React.useState(Moon.currentTheme);
+  return (
+    <div className="inset-0 fixed bg-prim col">
+      <div className="bg-prince round-xl p-md shadow-lg size-5x m-auto">
+        <div className="m-auto col items-center p-xl font-mono">
+          <span className="text-owl">SVG</span>
+          <svg className="size-md" viewBox="0 0 24 24" fill="none">
+            <path
+              className="fill-owl"
+              d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+            />
+          </svg>
+          <p className="border-thick border-solid border-owl round-md p-md text-owl">Border</p>
+          <div className="row gap-lg bg-lord round-xl p-xl">
+            {themes.map((item, index) => (
+              <p
+                key={index}
+                onClick={() => {
+                  Moon.setTheme(item);
+                  setTheme(item);
+                }}
+                style={{
+                  border: `5px solid ${item === theme ? "var(--owl)" : "var(--prince)"}`,
+                }}
+                className="pointer bg-prince text-owl py-lg px-xl round-lg text-x shadow-lg">
+                {item}
+              </p>
+            ))}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default App;
-
 ```
 
 ### The result should be like this
@@ -532,45 +531,40 @@ npm run moon
 
 The `Moon` object is a utility provided by Moon style to manage themes and colors. You can use the following methods and properties:
 
-- **`Moon.init`:** This method initializes the Moon style. It sets the current theme to the one specified in the `theme` parameter. If no theme is specified, it uses the theme specified in the `localStorage` object. If no theme is specified in the `localStorage` object, it uses the theme specified in the `prefers-color-scheme` media query. If no theme is specified in the `prefers-color-scheme` media query, it uses the `light` theme.
-
-  ```javascript
-  import { Moon } from "moon-style";
-  Moon.init(); // Initializes Theme
-  ```
+- **`Moon.init`:** Initializes Moon style — reads theme from `localStorage`, falls back to `prefers-color-scheme`, then defaults to `light`. **Called automatically by the Vite plugin** — you don't need to call this manually.
 
 - **`Moon.currentTheme`:** Returns the current active theme.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   const theme = Moon.currentTheme; // Returns the current theme (e.g., "light", "dark", "great")
   ```
 
 - **`Moon.setTheme(theme: string)`:** Sets the specified theme as the current theme.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   Moon.setTheme("dark"); // Sets the "dark" theme
   ```
 
 - **`Moon.setColors(colors: { [key: string]: string })`:** Sets the specified colors as CSS variables.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   Moon.setColors({ red: "#dd3643", cyan: "#63cfc9", prim: "#FFFFFF" }); // Sets the "red" and "cyan" colors
   ```
 
 - **`Moon.setColor(key: string, value: string)`:** Sets the specified color as a CSS variable.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   Moon.setColor("red", "#dd3643"); // Sets the "red" color
   ```
 
 - **`Moon.removeColors()`:** Removes all custom colors.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   Moon.removeColors(); // Removes all custom colors
   Moon.removeColors(["cyan", "prim"]); // Removes the custom colors "cyan" and "prim"
   ```
@@ -578,7 +572,7 @@ The `Moon` object is a utility provided by Moon style to manage themes and color
 - **`Moon.removeColor(key: string)`:** Removes the specified custom color.
 
   ```javascript
-  import { Moon } from "moon-style";
+  import Moon from "moon-style";
   Moon.removeColor("red"); // Removes the custom "red" color
   ```
 
@@ -588,7 +582,7 @@ The `Moon` object is a utility provided by Moon style to manage themes and color
 
 ```js
 import React from "react";
-import { Moon } from "moon-style";
+import Moon from "moon-style";
 import { Theme } from "../Moon.Types";
 
 let dynimcColors: any = {

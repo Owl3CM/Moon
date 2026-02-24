@@ -1,8 +1,16 @@
 {
   "name": "moon-style",
-  "version": "0.0.80",
+  "version": "0.1.1",
   "description": "moon-style",
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./vite": "./dist/vite-plugin-moon.js",
+    "./icon": "./dist/icon.js"
+  },
   "source": "lib/index.ts",
   "private": false,
   "engines": {
@@ -12,7 +20,8 @@
   "scripts": {
     "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
     "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
-    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema && node ./scripts/insertCode.js",
+    "copy-html": "cp lib/icons-client.html dist/icons-client.html",
+    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema && yarn copy-html && node ./scripts/insertCode.js && chmod +x dist/moon.js dist/purge.js 2>/dev/null || true",
     "prod": "yarn build && node ./scripts/publish.js && git push",
     "start": "vite",
     "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",

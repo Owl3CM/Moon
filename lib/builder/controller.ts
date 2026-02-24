@@ -2,8 +2,13 @@ import { getColors } from "./buildColors.js";
 import { getStaticCss } from "./buildStaticClasses.js";
 import { getStyles } from "./buildStyles.js";
 import { createFile, createFolder, fileExists } from "../helpers/owlFs.js";
+import { fileURLToPath } from "url";
+import path from "path";
 
-export const packagePath = "node_modules/moon-style/dist";
+// Resolve to the directory containing this compiled file (dist/builder/).
+// This works whether the CLI is run via `yarn moon`, `npx`, or `node /abs/path/moon.js`.
+const _dir = path.dirname(fileURLToPath(import.meta.url));
+export const packagePath = path.resolve(_dir, ".."); // dist/
 export const cssFolder = ".";
 
 export const Controller = {

@@ -89,6 +89,24 @@
     "useJit": {
       "type": "boolean"
     },
+    "icons": {
+      "type": "object",
+      "description": "Icon pipeline configuration for Solar Icons integration.",
+      "properties": {
+        "svgDir": {
+          "type": "string",
+          "description": "Relative path to the project's SVG directory (default: src/assets/icons/qaseh)"
+        },
+        "namesOut": {
+          "type": "string",
+          "description": "Relative path to auto-generated icon names TypeScript file"
+        },
+        "spriteOut": {
+          "type": "string",
+          "description": "Relative path to the output sprite.svg file"
+        }
+      }
+    },
     "styles": {
       "type": "array",
       "items": {
