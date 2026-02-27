@@ -343,7 +343,9 @@ function executeSync(add: SyncEntry[], remove: SyncEntry[], projectDir: string):
       const slug = slugify(e.name);
       const styleDir = path.join(projectDir, e.style.toLowerCase());
       fs.mkdirSync(styleDir, { recursive: true });
-      fs.copyFileSync(src, path.join(styleDir, `${slug}.svg`));
+      let svg = sanitizeSvg(fs.readFileSync(src, "utf-8"));
+      if (e.style !== "Colored") svg = normalizeOutlineSvg(svg);
+      fs.writeFileSync(path.join(styleDir, `${slug}.svg`), svg, "utf-8");
       result.added++;
     } catch (err) {
       result.errors.push(`Add: ${e.name} — ${err}`);
@@ -622,8 +624,24 @@ export async function openUI(): Promise<void> {
         if (!style || !group || !name) return error(res, "Missing style, group, or name", 400);
         const svg = getIconSvg(style, group, name);
         if (!svg) return error(res, "Not found", 404);
+        const out = style !== "Colored" ? normalizeOutlineSvg(svg) : svg;
         res.writeHead(200, { "Content-Type": "image/svg+xml" });
-        res.end(svg);
+        res.end(out);
+        return;
+      }
+
+      // ── Batch SVG content ──────────────────────────────────
+      if (req.method === "POST" && url.pathname === "/api/icons-svg") {
+        const body = JSON.parse(await readBody(req));
+        const icons: { style: string; group: string; name: string }[] = body.icons || [];
+        const result: Record<string, string> = {};
+        for (const { style: s, group: g, name: n } of icons) {
+          const raw = getIconSvg(s, g, n);
+          if (!raw) continue;
+          const key = `${s}/${g}/${n}`;
+          result[key] = s !== "Colored" ? normalizeOutlineSvg(raw) : raw;
+        }
+        json(res, result);
         return;
       }
 

@@ -17,29 +17,28 @@ import path from "path";
 
 // ── SVGO Configs ─────────────────────────────────────────────────────────────
 
-const SVGO_STANDARD = {
-  multipass: true,
-  plugins: [
-    {
-      name: "preset-default",
-      params: { overrides: { removeUselessStrokeAndFill: false } },
-    },
-    "prefixIds",
-    { name: "removeAttrs", params: { attrs: ["opacity", "class", "data-name", "filter"] } },
-    "removeComments",
-    "removeMetadata",
-  ],
-};
-
-const SVGO_COLORED = {
-  plugins: [
-    { name: "preset-default", params: { overrides: { removeUselessStrokeAndFill: false, convertColors: false } } },
-    "prefixIds",
-    { name: "removeAttrs", params: { attrs: ["data-name", "class"] } },
-    "removeComments",
-    "removeMetadata",
-  ],
-};
+function makeSvgoConfig(id: string, isColored: boolean) {
+  return isColored
+    ? {
+        plugins: [
+          { name: "preset-default", params: { overrides: { removeUselessStrokeAndFill: false, convertColors: false } } },
+          { name: "prefixIds", params: { prefix: id } },
+          { name: "removeAttrs", params: { attrs: ["data-name", "class"] } },
+          "removeComments",
+          "removeMetadata",
+        ],
+      }
+    : {
+        multipass: true,
+        plugins: [
+          { name: "preset-default", params: { overrides: { removeUselessStrokeAndFill: false } } },
+          { name: "prefixIds", params: { prefix: id } },
+          { name: "removeAttrs", params: { attrs: ["class", "data-name", "filter"] } },
+          "removeComments",
+          "removeMetadata",
+        ],
+      };
+}
 
 // ── Config Resolution ────────────────────────────────────────────────────────
 
@@ -101,12 +100,25 @@ function walkIcons(dir: string): IconEntry[] {
 
 // ── Build One Symbol ─────────────────────────────────────────────────────────
 
-async function toSymbol(raw: string, id: string, variant: string, optimize: Function): Promise<string> {
+export async function toSymbol(raw: string, id: string, variant: string, optimize: Function): Promise<string> {
   const isColored = variant === "colored";
-  const svgoConfig = isColored ? SVGO_COLORED : SVGO_STANDARD;
-  const { data: optimized } = optimize(raw, svgoConfig as any);
+  const svgoConfig = makeSvgoConfig(id, isColored);
 
-  // Extract viewBox BEFORE SVGO — preset-default strips viewBox when width+height are explicit
+  // ── Parse root <svg> tag ONCE — single source of truth for the symbol's defaults ──
+  // Non-anchored: handles SVGs with XML declarations (<?xml ...?>), DOCTYPEs, or comments before the root tag
+  const rootSvgMatch = raw.match(/<svg([^>]*)>/i);
+  const rootAttrs = rootSvgMatch?.[1] ?? "";
+  const rootFill = rootAttrs.match(/\bfill=(["'])([^"']*)\1/i)?.[2];
+  const rootStroke = rootAttrs.match(/\bstroke=(["'])([^"']*)\1/i)?.[2];
+
+  // 1. Preemptive Security: Strip any injected <script> tags before SVGO touches it.
+  // We explicitly DO NOT strip <style> tags here, because legitimate SVGs (e.g., from Illustrator)
+  // use them. SVGO's `inlineStyles` plugin will safely convert them to inline attributes.
+  let safeRaw = raw.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "");
+
+  const { data: optimized } = optimize(safeRaw, svgoConfig as any);
+
+  // Extract viewBox from raw BEFORE SVGO — preset-default strips viewBox when width+height are explicit
   const viewBox =
     raw.match(/viewBox="([^"]*)"/)?.[1] ??
     (() => {
@@ -115,39 +127,43 @@ async function toSymbol(raw: string, id: string, variant: string, optimize: Func
       return w && h ? `0 0 ${w} ${h}` : "0 0 24 24";
     })();
 
+  // 2. Safe Unwrapping: Strip ONLY the root <svg> tags, safely preserving nested <svg> elements
   let inner = optimized
-    .replace(/<svg[^>]*>/i, "")
-    .replace(/<\/svg>/i, "")
+    .replace(/^\s*<svg[^>]*>/i, "")
+    .replace(/<\/svg>\s*$/i, "")
     .trim();
 
-  // Colored icons keep their original fills/strokes — don't normalize
+  // 3. Namespace & XML Hardening: Strip XML namespaces and deprecated xlink attributes
+  inner = inner
+    .replace(/\sxmlns(:[a-z\-]+)?=(["']).*?\2/gi, "")
+    .replace(/\sxml:[a-z\-]+=(["']).*?\1/gi, "")
+    .replace(/xlink:href=/g, "href=");
+
+  // 4. Color normalization — library-agnostic
+  // Colored icons (brand logos): preserve exact colors, they are immutable
+  // All other icons (outline, bold, linear, broken, duotone): convert to `currentColor` for CSS theming
+  // Note: `opacity` attributes are NEVER touched, so duotone layering works automatically
   if (!isColored) {
     inner = inner
-      .replace(/fill="(?!none|currentColor|url\()[^"]+"/g, 'fill="currentColor"')
-      .replace(/stroke="(?!none|currentColor|url\()[^"]+"/g, 'stroke="currentColor"');
+      .replace(/fill="(?!none|currentColor|url\()[^"]+"/gi, 'fill="currentColor"')
+      .replace(/stroke="(?!none|currentColor|url\()[^"]+"/gi, 'stroke="currentColor"');
   }
 
-  // Determine symbol fill from the RAW svg (before SVGO strips the root <svg> tag).
-  // Checking processed `inner` is unreliable: many icons carry fill="currentColor" on the
-  // root <svg> element — SVGO strips that tag, so inner has no fill attrs at all.
-  //
-  //   fill-based  (Phosphor/Solar Bold, etc.): raw has fill attr that isn't "none"
-  //               → symbol gets fill="currentColor" so CSS `color` drives the icon
-  //   stroke-only (Solar Outline, Linear, etc.): raw has no fill (or only fill="none"),
-  //               but has stroke attrs → symbol gets fill="none" (explicit, not inherited)
-  //               Without this, browsers default to fill="black", filling the transparent areas.
-  //   colored:    no override — SVG paths carry their own exact hex fills
-  let fillAttr: string;
+  // 5. Symbol default fill — derived from the ROOT <svg> tag (not inner elements)
+  // This is the universal SVG convention:
+  //   root fill="none"  → stroke-based icon (linear, broken, line duotone)
+  //   root fill=<color>  → fill-based icon with explicit color (colored brand logos)
+  //   root has no fill   → fill-based icon (outline, bold, bold duotone)
+  let fillAttr = "";
   if (isColored) {
-    fillAttr = "";
-  } else if (/fill="(?!none)[^"]+"/i.test(raw)) {
-    // Raw svg has explicit non-none fills (incl. fill="currentColor" on root) → fill-based
-    fillAttr = ' fill="currentColor"';
-  } else if (/stroke="(?!none)[^"]+"/i.test(raw)) {
-    // Raw svg has strokes but no fills → pure stroke icon
+    // Brand logos: copy exact root presentation attributes onto the symbol
+    if (rootFill) fillAttr += ` fill="${rootFill}"`;
+    if (rootStroke) fillAttr += ` stroke="${rootStroke}"`;
+  } else if (rootFill === "none") {
+    // Stroke-based icon — prevent browser's default black fill from bleeding in
     fillAttr = ' fill="none"';
   } else {
-    // No fill, no stroke in raw (unusual) → safe fallback
+    // Fill-based icon — enable CSS color inheritance
     fillAttr = ' fill="currentColor"';
   }
 
@@ -202,7 +218,12 @@ export async function buildIcons(config: IconsConfig) {
     symbols.push(await toSymbol(raw, id, variant, optimize));
   }
 
-  const sprite = [`<?xml version="1.0" encoding="UTF-8"?>`, `<svg xmlns="http://www.w3.org/2000/svg" style="display:none">`, ...symbols, `</svg>`].join("\n");
+  const sprite = [
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:none">`,
+    ...symbols,
+    `</svg>`,
+  ].join("\n");
 
   fs.mkdirSync(path.dirname(config.spriteOut), { recursive: true });
   fs.writeFileSync(config.spriteOut, sprite, "utf8");

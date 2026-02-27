@@ -5,11 +5,15 @@ Moon-Style includes a complete SVG icon pipeline: cache management, CLI, visual 
 ## Architecture
 
 ```
-~/.moon-icons/              ← Global cache (git clone of Solar-Icon-Set)
+~/.moon-icons/              ← Global cache (cloned repos + seeded icons)
   Icons/SVG/
     Bold/
       Arrows/
         Alt-Arrow-Down.svg
+    Outline/
+      Simple Icons/         ← 3,100+ brand logos (auto-cloned from GitHub)
+    Colored/
+      SVGL/                 ← Tech brand logos (auto-seeded)
     Broken/
     Linear/
     Line Duotone/
@@ -38,8 +42,10 @@ On first run, the system automatically:
 
 1. Checks `~/.moon-icons-status.json` for download state
 2. If not `done`, clones `Solar-Icon-Set.git` → `~/.moon-icons/`
-3. Records icon count and marks `done`
-4. Seeds sample Iconify collections (Phosphor, Tabler, etc.)
+3. Clones `simple-icons.git` → copies 3,100+ brand SVGs into `Outline/Simple Icons/`
+4. Records icon count and marks `done`
+5. Seeds sample Iconify collections (Phosphor, Tabler, etc.)
+6. Seeds SVGL brand logos (React, Vue, Docker, AWS, etc.) into `Colored/SVGL/`
 
 **Resilient**: If download is interrupted, next run auto-cleans and retries.
 **Concurrent-safe**: PID-based lock prevents duplicate downloads.
@@ -73,7 +79,11 @@ yarn moon icons:add --style=Bold                                      # Add ALL 
 
 # ── Visual UI ──
 yarn moon icons:ui                             # Open visual UI (port 8293)
+# or via project script:
+yarn icons                                     # if package.json has "icons": "moon icons:ui"
 ```
+
+> **Note**: The `moon` binary auto-kills any existing instance on port 8293 before starting (cross-platform).
 
 > **Note**: Targets can be mixed — groups and individual `Group/Icon` paths in the same command.
 
@@ -116,15 +126,50 @@ These are the available groups in `~/.moon-icons/Icons/SVG/`:
 
 ## Icon Styles
 
-| Style        | Description                               |
-| ------------ | ----------------------------------------- |
-| Outline      | Standard outlined (default — plain names) |
-| Bold         | Solid filled shapes                       |
-| Linear       | Thin stroked outlines                     |
-| Broken       | Dashed/broken strokes                     |
-| Line Duotone | Two-tone outlined                         |
-| Bold Duotone | Two-tone filled                           |
-| Colored      | Multi-color (emoji, logos)                |
+| Style        | Description                               | Pipeline behavior                                                      |
+| ------------ | ----------------------------------------- | ---------------------------------------------------------------------- |
+| Outline      | Standard outlined (default — plain names) | `fill="currentColor"` on symbol, colors → `currentColor`               |
+| Bold         | Solid filled shapes                       | `fill="currentColor"` on symbol, colors → `currentColor`               |
+| Linear       | Thin stroked outlines                     | `fill="none"` on symbol, strokes → `currentColor`                      |
+| Broken       | Dashed/broken strokes                     | `fill="none"` on symbol, strokes → `currentColor`                      |
+| Line Duotone | Two-tone outlined (opacity layers)        | `fill="none"` on symbol, strokes → `currentColor`, `opacity` preserved |
+| Bold Duotone | Two-tone filled (opacity layers)          | `fill="none"` on symbol, fills → `currentColor`, `opacity` preserved   |
+| Colored      | Multi-color (brand logos, emoji)          | Exact root fill/stroke copied to symbol, inner colors untouched        |
+
+## SVG Pipeline
+
+The Vite plugin (`vite-plugin-icons.ts`) processes each SVG through a 5-step sanitization pipeline:
+
+1. **Security** — Strips `<script>` tags. Preserves `<style>` (SVGO inlines them).
+2. **Safe Unwrapping** — Strips only the root `<svg>` tags, preserving nested `<svg>` elements.
+3. **Namespace Hardening** — Strips `xmlns`, `xml:space`, replaces `xlink:href` → `href`.
+4. **Color Normalization** — Non-colored: all fills/strokes → `currentColor`. Colored: untouched.
+5. **Root Fill Attribution** — Symbol's default `fill` is derived from the root `<svg>` tag only:
+   - Root `fill="none"` → stroke-based icon → `symbol fill="none"`
+   - Root has no fill → fill-based icon → `symbol fill="currentColor"`
+   - Colored + root has explicit color → symbol copies exact value
+
+> **Library-agnostic**: These rules work for any SVG source (Solar, Heroicons, Phosphor, Tabler, Figma exports, etc.).
+
+### Duotone Handling
+
+Duotone icons use `opacity="0.5"` to create the secondary layer. The pipeline:
+
+- Converts `fill="black"` → `fill="currentColor"` (CSS-customizable)
+- Preserves `opacity` attributes (never stripped)
+- Result: primary layer = full color, secondary layer = 50% opacity. Set color via CSS `color` property.
+
+### Gradient ID Collision Prevention
+
+Each icon's internal IDs (gradients, clip-paths, filters) are prefixed with the icon's ID via SVGO's `prefixIds` plugin. This prevents collisions when multiple icons with gradients coexist in the sprite.
+
+## Testing
+
+```bash
+npx vitest run lib/__tests__/toSymbol.test.ts
+```
+
+44 tests across 10 sections: root fill attribution, color normalization, duotone opacity, viewBox extraction, namespace hardening, security, symbol structure, gradient prefixing, real-world patterns, and edge cases.
 
 ## Configuration (moon.config.json)
 
@@ -162,12 +207,33 @@ yarn moon icons:add \
   --style=Outline
 ```
 
-### Iconify (Web Icons)
+### External Icon Sources
 
-If an icon is not in the Solar cache, the UI supports:
+The UI's Upload tab has a **"Find Icons Online"** section:
 
-1. **Iconify API**: Search via the UI's "Find Icons Online" links or use the URL input
-2. **SVGL**: Brand logos (React, Vue, Docker, AWS, etc.) are auto-seeded into `Colored/SVGL/`
-3. **SVGRepo / Simple Icons / Google Fonts**: Paste the SVG URL into the UI's URL input
+- Type a search term → get clickable links to SVGRepo, Iconify, Simple Icons, SVGL, Google Fonts
+- Each opens in a new tab with the search query pre-filled
+- Find icon → copy URL → paste in the URL import field
 
-The server downloads, sanitizes, auto-detects style, and saves to both cache and project.
+Also supported:
+
+- **Iconify API**: Browse 200k+ icons via the Web Search tab
+- **Simple Icons**: 3,100+ brand logos in the local cache (`Outline/Simple Icons/`)
+- **SVGL**: Tech brand logos in the local cache (`Colored/SVGL/`)
+- **SVGRepo / Google Fonts**: Paste SVG URL into the URL input
+
+### Project Setup
+
+```json
+// package.json
+{
+  "scripts": {
+    "icons": "moon icons:ui"
+  }
+}
+```
+
+```bash
+yarn add moon-style   # or install locally via file: link
+yarn icons            # opens the UI
+```

@@ -21,16 +21,16 @@
     "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
     "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
     "copy-html": "cp lib/icons-client.html dist/icons-client.html",
-    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema && yarn copy-html && node ./scripts/insertCode.js && chmod +x dist/moon.js dist/purge.js 2>/dev/null || true",
-    "prod": "yarn build && node ./scripts/publish.js && git push",
+    "build": "rm -rf dist && rollup -c --exports auto && pnpm build-scriptsTs && pnpm copy-config && pnpm copy-config-schema && pnpm copy-html && node ./scripts/insertCode.js && chmod +x dist/moon.js dist/purge.js 2>/dev/null || true",
+    "prod": "pnpm build && node ./scripts/publish.js && git push",
     "start": "vite",
-    "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
+    "build-scriptsTs": "pnpm tsc --build scripts.tsconfig.json",
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "node ./dist/moon.js",
-    "just-test": "yarn build && node ./dist/build.js",
-    "test": "yarn build && start /B yarn moon && yarn start",
+    "just-test": "pnpm build && node ./dist/build.js",
+    "test": "pnpm build && start /B pnpm moon && pnpm start",
     "purge": "node ./dist/purge.js",
-    "test-purge": "yarn build-scriptsTs && node ./dist/purge.js",
+    "test-purge": "pnpm build-scriptsTs && node ./dist/purge.js",
     "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
   },
   "bin": {
@@ -45,6 +45,7 @@
     "@babel/core": "^7.19.3",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
+    "@types/node": "^25.3.0",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
@@ -62,9 +63,11 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.34.1",
+    "svgo": "^4.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4",
-    "vite": "^4.2.1"
+    "vite": "^4.2.1",
+    "vitest": "^4.0.18"
   },
   "files": [
     "dist"
@@ -80,6 +83,7 @@
   "keywords": [],
   "tags": [],
   "dependencies": {
+    "chokidar": "^5.0.0",
     "chokidar-cli": "^3.0.0",
     "postcss-cli": "^10.1.0",
     "postcss-preset-env": "^9.1.3",

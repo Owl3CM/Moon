@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "esnext",
+    "types": ["node"],
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "sourceMap": true,
@@ -14,7 +15,7 @@
     // "suppressImplicitAnyIndexErrors": true,
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es5",
+    "target": "es2018",
     "jsx": "react",
     "allowJs": true,
     "skipLibCheck": true,

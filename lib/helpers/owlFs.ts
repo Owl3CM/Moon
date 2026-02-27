@@ -1,6 +1,11 @@
 import fs from "fs";
 import path from "path";
-import chalk from "chalk";
+// Zero-dep ANSI color helpers (replaces chalk)
+const ansi = (code: number) => (s: string) => `\x1b[${code}m${s}\x1b[0m`;
+const chalk = {
+  greenBright: { bold: (s: string) => ansi(1)(`\x1b[92m${s}`) },
+  redBright: { bold: (s: string) => ansi(1)(`\x1b[91m${s}`) },
+};
 
 let counter = 0;
 
@@ -55,7 +60,7 @@ export async function createFile({ dir, name, content }: { dir: string; name: st
 
 export async function deleteFolder(dir: string): Promise<void> {
   try {
-    await fs.promises.rmdir(dir, { recursive: true });
+    await fs.promises.rm(dir, { recursive: true });
     console.log(chalk.redBright.bold(`Directory '${dir}' deleted successfully.`));
   } catch (err) {
     console.error(err);

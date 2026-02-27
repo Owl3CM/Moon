@@ -274,7 +274,28 @@ body {
 .card-icon img {
   width: 28px; height: 28px;
 }
-.card.colored .card-icon img { filter: none; }
+.card-icon .card-svg {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-icon .card-svg svg {
+  width: 100%; height: 100%;
+}
+/* Color cycling for non-colored icons */
+.card:not(.colored) { color: var(--icon-color, var(--text)); }
+.card.ic0 { --icon-color: #20a891; }
+.card.ic1 { --icon-color: #f59e0b; }
+.card.ic2 { --icon-color: #ef4444; }
+.card.ic3 { --icon-color: #3b82f6; }
+.card.ic4 { --icon-color: #6b7280; }
+.card.ic5 { --icon-color: #22c55e; }
+.card.ic6 { --icon-color: #8b5cf6; }
+/* Load-more sentinel */
+.load-more-sentinel {
+  grid-column: 1 / -1;
+  text-align: center; padding: 12px;
+  font-size: 0.72rem; color: var(--text-dim);
+}
 .card-gear {
   position: absolute; top: 2px; right: 2px;
   width: 18px; height: 18px;
@@ -1131,10 +1152,17 @@ body {
     $container.innerHTML = h;
     window.scrollTo(0, scrollY);
     updateBulkBtn();
+    loadInlineSvgs();
+    observeLoadMore();
   }
 
+  var ICONS_PER_BATCH = 100;
+  var COLOR_COUNT = 7;
+  var svgCache = {}; // key → svg string
+
   function renderGroup(groupName, items) {
-    var h = '<div class="group">';
+    var show = Math.min(items.length, ICONS_PER_BATCH);
+    var h = '<div class="group" data-group-name="' + esc(groupName) + '">';
     h += '<div class="group-header">';
     h += '<span class="group-name">' + esc(groupName) + ' <span class="group-count">(' + items.length + ')</span></span>';
     h += '<div class="group-actions">';
@@ -1144,30 +1172,158 @@ body {
     h += '</div>';
     h += '<div class="grid">';
 
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      var itemStyle = item.style || style;
-      var id = itemStyle + '/' + groupName + '/' + item.name;
-      var sel = selected.has(id);
-      var isColored = itemStyle === 'Colored';
-      var cls = 'card';
-      if (item.added) cls += ' added';
-      if (sel && item.added) cls += ' selected removing';
-      else if (sel) cls += ' selected';
-      if (isColored) cls += ' colored';
+    for (var i = 0; i < show; i++) {
+      h += renderCard(items[i], groupName, i);
+    }
 
-      h += '<div class="' + cls + '" data-action="toggle-card" data-group="' + esc(groupName) + '" data-name="' + esc(item.name) + '" data-added="' + item.added + '" data-style="' + esc(itemStyle) + '">';
-      h += '<div class="card-icon">';
-      h += '<img src="/api/icon?style=' + enc(itemStyle) + '&group=' + enc(groupName) + '&name=' + enc(item.name) + '" loading="lazy">';
-      h += '<button class="card-gear" data-action="card-menu" data-group="' + esc(groupName) + '" data-name="' + esc(item.name) + '" data-added="' + item.added + '" data-style="' + esc(itemStyle) + '" title="Actions">\u2699</button>';
-      h += '</div>';
-      h += '<div class="card-name">' + esc(item.name) + '</div>';
-      if (style === 'All') h += '<div style="font-size:0.5rem; color:var(--accent); margin-top:1px;">' + esc(itemStyle) + '</div>';
-      h += '</div>';
+    if (items.length > show) {
+      h += '<div class="load-more-sentinel" data-group="' + esc(groupName) + '" data-shown="' + show + '" data-total="' + items.length + '"><span class="spinner"></span> Loading more...</div>';
     }
 
     h += '</div></div>';
     return h;
+  }
+
+  function renderCard(item, groupName, idx) {
+    var itemStyle = item.style || style;
+    var id = itemStyle + '/' + groupName + '/' + item.name;
+    var sel = selected.has(id);
+    var isColored = itemStyle === 'Colored';
+    var cls = 'card';
+    if (item.added) cls += ' added';
+    if (sel && item.added) cls += ' selected removing';
+    else if (sel) cls += ' selected';
+    if (isColored) cls += ' colored';
+    else cls += ' ic' + (idx % COLOR_COUNT);
+
+    var h = '<div class="' + cls + '" data-action="toggle-card" data-group="' + esc(groupName) + '" data-name="' + esc(item.name) + '" data-added="' + item.added + '" data-style="' + esc(itemStyle) + '">';
+    h += '<div class="card-icon">';
+    if (isColored) {
+      h += '<img src="/api/icon?style=' + enc(itemStyle) + '&group=' + enc(groupName) + '&name=' + enc(item.name) + '" loading="lazy">';
+    } else {
+      var cacheKey = itemStyle + '/' + groupName + '/' + item.name;
+      if (svgCache[cacheKey]) {
+        h += '<div class="card-svg">' + svgCache[cacheKey] + '</div>';
+      } else {
+        h += '<div class="card-svg" data-svg-key="' + esc(cacheKey) + '"></div>';
+      }
+    }
+    h += '<button class="card-gear" data-action="card-menu" data-group="' + esc(groupName) + '" data-name="' + esc(item.name) + '" data-added="' + item.added + '" data-style="' + esc(itemStyle) + '" title="Actions">\u2699</button>';
+    h += '</div>';
+    h += '<div class="card-name">' + esc(item.name) + '</div>';
+    if (style === 'All') h += '<div style="font-size:0.5rem; color:var(--accent); margin-top:1px;">' + esc(itemStyle) + '</div>';
+    h += '</div>';
+    return h;
+  }
+
+  // ── Batch SVG Loader ─────────────────────────────────────
+  function loadInlineSvgs() {
+    var els = document.querySelectorAll('.card-svg[data-svg-key]');
+    if (els.length === 0) return;
+    var batch = [];
+    var elMap = {};
+    els.forEach(function(el) {
+      var key = el.getAttribute('data-svg-key');
+      if (!key) return;
+      var parts = key.split('/');
+      if (parts.length < 3) return;
+      batch.push({ style: parts[0], group: parts.slice(1, -1).join('/'), name: parts[parts.length - 1] });
+      if (!elMap[key]) elMap[key] = [];
+      elMap[key].push(el);
+    });
+    if (batch.length === 0) return;
+    fetch('/api/icons-svg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ icons: batch })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(svgs) {
+      Object.keys(svgs).forEach(function(key) {
+        svgCache[key] = svgs[key];
+        var targets = elMap[key] || [];
+        targets.forEach(function(el) {
+          el.innerHTML = svgs[key];
+          el.removeAttribute('data-svg-key');
+        });
+      });
+    })
+    .catch(function(err) { console.warn('[moon-icons] batch SVG load failed:', err); });
+  }
+
+  // ── Infinite Scroll via IntersectionObserver ─────────────
+  var loadMoreObserver = null;
+
+  function observeLoadMore() {
+    if (loadMoreObserver) loadMoreObserver.disconnect();
+    loadMoreObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var sentinel = entry.target;
+        var groupName = sentinel.getAttribute('data-group');
+        var shown = parseInt(sentinel.getAttribute('data-shown'));
+        var total = parseInt(sentinel.getAttribute('data-total'));
+        if (shown >= total) { sentinel.remove(); return; }
+
+        // Find the items for this group from the current data
+        var groupItems = getGroupItems(groupName);
+        if (!groupItems) { sentinel.remove(); return; }
+
+        var nextBatch = Math.min(shown + ICONS_PER_BATCH, total);
+        var frag = '';
+        for (var i = shown; i < nextBatch; i++) {
+          frag += renderCard(groupItems[i], groupName, i);
+        }
+
+        // Insert before sentinel
+        var temp = document.createElement('div');
+        temp.innerHTML = frag;
+        var grid = sentinel.parentElement;
+        while (temp.firstChild) {
+          grid.insertBefore(temp.firstChild, sentinel);
+        }
+
+        if (nextBatch >= total) {
+          sentinel.remove();
+        } else {
+          sentinel.setAttribute('data-shown', nextBatch);
+        }
+        loadInlineSvgs();
+      });
+    }, { rootMargin: '200px' });
+
+    document.querySelectorAll('.load-more-sentinel').forEach(function(el) {
+      loadMoreObserver.observe(el);
+    });
+  }
+
+  function getGroupItems(groupName) {
+    if (!data) return null;
+    var icons = data.icons;
+    if (style === 'All') {
+      var merged = {};
+      for (var si = 0; si < data.styles.length; si++) {
+        var st = data.styles[si];
+        var items = icons[groupName] && icons[groupName][st] || [];
+        for (var ii = 0; ii < items.length; ii++) {
+          var item = items[ii];
+          var key = st + '/' + item.name;
+          if (!merged[key]) merged[key] = { name: item.name, added: item.added, style: st };
+        }
+      }
+      var result = Object.values(merged);
+      if (query) result = result.filter(function(it) { return it.name.toLowerCase().includes(query); });
+      if (filter === 'added') result = result.filter(function(it) { return it.added; });
+      else if (filter === 'unadded') result = result.filter(function(it) { return !it.added; });
+      return result;
+    } else {
+      var items = icons[groupName] && icons[groupName][style] || [];
+      var result = items.map(function(it) { return { name: it.name, added: it.added, style: style }; });
+      if (query) result = result.filter(function(it) { return it.name.toLowerCase().includes(query); });
+      if (filter === 'added') result = result.filter(function(it) { return it.added; });
+      else if (filter === 'unadded') result = result.filter(function(it) { return !it.added; });
+      return result;
+    }
   }
 
   // ── Render: Web Search ─────────────────────────────

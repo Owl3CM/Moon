@@ -2,13 +2,19 @@ import { readFile } from "./helpers/owlFs.js";
 import { Controller } from "./builder/controller.js";
 import { copyFileSync } from "fs";
 import { exec } from "child_process";
-import chalk from "chalk";
+// Zero-dep ANSI color helpers (replaces chalk)
+const bold = (code: number) => (s: string) => `\x1b[1m\x1b[${code}m${s}\x1b[0m`;
+const chalk = {
+  redBright: { bold: bold(91) },
+  yellowBright: { bold: bold(93) },
+  cyanBright: { bold: bold(96) },
+};
 const createMoon = async () => {
   const config = await readFile("./moon.config.json");
   console.clear();
   await Controller.init(JSON.parse(config));
   await Controller.createStyles();
-  exec('nodemon --watch moon.config.json -e json -x "yarn moon"', (err, stdout, stderr) => {
+  exec('nodemon --watch moon.config.json -e json -x "pnpm moon"', (err, stdout, stderr) => {
     if (err) {
       console.error("\nError: while ", chalk.redBright.bold("watching"), " for changes in ", chalk.redBright.bold("moon.config.json"));
       return;

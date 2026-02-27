@@ -8,8 +8,12 @@ const hexToRGB = (hex: any) => {
 
 const Moon = {
   currentTheme: "" as Theme,
+  _onChangeCallback: null as ((theme: Theme) => void) | null,
   init: (theme: Theme = localStorage.getItem("theme") as Theme) => {
     Moon.setTheme(theme ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  },
+  onThemeChange: (cb: (theme: Theme) => void) => {
+    Moon._onChangeCallback = cb;
   },
   setTheme: (theme: Theme) => {
     localStorage.setItem("theme", theme);
@@ -17,6 +21,7 @@ const Moon = {
     Moon.currentTheme && document.documentElement.classList.remove(Moon.currentTheme);
     document.documentElement.classList.add(theme);
     Moon.currentTheme = theme;
+    Moon._onChangeCallback?.(theme);
   },
   removeColors: (colors?: Color[]) => {
     if (!colors) colors = Object.keys(dynimcColors) as Color[];
