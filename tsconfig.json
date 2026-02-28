@@ -12,7 +12,6 @@
     "noImplicitThis": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    // "suppressImplicitAnyIndexErrors": true,
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2018",
@@ -26,5 +25,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["lib/index.ts", "lib/icon.tsx"]
+  "include": ["lib/**/*.ts", "lib/**/*.tsx"]
 }

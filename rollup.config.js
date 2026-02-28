@@ -2,16 +2,12 @@ import typescript from "rollup-plugin-typescript2";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const packageJson = require("./package.json");
-import rollupResolve from "@rollup/plugin-node-resolve";
-import rollupCommonjs from "@rollup/plugin-commonjs";
 
 const sharedPlugins = [
-  rollupResolve(),
-  rollupCommonjs(),
   peerDepsExternal(),
   resolve(),
   commonjs(),

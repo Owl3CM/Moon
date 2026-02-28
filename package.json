@@ -21,17 +21,17 @@
     "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
     "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
     "copy-html": "cp lib/icons-client.html dist/icons-client.html",
-    "build": "rm -rf dist && rollup -c --exports auto && pnpm build-scriptsTs && pnpm copy-config && pnpm copy-config-schema && pnpm copy-html && node ./scripts/insertCode.js && chmod +x dist/moon.js dist/purge.js 2>/dev/null || true",
+    "build": "pnpm test && rm -rf dist && rollup -c --exports auto && pnpm build-scriptsTs && pnpm copy-config && pnpm copy-config-schema && pnpm copy-html && chmod +x dist/moon.js dist/purge.js 2>/dev/null || true",
     "prod": "pnpm build && node ./scripts/publish.js && git push",
     "start": "vite",
     "build-scriptsTs": "pnpm tsc --build scripts.tsconfig.json",
     "delete-scriptsJS": "rm -rf ./scriptsJS",
     "moon": "node ./dist/moon.js",
     "just-test": "pnpm build && node ./dist/build.js",
-    "test": "pnpm build && start /B pnpm moon && pnpm start",
+    "test": "vitest run",
     "purge": "node ./dist/purge.js",
     "test-purge": "pnpm build-scriptsTs && node ./dist/purge.js",
-    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
+    "postinstall": "chmod +x ./dist/moon.js ./dist/purge.js 2>/dev/null || true"
   },
   "bin": {
     "moon": "./dist/moon.js",
@@ -53,7 +53,6 @@
     "autoprefixer": "^10.4.15",
     "babel-loader": "^8.2.5",
     "cssnano": "^6.0.1",
-    "fs": "^0.0.1-security",
     "postcss": "^8.4.29",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -61,7 +60,7 @@
     "rollup": "^3.29.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-terser": "^7.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "rollup-plugin-typescript2": "^0.34.1",
     "svgo": "^4.0.0",
     "ts-node": "^10.9.1",
@@ -70,7 +69,8 @@
     "vitest": "^4.0.18"
   },
   "files": [
-    "dist"
+    "dist",
+    "Moon.Types.d.ts"
   ],
   "publishConfig": {
     "access": "public"
@@ -84,7 +84,6 @@
   "tags": [],
   "dependencies": {
     "chokidar": "^5.0.0",
-    "chokidar-cli": "^3.0.0",
     "postcss-cli": "^10.1.0",
     "postcss-preset-env": "^9.1.3",
     "purgecss": "^5.0.0"

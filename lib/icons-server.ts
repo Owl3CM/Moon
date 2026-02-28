@@ -1,3 +1,17 @@
+/**
+ * Moon Icons — Local Development Server
+ *
+ * Runs on localhost:8293 for managing SVG icons via a browser UI.
+ * This is a LOCAL-ONLY dev tool, NOT meant for production.
+ *
+ * KNOWN LIMITATIONS:
+ * - Path parameters (style, group, name) are not sanitized for directory traversal
+ * - /api/fetch-url proxies any URL (SSRF risk on local network)
+ * - SVGRepo HTML scraping uses regex, breaks when their HTML changes
+ * - No authentication (localhost-only mitigates this)
+ *
+ * These are accepted risks for a local dev tool.
+ */
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -152,11 +166,20 @@ function normalizeOutlineSvg(svg: string): string {
     .replace(/stroke="(?!none|currentColor)[^"]+"/g, 'stroke="currentColor"');
 }
 
+const MAX_BODY_SIZE = 10 * 1024 * 1024; // 10MB
+
 function readBody(req: http.IncomingMessage): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     let body = "";
-    req.on("data", (c) => (body += c));
+    req.on("data", (c) => {
+      body += c;
+      if (body.length > MAX_BODY_SIZE) {
+        req.destroy();
+        reject(new Error("Request body too large"));
+      }
+    });
     req.on("end", () => resolve(body));
+    req.on("error", reject);
   });
 }
 
@@ -365,7 +388,7 @@ function executeSync(add: SyncEntry[], remove: SyncEntry[], projectDir: string):
     }
   }
 
-  console.log(`Sync: +${result.added} -${result.removed} (${result.errors.length} errors)`);
+  console.log(`[moon-icons] Sync: +${result.added} -${result.removed} (${result.errors.length} errors)`);
   return result;
 }
 

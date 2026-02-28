@@ -54,20 +54,13 @@
                 "type": "string",
                 "format": "color"
               }
-            },
-            "Or any theme name you want": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
-            },
+            }
+          },
+          "additionalProperties": {
+            "type": "object",
             "additionalProperties": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string",
-                "format": "color"
-              }
+              "type": "string",
+              "format": "color"
             }
           }
         }

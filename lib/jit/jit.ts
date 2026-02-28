@@ -1,11 +1,26 @@
+/**
+ * Moon-Style JIT Engine
+ *
+ * Scans .tsx/.jsx/.ts/.js files for utility class patterns and generates
+ * corresponding CSS on-the-fly.
+ *
+ * KNOWN LIMITATIONS:
+ * - Regex scans raw file text with no context awareness
+ * - Matches inside comments, strings, URLs, and template literals
+ * - `bg:#debug` in a comment will generate a real CSS class
+ * - `href="/page#section"` will match the colors pattern
+ * - No word boundary on spacing pattern — matches inside CSS values
+ *
+ * These are acceptable tradeoffs for simplicity. If false positives
+ * cause issues, consider adding a configurable `classAttributes` filter.
+ */
 import { readFileSync, readdirSync, statSync, writeFileSync } from "fs";
 import { Controller, cssFolder } from "../builder/controller.js";
 import path from "path";
-// import { logger } from "../helpers/owlFs.js";
 
 let config: any;
 
-const ColorsPropsByShourtNames = {
+const ColorsPropsByShortNames: { [key: string]: string } = {
   bg: "background-color",
   text: "color",
   fill: "fill",
@@ -17,7 +32,7 @@ const ColorsPropsByShourtNames = {
   "border-b": "border-bottom-color",
 };
 
-let JitGenerated = {};
+let JitGenerated: { [key: string]: string } = {};
 let isChanged = false;
 
 const customClassPatterns = {
@@ -26,7 +41,7 @@ const customClassPatterns = {
   spacing: /([a-zA-Z0-9-]+):([0-9]+(px|rem|%|vw|vh|em|ch|ex|cm|mm|in|pt|pc))/g,
 };
 
-const scanDirectoryForExtract = async (directory) => {
+const scanDirectoryForExtract = async (directory: string) => {
   const files = readdirSync(directory);
   for (const file of files) {
     try {
@@ -37,25 +52,31 @@ const scanDirectoryForExtract = async (directory) => {
       } else if (fileStat.isFile() && /\.(js|jsx|ts|tsx)$/i.test(file)) {
         Extract(filePath);
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error(`[moon-jit] Error scanning ${path.join(directory, file)}:`, e);
+    }
   }
 };
 
 export const Jit_Start = async () => {
-  config = JSON.parse(readFileSync("./moon.config.json") as any);
+  config = JSON.parse(readFileSync("./moon.config.json", "utf8"));
   JitGenerated = {};
   isChanged = false;
   try {
     await scanDirectoryForExtract(config.projectDir ?? "./src");
     Jit_End();
-  } catch (e) {}
+  } catch (e) {
+    console.error("[moon-jit] JIT start failed:", e);
+  }
 };
 
-export const Sync_Changes = (filePath) => {
+export const Sync_Changes = (filePath: string) => {
   try {
     Extract(filePath);
     Jit_End();
-  } catch (e) {}
+  } catch (e) {
+    console.error(`[moon-jit] Sync error for ${filePath}:`, e);
+  }
 };
 
 const Jit_End = () => {
@@ -65,60 +86,30 @@ const Jit_End = () => {
   }
 };
 
-export const Extract = (_filePath) => {
-  // const fileContent = readFileSync("./src/vite/main.tsx", "utf8");
-  const fileContent = readFileSync(_filePath, "utf8");
+export const Extract = (filePath: string) => {
   try {
+    const fileContent = readFileSync(filePath, "utf8");
     extractActions(fileContent);
     extractColors(fileContent);
     extractSpacing(fileContent);
-  } catch (e) {}
+  } catch (e) {
+    console.error(`[moon-jit] Extract error for ${filePath}:`, e);
+  }
 };
 
-const extractActions = (fileContent) => {
+const extractActions = (fileContent: string) => {
   const pattern = customClassPatterns.actions;
-  const matchs = fileContent.match(pattern);
-  matchs?.forEach((match) => {
-    // if (JitGenerated[match]) return;
-    // let screen: any;
-    // const data = match.split(":[");
-    // const rest = data[0].split(":");
-    // const classes = data[1].slice(0, -1).split(",");
-    // // const test = classes.join("\\,").replace(":", "\\:").replace("#", "\\#").replace("%", "\\%");
-    // const cleanClassesName = classes.join("\\,").split(":").join("\\:").split("#").join("\\#").split("%").join("\\%");
-    // let name = rest.join("\\:") + `\\:\\[${cleanClassesName}\\]`;
-    // rest.forEach((act) => {
-    //   const _screen = config.screens[act];
-    //   if (_screen) {
-    //     logger("screen", _screen);
-    //     screen = _screen;
-    //     return;
-    //   }
-    //   name += `:${act}`;
-    // });
-    // const classValueContent = classes
-    //   .map((className) => {
-    //     let v = Controller.GeneratedClasses[className];
-    //     if (!v) {
-    //       const [propName, colorValue] = className.split(":");
-    //       v = `${colorValue.startsWith("#") ? `${ColorsPropsByShourtNames[propName]}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
-    //     }
-    //     return `${v};`;
-    //   })
-    //   .join("");
-    // const generated = `.${name}{${classValueContent}}`;
-    // JitGenerated[match] = screen ? `@media (max-width: ${screen}){${generated}}` : generated;
-    // isChanged = true;
-    // rewrite with handle pseudo elements before and after
+  const matches = fileContent.match(pattern);
+  matches?.forEach((match) => {
     if (JitGenerated[match]) return;
-    let screen: any;
+    let screen: string | undefined;
     const data = match.split(":[");
     const rest = data[0].split(":");
     const classes = data[1].slice(0, -1).split(",");
     const cleanClassesName = classes.join("\\,").split(":").join("\\:").split("#").join("\\#").split("%").join("\\%");
     let name = rest.join("\\:") + `\\:\\[${cleanClassesName}\\]`;
     rest.forEach((act) => {
-      const _screen = config.screens[act];
+      const _screen = config.screens?.[act];
       if (_screen) {
         screen = _screen;
       } else if (act === "before" || act === "after") {
@@ -131,7 +122,7 @@ const extractActions = (fileContent) => {
         let v = Controller.GeneratedClasses[className];
         if (!v) {
           const [propName, colorValue] = className.split(":");
-          v = `${colorValue.startsWith("#") ? `${ColorsPropsByShourtNames[propName] ?? propName}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
+          v = `${colorValue.startsWith("#") ? `${ColorsPropsByShortNames[propName] ?? propName}:${colorValue}` : getCustomClassValue(propName, colorValue)}`;
         }
         return `${v};`;
       })
@@ -140,39 +131,30 @@ const extractActions = (fileContent) => {
     const generated = `.${name}{${classValueContent}}`;
     JitGenerated[match] = screen ? `@media (max-width: ${screen}){${generated}}` : generated;
     isChanged = true;
-
-    // pseudo elements before and after
-    // const pseudoElements = ["before", "after"];
-    // pseudoElements.forEach((pseudoElement) => {
-    //   const pseudoElementMatch = `${match}:${pseudoElement}`;
-    //   if (JitGenerated[pseudoElementMatch]) return;
-    //   const pseudoElementName = `${name}:${pseudoElement}`;
-    //   const pseudoElementGenerated = `.${pseudoElementName}{${classValueContent}}`;
-    //   JitGenerated[pseudoElementMatch] = screen ? `@media (max-width: ${screen}){${pseudoElementGenerated}}` : pseudoElementGenerated;
-    //   isChanged = true;
-    // });
   });
 };
-const extractColors = (fileContent) => {
+
+const extractColors = (fileContent: string) => {
   const pattern = customClassPatterns.colors;
-  const matchs = fileContent.match(pattern);
-  matchs?.forEach((match) => {
+  const matches = fileContent.match(pattern);
+  matches?.forEach((match) => {
     if (JitGenerated[match]) return;
     const data = match.split(":");
     const propName = data[0];
     const colorValue = data[1];
     const name = `${propName}\\:\\${colorValue}`;
-    const foundedName = ColorsPropsByShourtNames[propName];
-    if (!foundedName) return;
-    const classValueContent = `${foundedName}:${colorValue}`;
+    const resolvedProp = ColorsPropsByShortNames[propName];
+    if (!resolvedProp) return;
+    const classValueContent = `${resolvedProp}:${colorValue}`;
     JitGenerated[match] = `.${name}{${classValueContent}}`;
     isChanged = true;
   });
 };
-const extractSpacing = (fileContent) => {
+
+const extractSpacing = (fileContent: string) => {
   const pattern = customClassPatterns.spacing;
-  const matchs = fileContent.match(pattern);
-  matchs?.forEach((match) => {
+  const matches = fileContent.match(pattern);
+  matches?.forEach((match) => {
     if (JitGenerated[match]) return;
     const data = match.split(":");
     const propName = data[0];
@@ -184,8 +166,8 @@ const extractSpacing = (fileContent) => {
   });
 };
 
-const getCustomClassValue = (name, value) => {
-  const func = Controller.PropsByShourtNames[name];
+const getCustomClassValue = (name: string, value: string): string => {
+  const func = Controller.PropsByShortNames[name];
   if (typeof func === "function") return func(value);
   return `${name}:${value}`;
 };

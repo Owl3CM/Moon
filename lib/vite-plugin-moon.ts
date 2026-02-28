@@ -41,7 +41,9 @@ function ensureInitFile() {
   const dir = "./moon";
   const initPath = `${dir}/init.ts`;
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(initPath, INIT_CONTENT, "utf8");
+  if (!fs.existsSync(initPath)) {
+    fs.writeFileSync(initPath, INIT_CONTENT, "utf8");
+  }
 }
 
 // ── Plugin ────────────────────────────────────────────────────────────────────
@@ -56,10 +58,12 @@ export default function moonPlugin() {
     // ── Virtual module resolution ────────────────────────────────────────────
     resolveId(id: string) {
       if (id === VIRTUAL_ID) return RESOLVED_ID;
+      return undefined;
     },
 
     load(id: string) {
       if (id === RESOLVED_ID) return buildSpriteModule();
+      return undefined;
     },
 
     // ── Build ────────────────────────────────────────────────────────────────

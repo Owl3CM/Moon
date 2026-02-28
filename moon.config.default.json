@@ -175,8 +175,8 @@
       }
     },
     {
-      "props": { "border-style": "border" },
-      "variableName": "border",
+      "props": { "border-style": "bs" },
+      "variableName": "border-style",
       "values": {
         "none": "none",
         "solid": "solid",

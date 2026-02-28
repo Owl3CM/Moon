@@ -14,5 +14,5 @@
     "outDir": "./dist/"
   },
   "include": ["lib"],
-  "exclude": ["lib/icon.tsx", "lib/icons-ui.legacy.ts"]
+  "exclude": ["lib/icon.tsx"]
 }

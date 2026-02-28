@@ -9,17 +9,17 @@ import { Sync_Changes, Jit_Start } from "./jit/jit.js";
 
 const configPath = "./moon.config.json";
 
-if (!(await fileExists(configPath))) copyFileSync(`${packagePath}/moon.config.default.json`, configPath);
-
-const rawConfig = await readFile(configPath);
-if (!rawConfig) {
-  throw new Error("moon.config.json not found or empty");
+async function ensureConfig(): Promise<string> {
+  if (!(await fileExists(configPath))) copyFileSync(`${packagePath}/moon.config.default.json`, configPath);
+  const raw = await readFile(configPath);
+  if (!raw) throw new Error("moon.config.json not found or empty");
+  return raw;
 }
 
 export const PurgeCSS = async () => {
   console.log("Purging CSS...");
 
-  const moonConfig = JSON.parse(rawConfig);
+  const moonConfig = JSON.parse(await ensureConfig());
   if (!moonConfig.content) {
     throw new Error("Content not specified in moon.config.json");
   }
@@ -53,8 +53,7 @@ export const PurgeCSS = async () => {
 };
 
 export const Watcher = async () => {
-  // Read config again (could have just been created)
-  let config = JSON.parse(await readFile(configPath));
+  const config = JSON.parse(await ensureConfig());
 
   // Initial build
   await buildConfig();
