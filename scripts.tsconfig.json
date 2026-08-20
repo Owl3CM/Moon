@@ -14,5 +14,5 @@
     "outDir": "./dist/"
   },
   "include": ["lib"],
-  "exclude": ["lib/icon.tsx"]
+  "exclude": ["lib/icon.tsx", "lib/__tests__/**/*"]
 }

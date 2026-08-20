@@ -12,7 +12,7 @@ const sharedPlugins = [
   resolve(),
   commonjs(),
   typescript({
-    exclude: ["**/*.stories.tsx", "**/*.stories.mdx"],
+    exclude: ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx", "**/*.stories.tsx", "**/*.stories.mdx"],
   }),
   terser(),
 ];
@@ -23,7 +23,7 @@ const mainConfig = {
   plugins: sharedPlugins,
   output: {
     file: packageJson.main,
-    format: "cjs",
+    format: "es",
     sourcemap: false,
   },
 };
@@ -35,7 +35,7 @@ const iconConfig = {
   plugins: sharedPlugins,
   output: {
     file: "dist/icon.js",
-    format: "cjs",
+    format: "es",
     sourcemap: false,
   },
 };

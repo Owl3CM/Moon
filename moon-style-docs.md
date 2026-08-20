@@ -1,6 +1,6 @@
 # Moon Style — Complete Documentation
 
-> **Version:** 0.1.1 · **License:** MIT · **Repo:** [Owl3CM/Moon](https://github.com/Owl3CM/Moon)
+> **Version:** 0.2.0 · **License:** MIT · **Repo:** [Owl3CM/Moon](https://github.com/Owl3CM/Moon)
 
 Moon Style is a **config-driven CSS utility generator** with a JIT engine, multi-theme color system, and Vite integration. You define your design tokens in a `moon.config.json` file and Moon generates all the CSS for you — variables, utility classes, theme selectors, and JIT-compiled on-demand classes.
 

@@ -24,10 +24,10 @@ npm install moon-style --dev
 
 ```ts
 import { defineConfig } from "vite";
-import moonPlugin from "moon-style/dist/vite-plugin-moon";
+import moonPlugin from "moon-style/vite";
 
 export default defineConfig({
-  plugins: [moonPlugin({ useJit: true, watchPath: "./moon.config.json" })],
+  plugins: [moonPlugin()],
 });
 ```
 

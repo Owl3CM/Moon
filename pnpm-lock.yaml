@@ -20,6 +20,9 @@ importers:
       purgecss:
         specifier: ^5.0.0
         version: 5.0.0
+      svgo:
+        specifier: ^4.0.0
+        version: 4.0.0
     devDependencies:
       '@babel/core':
         specifier: ^7.19.3
@@ -81,9 +84,6 @@ importers:
       rollup-plugin-typescript2:
         specifier: ^0.34.1
         version: 0.34.1(rollup@3.30.0)(typescript@4.9.5)
-      svgo:
-        specifier: ^4.0.0
-        version: 4.0.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@25.3.0)(typescript@4.9.5)
