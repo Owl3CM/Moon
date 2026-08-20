@@ -1,6 +1,6 @@
 {
   "name": "moon-style",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Config-driven CSS utilities, themes, and SVG icon tooling for Vite and React.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -81,6 +81,7 @@
     "Moon.Types.d.ts",
     ".agent",
     "AGENTS.md",
+    "CHANGELOG.md",
     "lib/*.ts",
     "lib/*.tsx",
     "lib/builder",

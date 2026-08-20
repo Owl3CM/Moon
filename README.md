@@ -369,11 +369,9 @@ const App = () => {
 export default App;
 ```
 
-### The result should be like this
+### Expected result
 
-<!-- ![example.gif](public/gifs/sample-one.gif) -->
-
-![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-one.gif?raw=true)
+The example applies the selected Moon theme and generated utility classes immediately. Demo media is intentionally kept outside the npm package.
 
 <!-- explane these hover:md[h:10%,text:#f00,bg:#ff0,border:#0af,m:100px,p:100px,border-solid]  p:100px  bg:#ff0 -->
 
@@ -680,9 +678,7 @@ const ColorPicker = ({ name = "", value }) => {
 
 ```
 
-<!-- ![example.gif](public/gifs/sample-two.gif) -->
-
-![example.gif](https://github.com/Owl3CM/Moon/blob/main/public/gifs/sample-two.gif?raw=true)
+The color-picker example updates the corresponding Moon CSS custom property immediately. Demo media is intentionally kept outside the npm package.
 
 # Static Classes
 

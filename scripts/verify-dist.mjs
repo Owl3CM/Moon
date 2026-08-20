@@ -24,10 +24,31 @@ function walk(directory) {
   });
 }
 
-for (const file of walk(agentPath)) {
+const markdownFiles = [
+  path.join(rootPath, "README.md"),
+  path.join(rootPath, "AGENTS.md"),
+  path.join(rootPath, "CHANGELOG.md"),
+  ...walk(agentPath).filter((file) => file.endsWith(".md")),
+];
+
+for (const file of markdownFiles) {
+  assert.equal(existsSync(file), true, `${file} must exist`);
   const content = readFileSync(file, "utf8");
   assert.equal(content.includes("file:///"), false, `${file} contains a machine-local file URL`);
   assert.equal(content.includes("/Users/"), false, `${file} contains a machine-local path`);
+
+  for (const match of content.matchAll(/!?\[[^\]]*\]\(([^)]+)\)/g)) {
+    const rawTarget = match[1].trim().replace(/^<|>$/g, "").split(/\s+[\"']/)[0];
+    if (/^(?:[a-z][a-z0-9+.-]*:|#|\/\/)/i.test(rawTarget)) continue;
+
+    const relativeTarget = decodeURIComponent(rawTarget.split(/[?#]/)[0]);
+    if (!relativeTarget) continue;
+
+    const resolvedTarget = path.resolve(path.dirname(file), relativeTarget);
+    assert.equal(existsSync(resolvedTarget), true, `${file} links to missing ${relativeTarget}`);
+  }
 }
+
+assert.equal(readFileSync(path.join(rootPath, "README.md"), "utf8").includes("public/gifs/"), false, "README must not reference unpackaged demo media");
 
 console.log("moon-style dist verification passed");
