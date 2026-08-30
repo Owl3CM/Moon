@@ -94,3 +94,5 @@ export default Moon;
 type SetColors = {
   [key in Color]?: string;
 };
+
+export { default as moonPlugin } from "./vite-plugin-moon.js";
