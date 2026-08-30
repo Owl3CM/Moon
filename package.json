@@ -1,28 +1,46 @@
 {
   "name": "moon-style",
-  "version": "0.0.81",
-  "description": "moon-style",
+  "version": "0.2.1",
+  "description": "Config-driven CSS utilities, themes, and SVG icon tooling for Vite and React.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite-plugin-moon.d.ts",
+      "import": "./dist/vite-plugin-moon.js",
+      "default": "./dist/vite-plugin-moon.js"
+    },
+    "./icon": {
+      "types": "./dist/icon.d.ts",
+      "import": "./dist/icon.js",
+      "default": "./dist/icon.js"
+    }
+  },
   "source": "lib/index.ts",
   "private": false,
   "engines": {
-    "node": ">=14"
+    "node": ">=20.19.0"
   },
   "type": "module",
   "scripts": {
-    "copy-config": "cp -r ./moon.config.default.json ./dist/moon.config.default.json",
-    "copy-config-schema": " cp -r ./moon.config.schema.json ./dist/moon.config.schema.json",
-    "build": "rm -rf dist && rollup -c --exports auto && yarn build-scriptsTs && yarn copy-config && yarn copy-config-schema && node ./scripts/insertCode.js",
-    "prod": "yarn build && node ./scripts/publish.js && git push",
+    "clean": "node ./scripts/clean.mjs",
+    "copy-assets": "node ./scripts/copy-assets.mjs",
+    "build": "pnpm test && pnpm clean && rollup -c --exports auto && pnpm build-scriptsTs && pnpm copy-assets",
+    "verify:dist": "node ./scripts/verify-dist.mjs",
+    "prepack": "pnpm build && pnpm verify:dist",
+    "release:check": "pnpm prepack",
     "start": "vite",
-    "build-scriptsTs": "yarn tsc --build scripts.tsconfig.json",
-    "delete-scriptsJS": "rm -rf ./scriptsJS",
+    "typecheck": "tsc --noEmit",
+    "build-scriptsTs": "tsc --build scripts.tsconfig.json",
     "moon": "node ./dist/moon.js",
-    "just-test": "yarn build && node ./dist/build.js",
-    "test": "yarn build && start /B yarn moon && yarn start",
+    "test": "vitest run",
     "purge": "node ./dist/purge.js",
-    "test-purge": "yarn build-scriptsTs && node ./dist/purge.js",
-    "postinstall": "chmod +x ./dist/moon.js && chmod +x ./dist/purge.js"
+    "test-purge": "pnpm build-scriptsTs && node ./dist/purge.js"
   },
   "bin": {
     "moon": "./dist/moon.js",
@@ -36,6 +54,7 @@
     "@babel/core": "^7.19.3",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
+    "@types/node": "^25.3.0",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
@@ -43,7 +62,6 @@
     "autoprefixer": "^10.4.15",
     "babel-loader": "^8.2.5",
     "cssnano": "^6.0.1",
-    "fs": "^0.0.1-security",
     "postcss": "^8.4.29",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -51,14 +69,24 @@
     "rollup": "^3.29.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-terser": "^7.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
     "rollup-plugin-typescript2": "^0.34.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4",
-    "vite": "^4.2.1"
+    "vite": "^4.2.1",
+    "vitest": "^4.0.18"
   },
   "files": [
-    "dist"
+    "dist",
+    "Moon.Types.d.ts",
+    ".agent",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "lib/*.ts",
+    "lib/*.tsx",
+    "lib/builder",
+    "lib/helpers",
+    "lib/jit"
   ],
   "publishConfig": {
     "access": "public"
@@ -68,17 +96,22 @@
       "react-app"
     ]
   },
-  "keywords": [],
-  "tags": [],
+  "keywords": [
+    "css",
+    "design-system",
+    "icons",
+    "vite"
+  ],
   "dependencies": {
-    "chokidar-cli": "^3.0.0",
+    "chokidar": "^5.0.0",
     "postcss-cli": "^10.1.0",
     "postcss-preset-env": "^9.1.3",
-    "purgecss": "^5.0.0"
+    "purgecss": "^5.0.0",
+    "svgo": "^4.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Owl3CM/Moon.git"
+    "url": "git+https://github.com/Owl3CM/Moon.git"
   },
   "homepage": "https://github.com/Owl3CM/Moon",
   "bugs": {

@@ -1,6 +1,7 @@
 export const getPropsNames = (propName: string) => {
   return PropsByName[propName] ?? [{ name: (n: any) => `${n}`, css: (v: any) => `${propName}:${v}` }];
 };
+// NOTE: Duplicated in ../index.ts — keep both in sync
 export const hexToRGB = (hex: string) => {
   if (hex.length === 4) hex = hex.replace(/#(.)(.)(.)/, "#$1$1$2$2$3$3");
   return hex.length === 7 ? `${parseInt(hex.slice(1, 3), 16)}, ${parseInt(hex.slice(3, 5), 16)}, ${parseInt(hex.slice(5, 7), 16)}` : hex;

@@ -4,6 +4,11 @@
   "useJit": true,
   "projectDir": "src",
   "content": ["src/**/*.{html,js,jsx,tsx}"],
+  "icons": {
+    "svgDir": "src/assets/icons/qaseh",
+    "namesOut": "src/design-system/icons/names.ts",
+    "spriteOut": "public/icons/sprite.svg"
+  },
   "colors": {
     "options": {
       "*": {
@@ -170,8 +175,8 @@
       }
     },
     {
-      "props": { "border-style": "border" },
-      "variableName": "border",
+      "props": { "border-style": "bs" },
+      "variableName": "border-style",
       "values": {
         "none": "none",
         "solid": "solid",

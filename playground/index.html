@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Moon Style interactive playground — edit config live, switch themes, explore utility classes, and test the JIT engine in real time.">
+<title>Moon Style — Playground</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-brand"><span class="nav-logo">🌙</span><span class="nav-title">Moon Style</span></div>
+  <div class="nav-links">
+    <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+    <a href="#config-lab" class="nav-link" data-section="config-lab">Config Lab</a>
+    <a href="#theme-studio" class="nav-link" data-section="theme-studio">Themes</a>
+    <a href="#class-explorer" class="nav-link" data-section="class-explorer">Classes</a>
+    <a href="#jit-sandbox" class="nav-link" data-section="jit-sandbox">JIT</a>
+  </div>
+</nav>
+
+<main>
+<!-- HERO -->
+<section id="hero" class="section hero-section">
+  <div class="hero-bg"><div class="hero-orb hero-orb-1"></div><div class="hero-orb hero-orb-2"></div><div class="hero-orb hero-orb-3"></div></div>
+  <div class="hero-content">
+    <div class="hero-badge">v0.1.1 · Open Source</div>
+    <h1 class="hero-title">Moon <span class="hero-accent">Style</span></h1>
+    <p class="hero-subtitle">Config-Driven CSS · JIT Engine · Infinite Themes</p>
+    <p class="hero-desc">Define your design tokens in JSON. Moon generates all CSS — variables, utility classes, theme selectors, and JIT-compiled on-demand classes.</p>
+    <div class="hero-actions">
+      <a href="#config-lab" class="btn btn-primary">Open Playground</a>
+      <a href="https://github.com/Owl3CM/Moon" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+    <div class="hero-install"><code>npm install moon-style --save-dev</code></div>
+    <div class="hero-features">
+      <div class="feature-card"><span class="feature-icon">⚙️</span><h3>Config-Driven</h3><p>One JSON controls your design system</p></div>
+      <div class="feature-card"><span class="feature-icon">⚡</span><h3>JIT Engine</h3><p>On-demand CSS from class patterns</p></div>
+      <div class="feature-card"><span class="feature-icon">🎨</span><h3>Multi-Theme</h3><p>Unlimited themes, runtime switching</p></div>
+      <div class="feature-card"><span class="feature-icon">🧹</span><h3>PurgeCSS</h3><p>Zero unused CSS in production</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIG LAB -->
+<section id="config-lab" class="section">
+  <div class="section-header"><span class="section-icon">🔥</span><h2>Config Lab</h2>
+    <p class="section-desc">Edit <code>moon.config.json</code> live — CSS regenerates instantly</p></div>
+  <div class="lab-toolbar">
+    <div class="preset-btns">
+      <button class="preset-btn active" data-preset="default">Default</button>
+      <button class="preset-btn" data-preset="minimal">Minimal</button>
+      <button class="preset-btn" data-preset="ocean">Ocean</button>
+      <button class="preset-btn" data-preset="neon">Neon</button>
+    </div>
+    <button class="btn btn-sm" data-copy-target="cfg">Copy Config</button>
+  </div>
+  <div class="lab-layout">
+    <div class="lab-editor">
+      <div class="panel-header"><span class="panel-dot red"></span><span class="panel-dot yellow"></span><span class="panel-dot green"></span><span class="panel-title">moon.config.json</span></div>
+      <textarea id="cfg" spellcheck="false"></textarea>
+    </div>
+    <div class="lab-output">
+      <div class="panel-header"><span class="panel-dot red"></span><span class="panel-dot yellow"></span><span class="panel-dot green"></span>
+        <div class="output-tabs">
+          <button class="output-tab active" data-tab="styles">Styles</button>
+          <button class="output-tab" data-tab="themes">Themes</button>
+          <button class="output-tab" data-tab="static">Static</button>
+        </div>
+      </div>
+      <pre id="css-out" class="css-output"></pre>
+    </div>
+  </div>
+  <div class="lab-preview">
+    <div class="panel-header"><span class="panel-title">Live Preview — using real Moon classes</span><span id="lab-err" class="lab-error"></span></div>
+    <div id="lab-pv" class="preview-container"></div>
+  </div>
+</section>
+
+<!-- THEME STUDIO -->
+<section id="theme-studio" class="section">
+  <div class="section-header"><span class="section-icon">🎨</span><h2>Theme Studio</h2>
+    <p class="section-desc">Pick colors, switch themes — the preview updates live using Moon classes</p></div>
+  <div class="studio-layout">
+    <div class="studio-themes" id="theme-list"></div>
+    <div class="studio-preview">
+      <div class="panel-header"><span class="panel-title">Theme Preview</span><span id="theme-lbl" class="theme-label">dark</span></div>
+      <div id="theme-pv" class="preview-container theme-preview-inner"></div>
+    </div>
+    <div class="studio-colors">
+      <div class="panel-header"><span class="panel-title">Color Pickers</span></div>
+      <div id="pickers"></div>
+      <div class="panel-header" style="margin-top:1rem"><span class="panel-title">Static Colors</span></div>
+      <div id="statics"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLASS EXPLORER -->
+<section id="class-explorer" class="section">
+  <div class="section-header"><span class="section-icon">🔍</span><h2>Class Explorer</h2>
+    <p class="section-desc">Search every utility class Moon generates from your config</p></div>
+  <div class="explorer-search"><input type="text" id="search" placeholder="Search classes... (p-md, bg-prim, round-lg)" autocomplete="off"><span id="count" class="search-count"></span></div>
+  <div id="cls-table" class="class-table"></div>
+</section>
+
+<!-- JIT SANDBOX -->
+<section id="jit-sandbox" class="section">
+  <div class="section-header"><span class="section-icon">⚡</span><h2>JIT Sandbox</h2>
+    <p class="section-desc">Type HTML with Moon classes — inline colors, spacing, hover states. Renders live.</p></div>
+  <div class="sandbox-quick-insert">
+    <button class="quick-btn" data-insert="bg:#e74c3c">bg:#hex</button>
+    <button class="quick-btn" data-insert="p:20px">p:20px</button>
+    <button class="quick-btn" data-insert="hover:[bg-cyan,shadow-lg]">hover:[...]</button>
+    <button class="quick-btn" data-insert="text:2rem">text:2rem</button>
+  </div>
+  <div class="sandbox-layout">
+    <div class="sandbox-editor">
+      <div class="panel-header"><span class="panel-dot red"></span><span class="panel-dot yellow"></span><span class="panel-dot green"></span><span class="panel-title">Your HTML</span></div>
+      <textarea id="jit-in" spellcheck="false"></textarea>
+    </div>
+    <div class="sandbox-preview">
+      <div class="panel-header"><span class="panel-title">Live Render</span></div>
+      <div id="jit-pv" class="preview-container"></div>
+    </div>
+  </div>
+  <div class="sandbox-css-output">
+    <div class="panel-header"><span class="panel-title">Generated JIT CSS</span><button class="btn btn-sm" data-copy-target="jit-css">Copy</button></div>
+    <pre id="jit-css" class="css-output"></pre>
+  </div>
+</section>
+</main>
+<footer class="site-footer"><p>Moon Style Playground · 🌙 · <a href="https://github.com/Owl3CM/Moon" target="_blank">GitHub</a></p></footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

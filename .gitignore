@@ -22,3 +22,6 @@ yarn-error.log*
 android/key.properties
 android/keystore.jks
 android/upload_certificate.pem
+
+# Local review/archive material that must never ship or be committed.
+_IgnoreMe/
